@@ -292,6 +292,287 @@
             
               
                 
+                <a class="post-title-link" href="/2016/05/29/javascript-property-2/" itemprop="url">
+                  JavaScript权威指南7-属性的特性(2)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-29T20:15:43+08:00" content="2016-05-29">
+              2016-05-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/29/javascript-property-2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/29/javascript-property-2/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>   在<a href="http://august1996.top/2016/05/29/javascript-property-1/">上一篇</a> 文章中,我们将存取器属性的getter和setter方法看成是属性的特性,按照这个逻辑,我们也可以吧数据属性的值同样看作属性的特性.因此可以认为一个属性包含一个名字和4个特性:值(value) 可写性(writable) 枚举性(enumerable)和可配置性(configurable).存取器属性不具有值(value)和可写性(writable)特性.其可写性由setter存在与否决定.</p>
+<ul>
+<li><p>实现属性特性的查询操作:Object.getOwnPropertyDescriptor(对象, ‘属性’)</p>
+</li>
+<li><p>设置单个属性特性的操作:Object.defineProperty(对象,属性,值)</p>
+</li>
+<li><p>设置多个属性特性的操作:Object.defineProperties(对象, 属性和值)</p>
+</li>
+</ul>
+<h2 id="例1"><a href="#例1" class="headerlink" title="例1:"></a>例1:</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">    x : <span class="number">100</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.getOwnPropertyDescriptor(obj, <span class="string">'x'</span>));    <span class="comment">//Object &#123; value=100,  writable=true,  enumerable=true,  configurable=true&#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.keys(obj));<span class="comment">//["x"]</span></span><br><span class="line">obj.x = <span class="number">200</span>;</span><br><span class="line"><span class="built_in">console</span>.log(obj.x);<span class="comment">//200</span></span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">    x : <span class="number">100</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">Object</span>.defineProperty(obj, <span class="string">'x'</span>, &#123;</span><br><span class="line">    value : <span class="number">666</span>,</span><br><span class="line">    writable : <span class="literal">false</span>,</span><br><span class="line">    enumerable : <span class="literal">false</span>,</span><br><span class="line">    configurable:<span class="literal">false</span>,</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.getOwnPropertyDescriptor(obj, <span class="string">'x'</span>));<span class="comment">//Object &#123; value=666,  writable=false,  enumerable=false,  configurable=false&#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.keys(obj));<span class="comment">//[],此时x属性为不可枚举</span></span><br><span class="line">obj.x = <span class="number">200</span>;<span class="comment">//此时,x属性不可写,所以失败</span></span><br><span class="line"><span class="built_in">console</span>.log(obj.x);<span class="comment">//666//value就是修改x的值,因为上一句失败,所以为666</span></span><br><span class="line"><span class="keyword">var</span> obj = <span class="built_in">Object</span>.defineProperties(&#123;&#125;, &#123;</span><br><span class="line">    x : &#123;&#125;,</span><br><span class="line">    y : &#123;&#125;,</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.getOwnPropertyDescriptor(obj, <span class="string">'x'</span>));<span class="comment">// Object &#123; writable=false,  enumerable=false,  configurable=false,  value=undefined&#125;,可以看出四个属性的默认值</span></span><br></pre></td></tr></table></figure>
+<h2 id="注"><a href="#注" class="headerlink" title="注:"></a>注:</h2><ul>
+<li><p>如果对象不可扩展,则可以编辑已有的自有属性,但不能给他添加新属性</p>
+</li>
+<li><p>如果属性不可配置,则不能修改他的可配置性和可枚举性</p>
+</li>
+<li><p>如果存取器属性是不可配置的,则不能修改其getter个setter方法,也不能将它转换为数据属性</p>
+</li>
+<li><p>如果数据属性是不可配置的,则不能将它转换为存取器属性</p>
+</li>
+<li><p>如果数据属性是不可配置的,则不能将它的可写性从false修改为true,但可以从true修改为false</p>
+</li>
+<li><p>如果数据属性是不可配置且不可写的,则不能修改它的值.然而可配置但不可写属性的值是可以修改的(实际上是先将它标记为可写的,然后再修改它的值,最后转换为不可写的)</p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/05/29/javascript-property-1/" itemprop="url">
+                  JavaScript权威指南6-属性的特性(1)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-29T20:13:36+08:00" content="2016-05-29">
+              2016-05-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/29/javascript-property-1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/29/javascript-property-1/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="例1"><a href="#例1" class="headerlink" title="例1:"></a>例1:</h2><p>首先,对性属性值可以用一个或两个方法替代,这两个方法就是getter和seetter.由getter和setter定义的属性称作”存取器属性”,它不同于”数据属性”,数据属性只有一个简单的值.有如下代码:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> o = &#123;</span><br><span class="line">    $num : <span class="number">0</span>,</span><br><span class="line">    set a(n)&#123;</span><br><span class="line">        <span class="keyword">this</span>.$num = n + <span class="number">1</span>;</span><br><span class="line">    &#125;,</span><br><span class="line">    get a()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.$num + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">o.a = <span class="number">10</span>;<span class="comment">//调用setter后值为11</span></span><br><span class="line"><span class="built_in">console</span>.log(o.a);<span class="comment">//调用getter后返回的值为12</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>注意:和数据属性不同,存储器属性不具有可写性.三种情况:</p>
+<ul>
+<li><p>有setter和getter    可读可写</p>
+</li>
+<li><p>只有setter             可写不可读</p>
+</li>
+<li><p>只有getter            可读不可写</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="例2"><a href="#例2" class="headerlink" title="例2:"></a>例2:</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> o = &#123;</span><br><span class="line">    $num : <span class="number">0</span>,</span><br><span class="line">    set a(n)&#123;</span><br><span class="line">        <span class="keyword">this</span>.$num = n + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">o.a = <span class="number">10</span>;<span class="comment">//调用setter后值为11</span></span><br><span class="line"><span class="built_in">console</span>.log(o.a);<span class="comment">//没有getter,所以返回的是undefined</span></span><br><span class="line"><span class="keyword">var</span> o = &#123;</span><br><span class="line">    $num : <span class="number">0</span>,</span><br><span class="line">    get a()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.$num + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">o.a = <span class="number">10</span>;<span class="comment">//赋值失败,没有setter</span></span><br><span class="line"><span class="built_in">console</span>.log(o.a);<span class="comment">//调用getter后返回的值为1</span></span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/05/29/javascript-delete-1/" itemprop="url">
                   JavaScript权威指南5-delete关键字
                 </a>
@@ -1137,7 +1418,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-count">8</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1154,7 +1435,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
