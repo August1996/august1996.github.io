@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="august1996, 互联网, 编程, 安卓, Android, 学生" />
+  <meta name="keywords" content="浮点数,错误," />
 
 
 
@@ -84,16 +84,19 @@
 
 
 
-<meta name="description" content="关于我">
-<meta property="og:type" content="website">
-<meta property="og:title" content="关于">
-<meta property="og:url" content="http://august1996.top/about/index.html">
+<meta name="description" content="JavaScript采用IEEE-754浮点数表示法(几乎所有现代编程语言所采用的),这是一种二进制表示法,可以精确表示分数,比如1/2,1/8,1/1024等.而我们常用的分数都是十进制分数1/10,1/100等.二进制浮点数并不能精确表示类似0.1这样简单的数字.
+例:1234567console.log(0.8-0.4);//0.4console.log(0.8-0.7);//0.10000">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javascript-float-round-1">
+<meta property="og:url" content="http://august1996.top/2016/05/29/javascript-float-round-1/index.html">
 <meta property="og:site_name" content="August1996的小狗窝">
-<meta property="og:description" content="关于我">
-<meta property="og:updated_time" content="2016-05-29T04:15:27.000Z">
+<meta property="og:description" content="JavaScript采用IEEE-754浮点数表示法(几乎所有现代编程语言所采用的),这是一种二进制表示法,可以精确表示分数,比如1/2,1/8,1/1024等.而我们常用的分数都是十进制分数1/10,1/100等.二进制浮点数并不能精确表示类似0.1这样简单的数字.
+例:1234567console.log(0.8-0.4);//0.4console.log(0.8-0.7);//0.10000">
+<meta property="og:updated_time" content="2016-05-29T12:00:45.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="关于">
-<meta name="twitter:description" content="关于我">
+<meta name="twitter:title" content="javascript-float-round-1">
+<meta name="twitter:description" content="JavaScript采用IEEE-754浮点数表示法(几乎所有现代编程语言所采用的),这是一种二进制表示法,可以精确表示分数,比如1/2,1/8,1/1024等.而我们常用的分数都是十进制分数1/10,1/100等.二进制浮点数并不能精确表示类似0.1这样简单的数字.
+例:1234567console.log(0.8-0.4);//0.4console.log(0.8-0.7);//0.10000">
 
 
 
@@ -111,13 +114,7 @@
   };
 </script>
 
-  <title>
-  
-
-  
-    关于 | August1996的小狗窝
-  
-</title>
+  <title> javascript-float-round-1 | August1996的小狗窝 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -148,7 +145,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left  ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -277,9 +274,179 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
     
-      <h1 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h1>
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                javascript-float-round-1
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-29T19:57:03+08:00" content="2016-05-29">
+              2016-05-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/29/javascript-float-round-1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/29/javascript-float-round-1/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+          
+
+          
+          
+
+          
+        </div>
+      </header>
     
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>JavaScript采用IEEE-754浮点数表示法(几乎所有现代编程语言所采用的),这是一种二进制表示法,可以精确表示分数,比如1/2,1/8,1/1024等.而我们常用的分数都是十进制分数1/10,1/100等.<strong>二进制浮点数并不能精确表示类似0.1这样简单的数字.</strong></p>
+<h2 id="例"><a href="#例" class="headerlink" title="例:"></a>例:</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="number">0.8</span><span class="number">-0.4</span>);<span class="comment">//0.4</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">0.8</span><span class="number">-0.7</span>);<span class="comment">//0.10000000000000009</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">0.4</span><span class="number">-0.2</span>);<span class="comment">//0.2</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">0.6</span><span class="number">-0.4</span>);<span class="comment">//0.19999999999999996</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">0.3</span><span class="number">-0.2</span>);<span class="comment">//0.09999999999999998</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">0.5</span><span class="number">-0.4</span>);<span class="comment">//0.09999999999999998</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">0.2</span><span class="number">-0.1</span>);<span class="comment">//0.1</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>注意:在需要计算数据的时候,把数据转换成精度更高的做法还是必须的,例如在人民币方面把单位变成分而不是元.</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/浮点数/" rel="tag">#浮点数</a>
+          
+            <a href="/tags/错误/" rel="tag">#错误</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/05/29/javascript-grammar-1/" rel="next" title="javascript-grammar-1">
+                <i class="fa fa-chevron-left"></i> javascript-grammar-1
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/05/29/javascript-resolver/" rel="prev" title="javascript-resolver">
+                javascript-resolver <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
   </div>
 
 
@@ -288,6 +455,14 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/05/29/javascript-float-round-1/"
+           data-title="javascript-float-round-1" data-url="http://august1996.top/2016/05/29/javascript-float-round-1/">
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -307,8 +482,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.jpg"
@@ -400,6 +584,17 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#例"><span class="nav-number">1.</span> <span class="nav-text">例:</span></a></li></ol></div>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -494,6 +689,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
 
   
 

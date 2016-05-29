@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="august1996, 互联网, 编程, 安卓, Android, 学生" />
+  <meta name="keywords" content="unicode,编码," />
 
 
 
@@ -84,16 +84,19 @@
 
 
 
-<meta name="description" content="关于我">
-<meta property="og:type" content="website">
-<meta property="og:title" content="关于">
-<meta property="og:url" content="http://august1996.top/about/index.html">
+<meta name="description" content="意义:解决程序员使用老旧技术时在某些硬件和软件里无法显示或输入Unicode字符全集.规范:使用6个ASCII字符来表示任意16位Unicode内码.这些转移序列均以\u为前缀,后面跟随4个十六进制数.使用范围:直接量 正则表达式直接量 标识符(关键字除外)例1:1console.log(&quot;caf\u00e9&quot;);//输出café
+例2:123caf\u4e00 = 1;// \u4e00是中文">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javascript-unicode-1">
+<meta property="og:url" content="http://august1996.top/2016/05/29/javascript-unicode-1/index.html">
 <meta property="og:site_name" content="August1996的小狗窝">
-<meta property="og:description" content="关于我">
-<meta property="og:updated_time" content="2016-05-29T04:15:27.000Z">
+<meta property="og:description" content="意义:解决程序员使用老旧技术时在某些硬件和软件里无法显示或输入Unicode字符全集.规范:使用6个ASCII字符来表示任意16位Unicode内码.这些转移序列均以\u为前缀,后面跟随4个十六进制数.使用范围:直接量 正则表达式直接量 标识符(关键字除外)例1:1console.log(&quot;caf\u00e9&quot;);//输出café
+例2:123caf\u4e00 = 1;// \u4e00是中文">
+<meta property="og:updated_time" content="2016-05-29T11:45:03.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="关于">
-<meta name="twitter:description" content="关于我">
+<meta name="twitter:title" content="javascript-unicode-1">
+<meta name="twitter:description" content="意义:解决程序员使用老旧技术时在某些硬件和软件里无法显示或输入Unicode字符全集.规范:使用6个ASCII字符来表示任意16位Unicode内码.这些转移序列均以\u为前缀,后面跟随4个十六进制数.使用范围:直接量 正则表达式直接量 标识符(关键字除外)例1:1console.log(&quot;caf\u00e9&quot;);//输出café
+例2:123caf\u4e00 = 1;// \u4e00是中文">
 
 
 
@@ -111,13 +114,7 @@
   };
 </script>
 
-  <title>
-  
-
-  
-    关于 | August1996的小狗窝
-  
-</title>
+  <title> javascript-unicode-1 | August1996的小狗窝 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -148,7 +145,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left  ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -277,9 +274,182 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
     
-      <h1 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h1>
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                javascript-unicode-1
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-29T19:41:00+08:00" content="2016-05-29">
+              2016-05-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/29/javascript-unicode-1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/29/javascript-unicode-1/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+          
+
+          
+          
+
+          
+        </div>
+      </header>
     
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="意义-解决程序员使用老旧技术时在某些硬件和软件里无法显示或输入Unicode字符全集"><a href="#意义-解决程序员使用老旧技术时在某些硬件和软件里无法显示或输入Unicode字符全集" class="headerlink" title="意义:解决程序员使用老旧技术时在某些硬件和软件里无法显示或输入Unicode字符全集."></a>意义:解决程序员使用老旧技术时在某些硬件和软件里无法显示或输入Unicode字符全集.</h2><h2 id="规范-使用6个ASCII字符来表示任意16位Unicode内码-这些转移序列均以-u为前缀-后面跟随4个十六进制数"><a href="#规范-使用6个ASCII字符来表示任意16位Unicode内码-这些转移序列均以-u为前缀-后面跟随4个十六进制数" class="headerlink" title="规范:使用6个ASCII字符来表示任意16位Unicode内码.这些转移序列均以\u为前缀,后面跟随4个十六进制数."></a>规范:使用6个ASCII字符来表示任意16位Unicode内码.这些转移序列均以\u为前缀,后面跟随4个十六进制数.</h2><h2 id="使用范围-直接量-正则表达式直接量-标识符-关键字除外"><a href="#使用范围-直接量-正则表达式直接量-标识符-关键字除外" class="headerlink" title="使用范围:直接量 正则表达式直接量 标识符(关键字除外)"></a>使用范围:直接量 正则表达式直接量 标识符(关键字除外)</h2><h3 id="例1"><a href="#例1" class="headerlink" title="例1:"></a>例1:</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">"caf\u00e9"</span>);<span class="comment">//输出café</span></span><br></pre></td></tr></table></figure>
+<h3 id="例2"><a href="#例2" class="headerlink" title="例2:"></a>例2:</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">caf\u4e00 = <span class="number">1</span>;<span class="comment">// \u4e00是中文 一 的Unicode内码</span></span><br><span class="line"><span class="built_in">console</span>.log(caf一);    <span class="comment">//输出 1</span></span><br><span class="line"><span class="built_in">console</span>.log(caf\u4e00);<span class="comment">//输出 1</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>同时,Unicode允许多种方法对一同字符进行编码,比如 é 可用\u00e9表示,也可以用e\u0301,其中\u0301为语调符.</p>
+</li>
+<li><p>即使呈现出一样的结果,但是他们的二进制编码已经不一样了. </p>
+</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/unicode/" rel="tag">#unicode</a>
+          
+            <a href="/tags/编码/" rel="tag">#编码</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/05/29/c-memory-test/" rel="next" title="挖一下那些年的东东(模拟内存申请与释放C语言)">
+                <i class="fa fa-chevron-left"></i> 挖一下那些年的东东(模拟内存申请与释放C语言)
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/05/29/javascript-grammar-1/" rel="prev" title="javascript-grammar-1">
+                javascript-grammar-1 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
   </div>
 
 
@@ -288,6 +458,14 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/05/29/javascript-unicode-1/"
+           data-title="javascript-unicode-1" data-url="http://august1996.top/2016/05/29/javascript-unicode-1/">
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -307,8 +485,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.jpg"
@@ -400,6 +587,17 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#意义-解决程序员使用老旧技术时在某些硬件和软件里无法显示或输入Unicode字符全集"><span class="nav-number">1.</span> <span class="nav-text">意义:解决程序员使用老旧技术时在某些硬件和软件里无法显示或输入Unicode字符全集.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#规范-使用6个ASCII字符来表示任意16位Unicode内码-这些转移序列均以-u为前缀-后面跟随4个十六进制数"><span class="nav-number">2.</span> <span class="nav-text">规范:使用6个ASCII字符来表示任意16位Unicode内码.这些转移序列均以\u为前缀,后面跟随4个十六进制数.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用范围-直接量-正则表达式直接量-标识符-关键字除外"><span class="nav-number">3.</span> <span class="nav-text">使用范围:直接量 正则表达式直接量 标识符(关键字除外)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#例1"><span class="nav-number">3.1.</span> <span class="nav-text">例1:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#例2"><span class="nav-number">3.2.</span> <span class="nav-text">例2:</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -494,6 +692,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
 
   
 
