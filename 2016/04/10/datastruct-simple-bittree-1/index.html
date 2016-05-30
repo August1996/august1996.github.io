@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="属性," />
+  <meta name="keywords" content="C++,代码,二叉树,遍历," />
 
 
 
@@ -84,19 +84,30 @@
 
 
 
-<meta name="description" content="例1:首先,对性属性值可以用一个或两个方法替代,这两个方法就是getter和seetter.由getter和setter定义的属性称作”存取器属性”,它不同于”数据属性”,数据属性只有一个简单的值.有如下代码:
-1234567891011var o = &amp;#123;    $num : 0,    set a(n)&amp;#123;        this.$num = n + 1;    &amp;#125;">
+<meta name="description" content="二叉树在图论中是这样定义的：二叉树是一个连通的无环图，并且每一个顶点的度不大于3。有根二叉树还要满足根结点的度不大于2。有了根结点之后，每个顶点定义了唯一的父结点，和最多2个子结点。然而，没有足够的信息来区分左结点和右结点。如果不考虑连通性，允许图中有多个连通分量，这样的结构叫做森林。
+
+
+使用C++重写以前C语言数据结构代码
+1234567891011121314151617181920212">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JavaScript权威指南6-属性的特性(1)">
-<meta property="og:url" content="http://august1996.top/2016/04/04/javascript-property-1/index.html">
+<meta property="og:title" content="简单二叉树及其遍历实现(C++纯代码)">
+<meta property="og:url" content="http://august1996.top/2016/04/10/datastruct-simple-bittree-1/index.html">
 <meta property="og:site_name" content="August1996的小狗窝">
-<meta property="og:description" content="例1:首先,对性属性值可以用一个或两个方法替代,这两个方法就是getter和seetter.由getter和setter定义的属性称作”存取器属性”,它不同于”数据属性”,数据属性只有一个简单的值.有如下代码:
-1234567891011var o = &amp;#123;    $num : 0,    set a(n)&amp;#123;        this.$num = n + 1;    &amp;#125;">
-<meta property="og:updated_time" content="2016-05-29T23:44:35.000Z">
+<meta property="og:description" content="二叉树在图论中是这样定义的：二叉树是一个连通的无环图，并且每一个顶点的度不大于3。有根二叉树还要满足根结点的度不大于2。有了根结点之后，每个顶点定义了唯一的父结点，和最多2个子结点。然而，没有足够的信息来区分左结点和右结点。如果不考虑连通性，允许图中有多个连通分量，这样的结构叫做森林。
+
+
+使用C++重写以前C语言数据结构代码
+1234567891011121314151617181920212">
+<meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagessimple_bittree.png">
+<meta property="og:updated_time" content="2016-05-30T00:12:25.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JavaScript权威指南6-属性的特性(1)">
-<meta name="twitter:description" content="例1:首先,对性属性值可以用一个或两个方法替代,这两个方法就是getter和seetter.由getter和setter定义的属性称作”存取器属性”,它不同于”数据属性”,数据属性只有一个简单的值.有如下代码:
-1234567891011var o = &amp;#123;    $num : 0,    set a(n)&amp;#123;        this.$num = n + 1;    &amp;#125;">
+<meta name="twitter:title" content="简单二叉树及其遍历实现(C++纯代码)">
+<meta name="twitter:description" content="二叉树在图论中是这样定义的：二叉树是一个连通的无环图，并且每一个顶点的度不大于3。有根二叉树还要满足根结点的度不大于2。有了根结点之后，每个顶点定义了唯一的父结点，和最多2个子结点。然而，没有足够的信息来区分左结点和右结点。如果不考虑连通性，允许图中有多个连通分量，这样的结构叫做森林。
+
+
+使用C++重写以前C语言数据结构代码
+1234567891011121314151617181920212">
+<meta name="twitter:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagessimple_bittree.png">
 
 
 
@@ -114,7 +125,7 @@
   };
 </script>
 
-  <title> JavaScript权威指南6-属性的特性(1) | August1996的小狗窝 </title>
+  <title> 简单二叉树及其遍历实现(C++纯代码) | August1996的小狗窝 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -293,7 +304,7 @@
             
             
               
-                JavaScript权威指南6-属性的特性(1)
+                简单二叉树及其遍历实现(C++纯代码)
               
             
           </h1>
@@ -305,8 +316,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-04T20:13:36+08:00" content="2016-04-04">
-              2016-04-04
+            <time itemprop="dateCreated" datetime="2016-04-10T21:06:40+08:00" content="2016-04-10">
+              2016-04-10
             </time>
           </span>
 
@@ -319,8 +330,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
-                    <span itemprop="name">JavaScript</span>
+                  <a href="/categories/数据结构与算法/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构与算法</span>
                   </a>
                 </span>
 
@@ -335,8 +346,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/04/04/javascript-property-1/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/04/javascript-property-1/" itemprop="commentsCount"></span>
+                <a href="/2016/04/10/datastruct-simple-bittree-1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/10/datastruct-simple-bittree-1/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -361,21 +372,12 @@
       
 
       
-        <h2 id="例1"><a href="#例1" class="headerlink" title="例1:"></a>例1:</h2><p>首先,对性属性值可以用一个或两个方法替代,这两个方法就是getter和seetter.由getter和setter定义的属性称作”存取器属性”,它不同于”数据属性”,数据属性只有一个简单的值.有如下代码:</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> o = &#123;</span><br><span class="line">    $num : <span class="number">0</span>,</span><br><span class="line">    set a(n)&#123;</span><br><span class="line">        <span class="keyword">this</span>.$num = n + <span class="number">1</span>;</span><br><span class="line">    &#125;,</span><br><span class="line">    get a()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.$num + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">o.a = <span class="number">10</span>;<span class="comment">//调用setter后值为11</span></span><br><span class="line"><span class="built_in">console</span>.log(o.a);<span class="comment">//调用getter后返回的值为12</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>注意:和数据属性不同,存储器属性不具有可写性.三种情况:</p>
-<ul>
-<li><p>有setter和getter    可读可写</p>
-</li>
-<li><p>只有setter             可写不可读</p>
-</li>
-<li><p>只有getter            可读不可写</p>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="例2"><a href="#例2" class="headerlink" title="例2:"></a>例2:</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> o = &#123;</span><br><span class="line">    $num : <span class="number">0</span>,</span><br><span class="line">    set a(n)&#123;</span><br><span class="line">        <span class="keyword">this</span>.$num = n + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">o.a = <span class="number">10</span>;<span class="comment">//调用setter后值为11</span></span><br><span class="line"><span class="built_in">console</span>.log(o.a);<span class="comment">//没有getter,所以返回的是undefined</span></span><br><span class="line"><span class="keyword">var</span> o = &#123;</span><br><span class="line">    $num : <span class="number">0</span>,</span><br><span class="line">    get a()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.$num + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">o.a = <span class="number">10</span>;<span class="comment">//赋值失败,没有setter</span></span><br><span class="line"><span class="built_in">console</span>.log(o.a);<span class="comment">//调用getter后返回的值为1</span></span><br></pre></td></tr></table></figure>
+        <blockquote>
+<p>二叉树在图论中是这样定义的：二叉树是一个连通的无环图，并且每一个顶点的度不大于3。有根二叉树还要满足根结点的度不大于2。有了根结点之后，每个顶点定义了唯一的父结点，和最多2个子结点。然而，没有足够的信息来区分左结点和右结点。如果不考虑连通性，允许图中有多个连通分量，这样的结构叫做森林。</p>
+</blockquote>
+<p><img src="http://o7xj6lxqq.bkt.clouddn.com/imagessimple_bittree.png" alt="普通二叉树"></p>
+<p>使用C++重写以前C语言数据结构代码</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> Node&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">char</span> data;</span><br><span class="line">    Node *lChild;</span><br><span class="line">    Node *rChild;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> BitTree&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">input</span><span class="params">(Node* &amp;  node)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">input</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">preVisit</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">preVisit</span><span class="params">(Node *pNode)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">middleVisit</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">middleVisit</span><span class="params">(Node *pNode)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">backVisit</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">backVisit</span><span class="params">(Node *pNode)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">visit</span><span class="params">()</span></span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    Node *root;</span><br><span class="line">    <span class="keyword">int</span> nodeCount;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> BitTree::input()&#123;</span><br><span class="line">    input(<span class="keyword">this</span>-&gt;root);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>-&gt;nodeCount;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> BitTree::input(Node* &amp;  node)&#123;</span><br><span class="line">    <span class="keyword">char</span> c;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">cin</span>.get(c);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(c != <span class="string">'\n'</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(c != <span class="string">' '</span>)&#123;</span><br><span class="line">            node = <span class="keyword">new</span> Node;</span><br><span class="line">            node-&gt;data = c;</span><br><span class="line">            node-&gt;rChild = node-&gt;lChild = <span class="literal">NULL</span>;</span><br><span class="line">            <span class="keyword">this</span>-&gt;nodeCount++;</span><br><span class="line">            input(node-&gt;lChild);</span><br><span class="line">            input(node-&gt;rChild);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>-&gt;nodeCount;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> BitTree::preVisit()&#123;</span><br><span class="line">    preVisit(<span class="keyword">this</span>-&gt;root);</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> BitTree::preVisit(Node *pNode)&#123;</span><br><span class="line">    <span class="keyword">if</span>(pNode != <span class="literal">NULL</span>)&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;pNode-&gt;data&lt;&lt;<span class="string">" "</span>;</span><br><span class="line">        </span><br><span class="line">        preVisit(pNode-&gt;lChild);</span><br><span class="line">        preVisit(pNode-&gt;rChild);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> BitTree::middleVisit()&#123;</span><br><span class="line">    middleVisit(<span class="keyword">this</span>-&gt;root);</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">void</span> BitTree::middleVisit(Node *pNode)&#123;</span><br><span class="line">    <span class="keyword">if</span>(pNode != <span class="literal">NULL</span>)&#123;</span><br><span class="line">        middleVisit(pNode-&gt;lChild);</span><br><span class="line">        </span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;pNode-&gt;data&lt;&lt;<span class="string">" "</span>;</span><br><span class="line">        </span><br><span class="line">        middleVisit(pNode-&gt;rChild);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span>  BitTree::backVisit()&#123;</span><br><span class="line">    backVisit(<span class="keyword">this</span>-&gt;root);</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">void</span>  BitTree::backVisit(Node *pNode)&#123;</span><br><span class="line">    <span class="keyword">if</span>(pNode != <span class="literal">NULL</span>)&#123;</span><br><span class="line">        middleVisit(pNode-&gt;lChild);</span><br><span class="line">        middleVisit(pNode-&gt;rChild);</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;pNode-&gt;data&lt;&lt;<span class="string">" "</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    BitTree bt;</span><br><span class="line">    bt.input();</span><br><span class="line">    bt.preVisit();</span><br><span class="line">    bt.middleVisit();</span><br><span class="line">    bt.backVisit();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -397,7 +399,13 @@
       
         <div class="post-tags">
           
-            <a href="/tags/属性/" rel="tag">#属性</a>
+            <a href="/tags/C/" rel="tag">#C++</a>
+          
+            <a href="/tags/代码/" rel="tag">#代码</a>
+          
+            <a href="/tags/二叉树/" rel="tag">#二叉树</a>
+          
+            <a href="/tags/遍历/" rel="tag">#遍历</a>
           
         </div>
       
@@ -406,16 +414,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/04/04/javascript-delete-1/" rel="next" title="JavaScript权威指南5-delete关键字">
-                <i class="fa fa-chevron-left"></i> JavaScript权威指南5-delete关键字
+              <a href="/2016/04/09/datastruct-simple-stack-1/" rel="next" title="简单栈实现(C++纯代码)">
+                <i class="fa fa-chevron-left"></i> 简单栈实现(C++纯代码)
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/04/04/javascript-property-2/" rel="prev" title="JavaScript权威指南7-属性的特性(2)">
-                JavaScript权威指南7-属性的特性(2) <i class="fa fa-chevron-right"></i>
+              <a href="/2016/05/29/c-memory-test/" rel="prev" title="挖一下那些年的东东(模拟内存申请与释放C语言)">
+                挖一下那些年的东东(模拟内存申请与释放C语言) <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -465,8 +473,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/04/04/javascript-property-1/"
-           data-title="JavaScript权威指南6-属性的特性(1)" data-url="http://august1996.top/2016/04/04/javascript-property-1/">
+      <div class="ds-thread" data-thread-key="2016/04/10/datastruct-simple-bittree-1/"
+           data-title="简单二叉树及其遍历实现(C++纯代码)" data-url="http://august1996.top/2016/04/10/datastruct-simple-bittree-1/">
       </div>
     
   </div>
@@ -599,7 +607,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#例1"><span class="nav-number">1.</span> <span class="nav-text">例1:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#例2"><span class="nav-number">2.</span> <span class="nav-text">例2:</span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
         </section>
