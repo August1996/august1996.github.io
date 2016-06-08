@@ -1,0 +1,923 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Canvas,自定义控件,事件分发," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="效果图
+
+实现左边是ListView,右边是我们的自定义控件
+
+思路
+左边的item的layout是自定义的,每个item的layout都是由sortKey和data来组成,sortKey就是上面的字母部分,data就是要显示的内容.然后我们的itemBean需要两个属性firstLetter(首字母)和data(要显示的内容),另外我们还需要去实现Comparable接口,使列表可以进行排序,这">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Canvas自定义ListView的字母索引列表(6)">
+<meta property="og:url" content="http://august1996.top/2016/05/08/android-canvas-citylist-6/index.html">
+<meta property="og:site_name" content="August1996的小狗窝">
+<meta property="og:description" content="效果图
+
+实现左边是ListView,右边是我们的自定义控件
+
+思路
+左边的item的layout是自定义的,每个item的layout都是由sortKey和data来组成,sortKey就是上面的字母部分,data就是要显示的内容.然后我们的itemBean需要两个属性firstLetter(首字母)和data(要显示的内容),另外我们还需要去实现Comparable接口,使列表可以进行排序,这">
+<meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-canvas-citylist-6-1.gif">
+<meta property="og:updated_time" content="2016-06-08T12:53:28.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用Canvas自定义ListView的字母索引列表(6)">
+<meta name="twitter:description" content="效果图
+
+实现左边是ListView,右边是我们的自定义控件
+
+思路
+左边的item的layout是自定义的,每个item的layout都是由sortKey和data来组成,sortKey就是上面的字母部分,data就是要显示的内容.然后我们的itemBean需要两个属性firstLetter(首字母)和data(要显示的内容),另外我们还需要去实现Comparable接口,使列表可以进行排序,这">
+<meta name="twitter:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-canvas-citylist-6-1.gif">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6289901108416480000,
+      author: 'August1996'
+    }
+  };
+</script>
+
+  <title> 使用Canvas自定义ListView的字母索引列表(6) | August1996的小狗窝 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?ca08f65a7dda04c0e669531a7ef88472";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">August1996的小狗窝</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">记录一个傻屌程序员的日常...</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'z8JdSugezj6oS795yEMb','2.0.0');
+</script>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                使用Canvas自定义ListView的字母索引列表(6)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-08T10:24:14+08:00" content="2016-05-08">
+              2016-05-08
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android进阶/" itemprop="url" rel="index">
+                    <span itemprop="name">Android进阶</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/08/android-canvas-citylist-6/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/08/android-canvas-citylist-6/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h1><p><img src="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-canvas-citylist-6-1.gif" alt="效果图"></p>
+<blockquote>
+<p>实现左边是ListView,右边是我们的自定义控件</p>
+</blockquote>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><ul>
+<li>左边的item的layout是自定义的,每个item的layout都是由<code>sortKey</code>和<code>data</code>来组成,<code>sortKey</code>就是上面的字母部分,<code>data</code>就是要显示的内容.然后我们的<code>itemBean</code>需要两个属性<code>firstLetter</code>(首字母)和<code>data</code>(要显示的内容),另外我们还需要去实现<code>Comparable</code>接口,使列表可以进行排序,这样的话我们的数据就能够聚集到一起了.</li>
+<li>关键的还有就是怎么去控制<code>sortKey</code>只会去显示一次,考虑一下我们可以使用一个<code>Map</code>来保存已经出现的字母,键值是字母,返回值是位置,因为当键值不存在的时候返回的是0,所以我们要控制我们的<code>data</code>索引是从1开始的.一开始我们就去索引所有字母应该出现的位置,放到<code>Map</code>集合里面,然后在<code>Adapter</code>的<code>getView</code>方法里面判断是否显示<code>sortKey</code></li>
+<li>然后对于右边的字母被点击,我们需要设置一个回调接口</li>
+<li>然后就是中文的处理了,对于中文的话我们可以使用一个拼音转换的工具类,可以把中文转换成拼音,我们取结果的第一个字母</li>
+</ul>
+<h1 id="编码"><a href="#编码" class="headerlink" title="编码"></a>编码</h1><h2 id="item布局文件"><a href="#item布局文件" class="headerlink" title="item布局文件"></a>item布局文件</h2><blockquote>
+<p>新建我们的item_data.xml布局文件</p>
+</blockquote>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span><span class="meta">?&gt;</span></span></span><br><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span><br><span class="line">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">TextView</span></span><br><span class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/sortKey"</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span><br><span class="line">        <span class="attr">android:background</span>=<span class="string">"#80000000"</span></span><br><span class="line">        <span class="attr">android:padding</span>=<span class="string">"8dp"</span></span><br><span class="line">        <span class="attr">android:text</span>=<span class="string">"Z"</span></span><br><span class="line">        <span class="attr">android:textSize</span>=<span class="string">"16sp"</span></span><br><span class="line">        <span class="attr">android:textStyle</span>=<span class="string">"bold"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">TextView</span></span><br><span class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/data"</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span><br><span class="line">        <span class="attr">android:padding</span>=<span class="string">"3dp"</span></span><br><span class="line">        <span class="attr">android:text</span>=<span class="string">"湛江"</span></span><br><span class="line">        <span class="attr">android:layout_marginLeft</span>=<span class="string">"20dp"</span></span><br><span class="line">        <span class="attr">android:textSize</span>=<span class="string">"14sp"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="工具类"><a href="#工具类" class="headerlink" title="工具类"></a>工具类</h2><figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br><span class="line">430</span><br><span class="line">431</span><br><span class="line">432</span><br><span class="line">433</span><br><span class="line">434</span><br><span class="line">435</span><br><span class="line">436</span><br><span class="line">437</span><br><span class="line">438</span><br><span class="line">439</span><br><span class="line">440</span><br><span class="line">441</span><br><span class="line">442</span><br><span class="line">443</span><br><span class="line">444</span><br><span class="line">445</span><br><span class="line">446</span><br><span class="line">447</span><br><span class="line">448</span><br><span class="line">449</span><br><span class="line">450</span><br><span class="line">451</span><br><span class="line">452</span><br><span class="line">453</span><br><span class="line">454</span><br><span class="line">455</span><br><span class="line">456</span><br><span class="line">457</span><br><span class="line">458</span><br><span class="line">459</span><br><span class="line">460</span><br><span class="line">461</span><br><span class="line">462</span><br><span class="line">463</span><br><span class="line">464</span><br><span class="line">465</span><br><span class="line">466</span><br><span class="line">467</span><br><span class="line">468</span><br><span class="line">469</span><br><span class="line">470</span><br><span class="line">471</span><br><span class="line">472</span><br><span class="line">473</span><br><span class="line">474</span><br><span class="line">475</span><br><span class="line">476</span><br><span class="line">477</span><br><span class="line">478</span><br><span class="line">479</span><br><span class="line">480</span><br><span class="line">481</span><br><span class="line">482</span><br><span class="line">483</span><br><span class="line">484</span><br><span class="line">485</span><br><span class="line">486</span><br><span class="line">487</span><br><span class="line">488</span><br><span class="line">489</span><br><span class="line">490</span><br><span class="line">491</span><br><span class="line">492</span><br><span class="line">493</span><br><span class="line">494</span><br><span class="line">495</span><br><span class="line">496</span><br><span class="line">497</span><br><span class="line">498</span><br><span class="line">499</span><br><span class="line">500</span><br><span class="line">501</span><br><span class="line">502</span><br><span class="line">503</span><br><span class="line">504</span><br><span class="line">505</span><br><span class="line">506</span><br><span class="line">507</span><br><span class="line">508</span><br><span class="line">509</span><br><span class="line">510</span><br><span class="line">511</span><br><span class="line">512</span><br><span class="line">513</span><br><span class="line">514</span><br><span class="line">515</span><br><span class="line">516</span><br><span class="line">517</span><br><span class="line">518</span><br><span class="line">519</span><br><span class="line">520</span><br><span class="line">521</span><br><span class="line">522</span><br><span class="line">523</span><br><span class="line">524</span><br><span class="line">525</span><br><span class="line">526</span><br><span class="line">527</span><br><span class="line">528</span><br><span class="line">529</span><br><span class="line">530</span><br><span class="line">531</span><br><span class="line">532</span><br><span class="line">533</span><br><span class="line">534</span><br><span class="line">535</span><br><span class="line">536</span><br><span class="line">537</span><br><span class="line">538</span><br><span class="line">539</span><br><span class="line">540</span><br><span class="line">541</span><br><span class="line">542</span><br><span class="line">543</span><br><span class="line">544</span><br><span class="line">545</span><br><span class="line">546</span><br><span class="line">547</span><br><span class="line">548</span><br><span class="line">549</span><br><span class="line">550</span><br><span class="line">551</span><br><span class="line">552</span><br><span class="line">553</span><br><span class="line">554</span><br><span class="line">555</span><br><span class="line">556</span><br><span class="line">557</span><br><span class="line">558</span><br><span class="line">559</span><br><span class="line">560</span><br><span class="line">561</span><br><span class="line">562</span><br><span class="line">563</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.august.sortkeylist;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Iterator;</span><br><span class="line"><span class="keyword">import</span> java.util.LinkedHashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Set;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> class ChineseToEnglish &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> LinkedHashMap spellMap = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (spellMap == <span class="keyword">null</span>) &#123;</span><br><span class="line">            spellMap = <span class="keyword">new</span> LinkedHashMap(<span class="number">500</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        initialize();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> ChineseToEnglish() &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> spellPut(<span class="keyword">String</span> spell, <span class="built_in">int</span> ascii) &#123;</span><br><span class="line">        spellMap.put(spell, <span class="keyword">new</span> Integer(ascii));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> initialize() &#123;</span><br><span class="line">        spellPut(<span class="string">"a"</span>, <span class="number">-20319</span>);</span><br><span class="line">        spellPut(<span class="string">"ai"</span>, <span class="number">-20317</span>);</span><br><span class="line">        spellPut(<span class="string">"an"</span>, <span class="number">-20304</span>);</span><br><span class="line">        spellPut(<span class="string">"ang"</span>, <span class="number">-20295</span>);</span><br><span class="line">        spellPut(<span class="string">"ao"</span>, <span class="number">-20292</span>);</span><br><span class="line">        spellPut(<span class="string">"ba"</span>, <span class="number">-20283</span>);</span><br><span class="line">        spellPut(<span class="string">"bai"</span>, <span class="number">-20265</span>);</span><br><span class="line">        spellPut(<span class="string">"ban"</span>, <span class="number">-20257</span>);</span><br><span class="line">        spellPut(<span class="string">"bang"</span>, <span class="number">-20242</span>);</span><br><span class="line">        spellPut(<span class="string">"bao"</span>, <span class="number">-20230</span>);</span><br><span class="line">        spellPut(<span class="string">"bei"</span>, <span class="number">-20051</span>);</span><br><span class="line">        spellPut(<span class="string">"ben"</span>, <span class="number">-20036</span>);</span><br><span class="line">        spellPut(<span class="string">"beng"</span>, <span class="number">-20032</span>);</span><br><span class="line">        spellPut(<span class="string">"bi"</span>, <span class="number">-20026</span>);</span><br><span class="line">        spellPut(<span class="string">"bian"</span>, <span class="number">-20002</span>);</span><br><span class="line">        spellPut(<span class="string">"biao"</span>, <span class="number">-19990</span>);</span><br><span class="line">        spellPut(<span class="string">"bie"</span>, <span class="number">-19986</span>);</span><br><span class="line">        spellPut(<span class="string">"bin"</span>, <span class="number">-19982</span>);</span><br><span class="line">        spellPut(<span class="string">"bing"</span>, <span class="number">-19976</span>);</span><br><span class="line">        spellPut(<span class="string">"bo"</span>, <span class="number">-19805</span>);</span><br><span class="line">        spellPut(<span class="string">"bu"</span>, <span class="number">-19784</span>);</span><br><span class="line">        spellPut(<span class="string">"ca"</span>, <span class="number">-19775</span>);</span><br><span class="line">        spellPut(<span class="string">"cai"</span>, <span class="number">-19774</span>);</span><br><span class="line">        spellPut(<span class="string">"can"</span>, <span class="number">-19763</span>);</span><br><span class="line">        spellPut(<span class="string">"cang"</span>, <span class="number">-19756</span>);</span><br><span class="line">        spellPut(<span class="string">"cao"</span>, <span class="number">-19751</span>);</span><br><span class="line">        spellPut(<span class="string">"ce"</span>, <span class="number">-19746</span>);</span><br><span class="line">        spellPut(<span class="string">"ceng"</span>, <span class="number">-19741</span>);</span><br><span class="line">        spellPut(<span class="string">"cha"</span>, <span class="number">-19739</span>);</span><br><span class="line">        spellPut(<span class="string">"chai"</span>, <span class="number">-19728</span>);</span><br><span class="line">        spellPut(<span class="string">"chan"</span>, <span class="number">-19725</span>);</span><br><span class="line">        spellPut(<span class="string">"chang"</span>, <span class="number">-19715</span>);</span><br><span class="line">        spellPut(<span class="string">"chao"</span>, <span class="number">-19540</span>);</span><br><span class="line">        spellPut(<span class="string">"che"</span>, <span class="number">-19531</span>);</span><br><span class="line">        spellPut(<span class="string">"chen"</span>, <span class="number">-19525</span>);</span><br><span class="line">        spellPut(<span class="string">"cheng"</span>, <span class="number">-19515</span>);</span><br><span class="line">        spellPut(<span class="string">"chi"</span>, <span class="number">-19500</span>);</span><br><span class="line">        spellPut(<span class="string">"chong"</span>, <span class="number">-19484</span>);</span><br><span class="line">        spellPut(<span class="string">"chou"</span>, <span class="number">-19479</span>);</span><br><span class="line">        spellPut(<span class="string">"chu"</span>, <span class="number">-19467</span>);</span><br><span class="line">        spellPut(<span class="string">"chuai"</span>, <span class="number">-19289</span>);</span><br><span class="line">        spellPut(<span class="string">"chuan"</span>, <span class="number">-19288</span>);</span><br><span class="line">        spellPut(<span class="string">"chuang"</span>, <span class="number">-19281</span>);</span><br><span class="line">        spellPut(<span class="string">"chui"</span>, <span class="number">-19275</span>);</span><br><span class="line">        spellPut(<span class="string">"chun"</span>, <span class="number">-19270</span>);</span><br><span class="line">        spellPut(<span class="string">"chuo"</span>, <span class="number">-19263</span>);</span><br><span class="line">        spellPut(<span class="string">"ci"</span>, <span class="number">-19261</span>);</span><br><span class="line">        spellPut(<span class="string">"cong"</span>, <span class="number">-19249</span>);</span><br><span class="line">        spellPut(<span class="string">"cou"</span>, <span class="number">-19243</span>);</span><br><span class="line">        spellPut(<span class="string">"cu"</span>, <span class="number">-19242</span>);</span><br><span class="line">        spellPut(<span class="string">"cuan"</span>, <span class="number">-19238</span>);</span><br><span class="line">        spellPut(<span class="string">"cui"</span>, <span class="number">-19235</span>);</span><br><span class="line">        spellPut(<span class="string">"cun"</span>, <span class="number">-19227</span>);</span><br><span class="line">        spellPut(<span class="string">"cuo"</span>, <span class="number">-19224</span>);</span><br><span class="line">        spellPut(<span class="string">"da"</span>, <span class="number">-19218</span>);</span><br><span class="line">        spellPut(<span class="string">"dai"</span>, <span class="number">-19212</span>);</span><br><span class="line">        spellPut(<span class="string">"dan"</span>, <span class="number">-19038</span>);</span><br><span class="line">        spellPut(<span class="string">"dang"</span>, <span class="number">-19023</span>);</span><br><span class="line">        spellPut(<span class="string">"dao"</span>, <span class="number">-19018</span>);</span><br><span class="line">        spellPut(<span class="string">"de"</span>, <span class="number">-19006</span>);</span><br><span class="line">        spellPut(<span class="string">"deng"</span>, <span class="number">-19003</span>);</span><br><span class="line">        spellPut(<span class="string">"di"</span>, <span class="number">-18996</span>);</span><br><span class="line">        spellPut(<span class="string">"dian"</span>, <span class="number">-18977</span>);</span><br><span class="line">        spellPut(<span class="string">"diao"</span>, <span class="number">-18961</span>);</span><br><span class="line">        spellPut(<span class="string">"die"</span>, <span class="number">-18952</span>);</span><br><span class="line">        spellPut(<span class="string">"ding"</span>, <span class="number">-18783</span>);</span><br><span class="line">        spellPut(<span class="string">"diu"</span>, <span class="number">-18774</span>);</span><br><span class="line">        spellPut(<span class="string">"dong"</span>, <span class="number">-18773</span>);</span><br><span class="line">        spellPut(<span class="string">"dou"</span>, <span class="number">-18763</span>);</span><br><span class="line">        spellPut(<span class="string">"du"</span>, <span class="number">-18756</span>);</span><br><span class="line">        spellPut(<span class="string">"duan"</span>, <span class="number">-18741</span>);</span><br><span class="line">        spellPut(<span class="string">"dui"</span>, <span class="number">-18735</span>);</span><br><span class="line">        spellPut(<span class="string">"dun"</span>, <span class="number">-18731</span>);</span><br><span class="line">        spellPut(<span class="string">"duo"</span>, <span class="number">-18722</span>);</span><br><span class="line">        spellPut(<span class="string">"e"</span>, <span class="number">-18710</span>);</span><br><span class="line">        spellPut(<span class="string">"en"</span>, <span class="number">-18697</span>);</span><br><span class="line">        spellPut(<span class="string">"er"</span>, <span class="number">-18696</span>);</span><br><span class="line">        spellPut(<span class="string">"fa"</span>, <span class="number">-18526</span>);</span><br><span class="line">        spellPut(<span class="string">"fan"</span>, <span class="number">-18518</span>);</span><br><span class="line">        spellPut(<span class="string">"fang"</span>, <span class="number">-18501</span>);</span><br><span class="line">        spellPut(<span class="string">"fei"</span>, <span class="number">-18490</span>);</span><br><span class="line">        spellPut(<span class="string">"fen"</span>, <span class="number">-18478</span>);</span><br><span class="line">        spellPut(<span class="string">"feng"</span>, <span class="number">-18463</span>);</span><br><span class="line">        spellPut(<span class="string">"fo"</span>, <span class="number">-18448</span>);</span><br><span class="line">        spellPut(<span class="string">"fou"</span>, <span class="number">-18447</span>);</span><br><span class="line">        spellPut(<span class="string">"fu"</span>, <span class="number">-18446</span>);</span><br><span class="line">        spellPut(<span class="string">"ga"</span>, <span class="number">-18239</span>);</span><br><span class="line">        spellPut(<span class="string">"gai"</span>, <span class="number">-18237</span>);</span><br><span class="line">        spellPut(<span class="string">"gan"</span>, <span class="number">-18231</span>);</span><br><span class="line">        spellPut(<span class="string">"gang"</span>, <span class="number">-18220</span>);</span><br><span class="line">        spellPut(<span class="string">"gao"</span>, <span class="number">-18211</span>);</span><br><span class="line">        spellPut(<span class="string">"ge"</span>, <span class="number">-18201</span>);</span><br><span class="line">        spellPut(<span class="string">"gei"</span>, <span class="number">-18184</span>);</span><br><span class="line">        spellPut(<span class="string">"gen"</span>, <span class="number">-18183</span>);</span><br><span class="line">        spellPut(<span class="string">"geng"</span>, <span class="number">-18181</span>);</span><br><span class="line">        spellPut(<span class="string">"gong"</span>, <span class="number">-18012</span>);</span><br><span class="line">        spellPut(<span class="string">"gou"</span>, <span class="number">-17997</span>);</span><br><span class="line">        spellPut(<span class="string">"gu"</span>, <span class="number">-17988</span>);</span><br><span class="line">        spellPut(<span class="string">"gua"</span>, <span class="number">-17970</span>);</span><br><span class="line">        spellPut(<span class="string">"guai"</span>, <span class="number">-17964</span>);</span><br><span class="line">        spellPut(<span class="string">"guan"</span>, <span class="number">-17961</span>);</span><br><span class="line">        spellPut(<span class="string">"guang"</span>, <span class="number">-17950</span>);</span><br><span class="line">        spellPut(<span class="string">"gui"</span>, <span class="number">-17947</span>);</span><br><span class="line">        spellPut(<span class="string">"gun"</span>, <span class="number">-17931</span>);</span><br><span class="line">        spellPut(<span class="string">"guo"</span>, <span class="number">-17928</span>);</span><br><span class="line">        spellPut(<span class="string">"ha"</span>, <span class="number">-17922</span>);</span><br><span class="line">        spellPut(<span class="string">"hai"</span>, <span class="number">-17759</span>);</span><br><span class="line">        spellPut(<span class="string">"han"</span>, <span class="number">-17752</span>);</span><br><span class="line">        spellPut(<span class="string">"hang"</span>, <span class="number">-17733</span>);</span><br><span class="line">        spellPut(<span class="string">"hao"</span>, <span class="number">-17730</span>);</span><br><span class="line">        spellPut(<span class="string">"he"</span>, <span class="number">-17721</span>);</span><br><span class="line">        spellPut(<span class="string">"hei"</span>, <span class="number">-17703</span>);</span><br><span class="line">        spellPut(<span class="string">"hen"</span>, <span class="number">-17701</span>);</span><br><span class="line">        spellPut(<span class="string">"heng"</span>, <span class="number">-17697</span>);</span><br><span class="line">        spellPut(<span class="string">"hong"</span>, <span class="number">-17692</span>);</span><br><span class="line">        spellPut(<span class="string">"hou"</span>, <span class="number">-17683</span>);</span><br><span class="line">        spellPut(<span class="string">"hu"</span>, <span class="number">-17676</span>);</span><br><span class="line">        spellPut(<span class="string">"hua"</span>, <span class="number">-17496</span>);</span><br><span class="line">        spellPut(<span class="string">"huai"</span>, <span class="number">-17487</span>);</span><br><span class="line">        spellPut(<span class="string">"huan"</span>, <span class="number">-17482</span>);</span><br><span class="line">        spellPut(<span class="string">"huang"</span>, <span class="number">-17468</span>);</span><br><span class="line">        spellPut(<span class="string">"hui"</span>, <span class="number">-17454</span>);</span><br><span class="line">        spellPut(<span class="string">"hun"</span>, <span class="number">-17433</span>);</span><br><span class="line">        spellPut(<span class="string">"huo"</span>, <span class="number">-17427</span>);</span><br><span class="line">        spellPut(<span class="string">"ji"</span>, <span class="number">-17417</span>);</span><br><span class="line">        spellPut(<span class="string">"jia"</span>, <span class="number">-17202</span>);</span><br><span class="line">        spellPut(<span class="string">"jian"</span>, <span class="number">-17185</span>);</span><br><span class="line">        spellPut(<span class="string">"jiang"</span>, <span class="number">-16983</span>);</span><br><span class="line">        spellPut(<span class="string">"jiao"</span>, <span class="number">-16970</span>);</span><br><span class="line">        spellPut(<span class="string">"jie"</span>, <span class="number">-16942</span>);</span><br><span class="line">        spellPut(<span class="string">"jin"</span>, <span class="number">-16915</span>);</span><br><span class="line">        spellPut(<span class="string">"jing"</span>, <span class="number">-16733</span>);</span><br><span class="line">        spellPut(<span class="string">"jiong"</span>, <span class="number">-16708</span>);</span><br><span class="line">        spellPut(<span class="string">"jiu"</span>, <span class="number">-16706</span>);</span><br><span class="line">        spellPut(<span class="string">"ju"</span>, <span class="number">-16689</span>);</span><br><span class="line">        spellPut(<span class="string">"juan"</span>, <span class="number">-16664</span>);</span><br><span class="line">        spellPut(<span class="string">"jue"</span>, <span class="number">-16657</span>);</span><br><span class="line">        spellPut(<span class="string">"jun"</span>, <span class="number">-16647</span>);</span><br><span class="line">        spellPut(<span class="string">"ka"</span>, <span class="number">-16474</span>);</span><br><span class="line">        spellPut(<span class="string">"kai"</span>, <span class="number">-16470</span>);</span><br><span class="line">        spellPut(<span class="string">"kan"</span>, <span class="number">-16465</span>);</span><br><span class="line">        spellPut(<span class="string">"kang"</span>, <span class="number">-16459</span>);</span><br><span class="line">        spellPut(<span class="string">"kao"</span>, <span class="number">-16452</span>);</span><br><span class="line">        spellPut(<span class="string">"ke"</span>, <span class="number">-16448</span>);</span><br><span class="line">        spellPut(<span class="string">"ken"</span>, <span class="number">-16433</span>);</span><br><span class="line">        spellPut(<span class="string">"keng"</span>, <span class="number">-16429</span>);</span><br><span class="line">        spellPut(<span class="string">"kong"</span>, <span class="number">-16427</span>);</span><br><span class="line">        spellPut(<span class="string">"kou"</span>, <span class="number">-16423</span>);</span><br><span class="line">        spellPut(<span class="string">"ku"</span>, <span class="number">-16419</span>);</span><br><span class="line">        spellPut(<span class="string">"kua"</span>, <span class="number">-16412</span>);</span><br><span class="line">        spellPut(<span class="string">"kuai"</span>, <span class="number">-16407</span>);</span><br><span class="line">        spellPut(<span class="string">"kuan"</span>, <span class="number">-16403</span>);</span><br><span class="line">        spellPut(<span class="string">"kuang"</span>, <span class="number">-16401</span>);</span><br><span class="line">        spellPut(<span class="string">"kui"</span>, <span class="number">-16393</span>);</span><br><span class="line">        spellPut(<span class="string">"kun"</span>, <span class="number">-16220</span>);</span><br><span class="line">        spellPut(<span class="string">"kuo"</span>, <span class="number">-16216</span>);</span><br><span class="line">        spellPut(<span class="string">"la"</span>, <span class="number">-16212</span>);</span><br><span class="line">        spellPut(<span class="string">"lai"</span>, <span class="number">-16205</span>);</span><br><span class="line">        spellPut(<span class="string">"lan"</span>, <span class="number">-16202</span>);</span><br><span class="line">        spellPut(<span class="string">"lang"</span>, <span class="number">-16187</span>);</span><br><span class="line">        spellPut(<span class="string">"lao"</span>, <span class="number">-16180</span>);</span><br><span class="line">        spellPut(<span class="string">"le"</span>, <span class="number">-16171</span>);</span><br><span class="line">        spellPut(<span class="string">"lei"</span>, <span class="number">-16169</span>);</span><br><span class="line">        spellPut(<span class="string">"leng"</span>, <span class="number">-16158</span>);</span><br><span class="line">        spellPut(<span class="string">"li"</span>, <span class="number">-16155</span>);</span><br><span class="line">        spellPut(<span class="string">"lia"</span>, <span class="number">-15959</span>);</span><br><span class="line">        spellPut(<span class="string">"lian"</span>, <span class="number">-15958</span>);</span><br><span class="line">        spellPut(<span class="string">"liang"</span>, <span class="number">-15944</span>);</span><br><span class="line">        spellPut(<span class="string">"liao"</span>, <span class="number">-15933</span>);</span><br><span class="line">        spellPut(<span class="string">"lie"</span>, <span class="number">-15920</span>);</span><br><span class="line">        spellPut(<span class="string">"lin"</span>, <span class="number">-15915</span>);</span><br><span class="line">        spellPut(<span class="string">"ling"</span>, <span class="number">-15903</span>);</span><br><span class="line">        spellPut(<span class="string">"liu"</span>, <span class="number">-15889</span>);</span><br><span class="line">        spellPut(<span class="string">"long"</span>, <span class="number">-15878</span>);</span><br><span class="line">        spellPut(<span class="string">"lou"</span>, <span class="number">-15707</span>);</span><br><span class="line">        spellPut(<span class="string">"lu"</span>, <span class="number">-15701</span>);</span><br><span class="line">        spellPut(<span class="string">"lv"</span>, <span class="number">-15681</span>);</span><br><span class="line">        spellPut(<span class="string">"luan"</span>, <span class="number">-15667</span>);</span><br><span class="line">        spellPut(<span class="string">"lue"</span>, <span class="number">-15661</span>);</span><br><span class="line">        spellPut(<span class="string">"lun"</span>, <span class="number">-15659</span>);</span><br><span class="line">        spellPut(<span class="string">"luo"</span>, <span class="number">-15652</span>);</span><br><span class="line">        spellPut(<span class="string">"ma"</span>, <span class="number">-15640</span>);</span><br><span class="line">        spellPut(<span class="string">"mai"</span>, <span class="number">-15631</span>);</span><br><span class="line">        spellPut(<span class="string">"man"</span>, <span class="number">-15625</span>);</span><br><span class="line">        spellPut(<span class="string">"mang"</span>, <span class="number">-15454</span>);</span><br><span class="line">        spellPut(<span class="string">"mao"</span>, <span class="number">-15448</span>);</span><br><span class="line">        spellPut(<span class="string">"me"</span>, <span class="number">-15436</span>);</span><br><span class="line">        spellPut(<span class="string">"mei"</span>, <span class="number">-15435</span>);</span><br><span class="line">        spellPut(<span class="string">"men"</span>, <span class="number">-15419</span>);</span><br><span class="line">        spellPut(<span class="string">"meng"</span>, <span class="number">-15416</span>);</span><br><span class="line">        spellPut(<span class="string">"mi"</span>, <span class="number">-15408</span>);</span><br><span class="line">        spellPut(<span class="string">"mian"</span>, <span class="number">-15394</span>);</span><br><span class="line">        spellPut(<span class="string">"miao"</span>, <span class="number">-15385</span>);</span><br><span class="line">        spellPut(<span class="string">"mie"</span>, <span class="number">-15377</span>);</span><br><span class="line">        spellPut(<span class="string">"min"</span>, <span class="number">-15375</span>);</span><br><span class="line">        spellPut(<span class="string">"ming"</span>, <span class="number">-15369</span>);</span><br><span class="line">        spellPut(<span class="string">"miu"</span>, <span class="number">-15363</span>);</span><br><span class="line">        spellPut(<span class="string">"mo"</span>, <span class="number">-15362</span>);</span><br><span class="line">        spellPut(<span class="string">"mou"</span>, <span class="number">-15183</span>);</span><br><span class="line">        spellPut(<span class="string">"mu"</span>, <span class="number">-15180</span>);</span><br><span class="line">        spellPut(<span class="string">"na"</span>, <span class="number">-15165</span>);</span><br><span class="line">        spellPut(<span class="string">"nai"</span>, <span class="number">-15158</span>);</span><br><span class="line">        spellPut(<span class="string">"nan"</span>, <span class="number">-15153</span>);</span><br><span class="line">        spellPut(<span class="string">"nang"</span>, <span class="number">-15150</span>);</span><br><span class="line">        spellPut(<span class="string">"nao"</span>, <span class="number">-15149</span>);</span><br><span class="line">        spellPut(<span class="string">"ne"</span>, <span class="number">-15144</span>);</span><br><span class="line">        spellPut(<span class="string">"nei"</span>, <span class="number">-15143</span>);</span><br><span class="line">        spellPut(<span class="string">"nen"</span>, <span class="number">-15141</span>);</span><br><span class="line">        spellPut(<span class="string">"neng"</span>, <span class="number">-15140</span>);</span><br><span class="line">        spellPut(<span class="string">"ni"</span>, <span class="number">-15139</span>);</span><br><span class="line">        spellPut(<span class="string">"nian"</span>, <span class="number">-15128</span>);</span><br><span class="line">        spellPut(<span class="string">"niang"</span>, <span class="number">-15121</span>);</span><br><span class="line">        spellPut(<span class="string">"niao"</span>, <span class="number">-15119</span>);</span><br><span class="line">        spellPut(<span class="string">"nie"</span>, <span class="number">-15117</span>);</span><br><span class="line">        spellPut(<span class="string">"nin"</span>, <span class="number">-15110</span>);</span><br><span class="line">        spellPut(<span class="string">"ning"</span>, <span class="number">-15109</span>);</span><br><span class="line">        spellPut(<span class="string">"niu"</span>, <span class="number">-14941</span>);</span><br><span class="line">        spellPut(<span class="string">"nong"</span>, <span class="number">-14937</span>);</span><br><span class="line">        spellPut(<span class="string">"nu"</span>, <span class="number">-14933</span>);</span><br><span class="line">        spellPut(<span class="string">"nv"</span>, <span class="number">-14930</span>);</span><br><span class="line">        spellPut(<span class="string">"nuan"</span>, <span class="number">-14929</span>);</span><br><span class="line">        spellPut(<span class="string">"nue"</span>, <span class="number">-14928</span>);</span><br><span class="line">        spellPut(<span class="string">"nuo"</span>, <span class="number">-14926</span>);</span><br><span class="line">        spellPut(<span class="string">"o"</span>, <span class="number">-14922</span>);</span><br><span class="line">        spellPut(<span class="string">"ou"</span>, <span class="number">-14921</span>);</span><br><span class="line">        spellPut(<span class="string">"pa"</span>, <span class="number">-14914</span>);</span><br><span class="line">        spellPut(<span class="string">"pai"</span>, <span class="number">-14908</span>);</span><br><span class="line">        spellPut(<span class="string">"pan"</span>, <span class="number">-14902</span>);</span><br><span class="line">        spellPut(<span class="string">"pang"</span>, <span class="number">-14894</span>);</span><br><span class="line">        spellPut(<span class="string">"pao"</span>, <span class="number">-14889</span>);</span><br><span class="line">        spellPut(<span class="string">"pei"</span>, <span class="number">-14882</span>);</span><br><span class="line">        spellPut(<span class="string">"pen"</span>, <span class="number">-14873</span>);</span><br><span class="line">        spellPut(<span class="string">"peng"</span>, <span class="number">-14871</span>);</span><br><span class="line">        spellPut(<span class="string">"pi"</span>, <span class="number">-14857</span>);</span><br><span class="line">        spellPut(<span class="string">"pian"</span>, <span class="number">-14678</span>);</span><br><span class="line">        spellPut(<span class="string">"piao"</span>, <span class="number">-14674</span>);</span><br><span class="line">        spellPut(<span class="string">"pie"</span>, <span class="number">-14670</span>);</span><br><span class="line">        spellPut(<span class="string">"pin"</span>, <span class="number">-14668</span>);</span><br><span class="line">        spellPut(<span class="string">"ping"</span>, <span class="number">-14663</span>);</span><br><span class="line">        spellPut(<span class="string">"po"</span>, <span class="number">-14654</span>);</span><br><span class="line">        spellPut(<span class="string">"pu"</span>, <span class="number">-14645</span>);</span><br><span class="line">        spellPut(<span class="string">"qi"</span>, <span class="number">-14630</span>);</span><br><span class="line">        spellPut(<span class="string">"qia"</span>, <span class="number">-14594</span>);</span><br><span class="line">        spellPut(<span class="string">"qian"</span>, <span class="number">-14429</span>);</span><br><span class="line">        spellPut(<span class="string">"qiang"</span>, <span class="number">-14407</span>);</span><br><span class="line">        spellPut(<span class="string">"qiao"</span>, <span class="number">-14399</span>);</span><br><span class="line">        spellPut(<span class="string">"qie"</span>, <span class="number">-14384</span>);</span><br><span class="line">        spellPut(<span class="string">"qin"</span>, <span class="number">-14379</span>);</span><br><span class="line">        spellPut(<span class="string">"qing"</span>, <span class="number">-14368</span>);</span><br><span class="line">        spellPut(<span class="string">"qiong"</span>, <span class="number">-14355</span>);</span><br><span class="line">        spellPut(<span class="string">"qiu"</span>, <span class="number">-14353</span>);</span><br><span class="line">        spellPut(<span class="string">"qu"</span>, <span class="number">-14345</span>);</span><br><span class="line">        spellPut(<span class="string">"quan"</span>, <span class="number">-14170</span>);</span><br><span class="line">        spellPut(<span class="string">"que"</span>, <span class="number">-14159</span>);</span><br><span class="line">        spellPut(<span class="string">"qun"</span>, <span class="number">-14151</span>);</span><br><span class="line">        spellPut(<span class="string">"ran"</span>, <span class="number">-14149</span>);</span><br><span class="line">        spellPut(<span class="string">"rang"</span>, <span class="number">-14145</span>);</span><br><span class="line">        spellPut(<span class="string">"rao"</span>, <span class="number">-14140</span>);</span><br><span class="line">        spellPut(<span class="string">"re"</span>, <span class="number">-14137</span>);</span><br><span class="line">        spellPut(<span class="string">"ren"</span>, <span class="number">-14135</span>);</span><br><span class="line">        spellPut(<span class="string">"reng"</span>, <span class="number">-14125</span>);</span><br><span class="line">        spellPut(<span class="string">"ri"</span>, <span class="number">-14123</span>);</span><br><span class="line">        spellPut(<span class="string">"rong"</span>, <span class="number">-14122</span>);</span><br><span class="line">        spellPut(<span class="string">"rou"</span>, <span class="number">-14112</span>);</span><br><span class="line">        spellPut(<span class="string">"ru"</span>, <span class="number">-14109</span>);</span><br><span class="line">        spellPut(<span class="string">"ruan"</span>, <span class="number">-14099</span>);</span><br><span class="line">        spellPut(<span class="string">"rui"</span>, <span class="number">-14097</span>);</span><br><span class="line">        spellPut(<span class="string">"run"</span>, <span class="number">-14094</span>);</span><br><span class="line">        spellPut(<span class="string">"ruo"</span>, <span class="number">-14092</span>);</span><br><span class="line">        spellPut(<span class="string">"sa"</span>, <span class="number">-14090</span>);</span><br><span class="line">        spellPut(<span class="string">"sai"</span>, <span class="number">-14087</span>);</span><br><span class="line">        spellPut(<span class="string">"san"</span>, <span class="number">-14083</span>);</span><br><span class="line">        spellPut(<span class="string">"sang"</span>, <span class="number">-13917</span>);</span><br><span class="line">        spellPut(<span class="string">"sao"</span>, <span class="number">-13914</span>);</span><br><span class="line">        spellPut(<span class="string">"se"</span>, <span class="number">-13910</span>);</span><br><span class="line">        spellPut(<span class="string">"sen"</span>, <span class="number">-13907</span>);</span><br><span class="line">        spellPut(<span class="string">"seng"</span>, <span class="number">-13906</span>);</span><br><span class="line">        spellPut(<span class="string">"sha"</span>, <span class="number">-13905</span>);</span><br><span class="line">        spellPut(<span class="string">"shai"</span>, <span class="number">-13896</span>);</span><br><span class="line">        spellPut(<span class="string">"shan"</span>, <span class="number">-13894</span>);</span><br><span class="line">        spellPut(<span class="string">"shang"</span>, <span class="number">-13878</span>);</span><br><span class="line">        spellPut(<span class="string">"shao"</span>, <span class="number">-13870</span>);</span><br><span class="line">        spellPut(<span class="string">"she"</span>, <span class="number">-13859</span>);</span><br><span class="line">        spellPut(<span class="string">"shen"</span>, <span class="number">-13847</span>);</span><br><span class="line">        spellPut(<span class="string">"sheng"</span>, <span class="number">-13831</span>);</span><br><span class="line">        spellPut(<span class="string">"shi"</span>, <span class="number">-13658</span>);</span><br><span class="line">        spellPut(<span class="string">"shou"</span>, <span class="number">-13611</span>);</span><br><span class="line">        spellPut(<span class="string">"shu"</span>, <span class="number">-13601</span>);</span><br><span class="line">        spellPut(<span class="string">"shua"</span>, <span class="number">-13406</span>);</span><br><span class="line">        spellPut(<span class="string">"shuai"</span>, <span class="number">-13404</span>);</span><br><span class="line">        spellPut(<span class="string">"shuan"</span>, <span class="number">-13400</span>);</span><br><span class="line">        spellPut(<span class="string">"shuang"</span>, <span class="number">-13398</span>);</span><br><span class="line">        spellPut(<span class="string">"shui"</span>, <span class="number">-13395</span>);</span><br><span class="line">        spellPut(<span class="string">"shun"</span>, <span class="number">-13391</span>);</span><br><span class="line">        spellPut(<span class="string">"shuo"</span>, <span class="number">-13387</span>);</span><br><span class="line">        spellPut(<span class="string">"si"</span>, <span class="number">-13383</span>);</span><br><span class="line">        spellPut(<span class="string">"song"</span>, <span class="number">-13367</span>);</span><br><span class="line">        spellPut(<span class="string">"sou"</span>, <span class="number">-13359</span>);</span><br><span class="line">        spellPut(<span class="string">"su"</span>, <span class="number">-13356</span>);</span><br><span class="line">        spellPut(<span class="string">"suan"</span>, <span class="number">-13343</span>);</span><br><span class="line">        spellPut(<span class="string">"sui"</span>, <span class="number">-13340</span>);</span><br><span class="line">        spellPut(<span class="string">"sun"</span>, <span class="number">-13329</span>);</span><br><span class="line">        spellPut(<span class="string">"suo"</span>, <span class="number">-13326</span>);</span><br><span class="line">        spellPut(<span class="string">"ta"</span>, <span class="number">-13318</span>);</span><br><span class="line">        spellPut(<span class="string">"tai"</span>, <span class="number">-13147</span>);</span><br><span class="line">        spellPut(<span class="string">"tan"</span>, <span class="number">-13138</span>);</span><br><span class="line">        spellPut(<span class="string">"tang"</span>, <span class="number">-13120</span>);</span><br><span class="line">        spellPut(<span class="string">"tao"</span>, <span class="number">-13107</span>);</span><br><span class="line">        spellPut(<span class="string">"te"</span>, <span class="number">-13096</span>);</span><br><span class="line">        spellPut(<span class="string">"teng"</span>, <span class="number">-13095</span>);</span><br><span class="line">        spellPut(<span class="string">"ti"</span>, <span class="number">-13091</span>);</span><br><span class="line">        spellPut(<span class="string">"tian"</span>, <span class="number">-13076</span>);</span><br><span class="line">        spellPut(<span class="string">"tiao"</span>, <span class="number">-13068</span>);</span><br><span class="line">        spellPut(<span class="string">"tie"</span>, <span class="number">-13063</span>);</span><br><span class="line">        spellPut(<span class="string">"ting"</span>, <span class="number">-13060</span>);</span><br><span class="line">        spellPut(<span class="string">"tong"</span>, <span class="number">-12888</span>);</span><br><span class="line">        spellPut(<span class="string">"tou"</span>, <span class="number">-12875</span>);</span><br><span class="line">        spellPut(<span class="string">"tu"</span>, <span class="number">-12871</span>);</span><br><span class="line">        spellPut(<span class="string">"tuan"</span>, <span class="number">-12860</span>);</span><br><span class="line">        spellPut(<span class="string">"tui"</span>, <span class="number">-12858</span>);</span><br><span class="line">        spellPut(<span class="string">"tun"</span>, <span class="number">-12852</span>);</span><br><span class="line">        spellPut(<span class="string">"tuo"</span>, <span class="number">-12849</span>);</span><br><span class="line">        spellPut(<span class="string">"wa"</span>, <span class="number">-12838</span>);</span><br><span class="line">        spellPut(<span class="string">"wai"</span>, <span class="number">-12831</span>);</span><br><span class="line">        spellPut(<span class="string">"wan"</span>, <span class="number">-12829</span>);</span><br><span class="line">        spellPut(<span class="string">"wang"</span>, <span class="number">-12812</span>);</span><br><span class="line">        spellPut(<span class="string">"wei"</span>, <span class="number">-12802</span>);</span><br><span class="line">        spellPut(<span class="string">"wen"</span>, <span class="number">-12607</span>);</span><br><span class="line">        spellPut(<span class="string">"weng"</span>, <span class="number">-12597</span>);</span><br><span class="line">        spellPut(<span class="string">"wo"</span>, <span class="number">-12594</span>);</span><br><span class="line">        spellPut(<span class="string">"wu"</span>, <span class="number">-12585</span>);</span><br><span class="line">        spellPut(<span class="string">"xi"</span>, <span class="number">-12556</span>);</span><br><span class="line">        spellPut(<span class="string">"xia"</span>, <span class="number">-12359</span>);</span><br><span class="line">        spellPut(<span class="string">"xian"</span>, <span class="number">-12346</span>);</span><br><span class="line">        spellPut(<span class="string">"xiang"</span>, <span class="number">-12320</span>);</span><br><span class="line">        spellPut(<span class="string">"xiao"</span>, <span class="number">-12300</span>);</span><br><span class="line">        spellPut(<span class="string">"xie"</span>, <span class="number">-12120</span>);</span><br><span class="line">        spellPut(<span class="string">"xin"</span>, <span class="number">-12099</span>);</span><br><span class="line">        spellPut(<span class="string">"xing"</span>, <span class="number">-12089</span>);</span><br><span class="line">        spellPut(<span class="string">"xiong"</span>, <span class="number">-12074</span>);</span><br><span class="line">        spellPut(<span class="string">"xiu"</span>, <span class="number">-12067</span>);</span><br><span class="line">        spellPut(<span class="string">"xu"</span>, <span class="number">-12058</span>);</span><br><span class="line">        spellPut(<span class="string">"xuan"</span>, <span class="number">-12039</span>);</span><br><span class="line">        spellPut(<span class="string">"xue"</span>, <span class="number">-11867</span>);</span><br><span class="line">        spellPut(<span class="string">"xun"</span>, <span class="number">-11861</span>);</span><br><span class="line">        spellPut(<span class="string">"ya"</span>, <span class="number">-11847</span>);</span><br><span class="line">        spellPut(<span class="string">"yan"</span>, <span class="number">-11831</span>);</span><br><span class="line">        spellPut(<span class="string">"yang"</span>, <span class="number">-11798</span>);</span><br><span class="line">        spellPut(<span class="string">"yao"</span>, <span class="number">-11781</span>);</span><br><span class="line">        spellPut(<span class="string">"ye"</span>, <span class="number">-11604</span>);</span><br><span class="line">        spellPut(<span class="string">"yi"</span>, <span class="number">-11589</span>);</span><br><span class="line">        spellPut(<span class="string">"yin"</span>, <span class="number">-11536</span>);</span><br><span class="line">        spellPut(<span class="string">"ying"</span>, <span class="number">-11358</span>);</span><br><span class="line">        spellPut(<span class="string">"yo"</span>, <span class="number">-11340</span>);</span><br><span class="line">        spellPut(<span class="string">"yong"</span>, <span class="number">-11339</span>);</span><br><span class="line">        spellPut(<span class="string">"you"</span>, <span class="number">-11324</span>);</span><br><span class="line">        spellPut(<span class="string">"yu"</span>, <span class="number">-11303</span>);</span><br><span class="line">        spellPut(<span class="string">"yuan"</span>, <span class="number">-11097</span>);</span><br><span class="line">        spellPut(<span class="string">"yue"</span>, <span class="number">-11077</span>);</span><br><span class="line">        spellPut(<span class="string">"yun"</span>, <span class="number">-11067</span>);</span><br><span class="line">        spellPut(<span class="string">"za"</span>, <span class="number">-11055</span>);</span><br><span class="line">        spellPut(<span class="string">"zai"</span>, <span class="number">-11052</span>);</span><br><span class="line">        spellPut(<span class="string">"zan"</span>, <span class="number">-11045</span>);</span><br><span class="line">        spellPut(<span class="string">"zang"</span>, <span class="number">-11041</span>);</span><br><span class="line">        spellPut(<span class="string">"zao"</span>, <span class="number">-11038</span>);</span><br><span class="line">        spellPut(<span class="string">"ze"</span>, <span class="number">-11024</span>);</span><br><span class="line">        spellPut(<span class="string">"zei"</span>, <span class="number">-11020</span>);</span><br><span class="line">        spellPut(<span class="string">"zen"</span>, <span class="number">-11019</span>);</span><br><span class="line">        spellPut(<span class="string">"zeng"</span>, <span class="number">-11018</span>);</span><br><span class="line">        spellPut(<span class="string">"zha"</span>, <span class="number">-11014</span>);</span><br><span class="line">        spellPut(<span class="string">"zhai"</span>, <span class="number">-10838</span>);</span><br><span class="line">        spellPut(<span class="string">"zhan"</span>, <span class="number">-10832</span>);</span><br><span class="line">        spellPut(<span class="string">"zhang"</span>, <span class="number">-10815</span>);</span><br><span class="line">        spellPut(<span class="string">"zhao"</span>, <span class="number">-10800</span>);</span><br><span class="line">        spellPut(<span class="string">"zhe"</span>, <span class="number">-10790</span>);</span><br><span class="line">        spellPut(<span class="string">"zhen"</span>, <span class="number">-10780</span>);</span><br><span class="line">        spellPut(<span class="string">"zheng"</span>, <span class="number">-10764</span>);</span><br><span class="line">        spellPut(<span class="string">"zhi"</span>, <span class="number">-10587</span>);</span><br><span class="line">        spellPut(<span class="string">"zhong"</span>, <span class="number">-10544</span>);</span><br><span class="line">        spellPut(<span class="string">"zhou"</span>, <span class="number">-10533</span>);</span><br><span class="line">        spellPut(<span class="string">"zhu"</span>, <span class="number">-10519</span>);</span><br><span class="line">        spellPut(<span class="string">"zhua"</span>, <span class="number">-10331</span>);</span><br><span class="line">        spellPut(<span class="string">"zhuai"</span>, <span class="number">-10329</span>);</span><br><span class="line">        spellPut(<span class="string">"zhuan"</span>, <span class="number">-10328</span>);</span><br><span class="line">        spellPut(<span class="string">"zhuang"</span>, <span class="number">-10322</span>);</span><br><span class="line">        spellPut(<span class="string">"zhui"</span>, <span class="number">-10315</span>);</span><br><span class="line">        spellPut(<span class="string">"zhun"</span>, <span class="number">-10309</span>);</span><br><span class="line">        spellPut(<span class="string">"zhuo"</span>, <span class="number">-10307</span>);</span><br><span class="line">        spellPut(<span class="string">"zi"</span>, <span class="number">-10296</span>);</span><br><span class="line">        spellPut(<span class="string">"zong"</span>, <span class="number">-10281</span>);</span><br><span class="line">        spellPut(<span class="string">"zou"</span>, <span class="number">-10274</span>);</span><br><span class="line">        spellPut(<span class="string">"zu"</span>, <span class="number">-10270</span>);</span><br><span class="line">        spellPut(<span class="string">"zuan"</span>, <span class="number">-10262</span>);</span><br><span class="line">        spellPut(<span class="string">"zui"</span>, <span class="number">-10260</span>);</span><br><span class="line">        spellPut(<span class="string">"zun"</span>, <span class="number">-10256</span>);</span><br><span class="line">        spellPut(<span class="string">"zuo"</span>, <span class="number">-10254</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 获得单个汉字的Ascii.</span><br><span class="line">     * @param cn char 汉字字符</span><br><span class="line">     * @return int 错误返回 0,否则返回ascii</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">int</span> getCnAscii(<span class="built_in">char</span> cn) &#123;</span><br><span class="line">        <span class="built_in">byte</span>[] bytes = (<span class="keyword">String</span>.valueOf(cn)).getBytes();</span><br><span class="line">        <span class="keyword">if</span> (bytes == <span class="keyword">null</span> || bytes.length &gt; <span class="number">2</span> || bytes.length &lt;= <span class="number">0</span>) &#123; <span class="comment">//错误</span></span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (bytes.length == <span class="number">1</span>) &#123; <span class="comment">//英文字符</span></span><br><span class="line">            <span class="keyword">return</span> bytes[<span class="number">0</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (bytes.length == <span class="number">2</span>) &#123; <span class="comment">//中文字符</span></span><br><span class="line">            <span class="built_in">int</span> hightByte = <span class="number">256</span> + bytes[<span class="number">0</span>];</span><br><span class="line">            <span class="built_in">int</span> lowByte = <span class="number">256</span> + bytes[<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">            <span class="built_in">int</span> ascii = (<span class="number">256</span> * hightByte + lowByte) - <span class="number">256</span> * <span class="number">256</span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> ascii;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>; <span class="comment">//错误</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 根据ASCII码到SpellMap中查找对应的拼音</span><br><span class="line">     * @param ascii int</span><br><span class="line">     * 字符对应的ASCII</span><br><span class="line">     * @return String</span><br><span class="line">     * 拼音,首先判断ASCII是否&gt;0&amp;&lt;160,如果是返回对应的字符,</span><br><span class="line">     * &lt;BR&gt;否则到SpellMap中查找,如果没有找到拼音,则返回null,如果找到则返回拼音.</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">String</span> getSpellByAscii(<span class="built_in">int</span> ascii) &#123;</span><br><span class="line">        <span class="keyword">if</span> (ascii &gt; <span class="number">0</span> &amp;&amp; ascii &lt; <span class="number">160</span>) &#123; <span class="comment">//单字符</span></span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">String</span>.valueOf( (<span class="built_in">char</span>) ascii);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (ascii &lt; <span class="number">-20319</span> || ascii &gt; <span class="number">-10247</span>) &#123; <span class="comment">//不知道的字符</span></span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Set keySet = spellMap.keySet();</span><br><span class="line">        Iterator it = keySet.iterator();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">String</span> spell0 = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">String</span> spell = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">int</span> asciiRang0 = <span class="number">-20319</span>;</span><br><span class="line">        <span class="built_in">int</span> asciiRang;</span><br><span class="line">        <span class="keyword">while</span> (it.hasNext()) &#123;</span><br><span class="line">            spell = (<span class="keyword">String</span>) it.next();</span><br><span class="line">            <span class="keyword">Object</span> valObj = spellMap.<span class="built_in">get</span>(spell);</span><br><span class="line">            <span class="keyword">if</span> (valObj <span class="keyword">instanceof</span> Integer) &#123;</span><br><span class="line">                asciiRang = ( (Integer) valObj).intValue();</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (ascii &gt;= asciiRang0 &amp;&amp; ascii &lt; asciiRang) &#123; <span class="comment">//区间找到</span></span><br><span class="line">                    <span class="keyword">return</span> (spell0 == <span class="keyword">null</span>) ? spell : spell0;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> &#123;</span><br><span class="line">                    spell0 = spell;</span><br><span class="line">                    asciiRang0 = asciiRang;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 返回字符串的全拼,是汉字转化为全拼,其它字符不进行转换</span><br><span class="line">     * @param cnStr String</span><br><span class="line">     * 字符串</span><br><span class="line">     * @return String</span><br><span class="line">     * 转换成全拼后的字符串</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">String</span> getFullSpell(<span class="keyword">String</span> cnStr) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> == cnStr || <span class="string">""</span>.equals(cnStr.<span class="built_in">trim</span>())) &#123;</span><br><span class="line">            <span class="keyword">return</span> cnStr;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">char</span>[] chars = cnStr.toCharArray();</span><br><span class="line">        StringBuffer retuBuf = <span class="keyword">new</span> StringBuffer();</span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>, Len = chars.length; i &lt; Len; i++) &#123;</span><br><span class="line">            <span class="built_in">int</span> ascii = getCnAscii(chars[i]);</span><br><span class="line">            <span class="keyword">if</span> (ascii == <span class="number">0</span>) &#123; <span class="comment">//取ascii时出错</span></span><br><span class="line">                retuBuf.<span class="built_in">append</span>(chars[i]);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">String</span> spell = getSpellByAscii(ascii);</span><br><span class="line">                <span class="keyword">if</span> (spell == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    retuBuf.<span class="built_in">append</span>(chars[i]);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> &#123;</span><br><span class="line">                    retuBuf.<span class="built_in">append</span>(spell);</span><br><span class="line">                &#125; <span class="comment">// end of if spell == null</span></span><br><span class="line">            &#125; <span class="comment">// end of if ascii &lt;= -20400</span></span><br><span class="line">        &#125; <span class="comment">// end of for</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> retuBuf.toString();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 第一个字取全拼,后面的字取首字母</span><br><span class="line">     * @param cnStr</span><br><span class="line">     * @return 返回转换后的拼</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">String</span> getFirstSpell(<span class="keyword">String</span> cnStr) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> == cnStr || <span class="string">""</span>.equals(cnStr.<span class="built_in">trim</span>())) &#123;</span><br><span class="line">            <span class="keyword">return</span> cnStr;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">char</span>[] chars = cnStr.toCharArray();</span><br><span class="line">        StringBuffer retuBuf = <span class="keyword">new</span> StringBuffer();</span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>, Len = chars.length; i &lt; Len; i++) &#123;</span><br><span class="line">            <span class="built_in">int</span> ascii = getCnAscii(chars[i]);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (ascii == <span class="number">0</span>) &#123; <span class="comment">//取ascii时出错</span></span><br><span class="line">                retuBuf.<span class="built_in">append</span>(chars[i]);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">String</span> spell = getSpellByAscii(ascii);</span><br><span class="line">                <span class="keyword">if</span> (spell == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    retuBuf.<span class="built_in">append</span>(chars[i]);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="keyword">if</span> (i == <span class="number">0</span>) &#123; <span class="comment">//第一个字取全拼</span></span><br><span class="line">                        retuBuf.<span class="built_in">append</span>(spell);</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">else</span> &#123; <span class="comment">//后面的字取首字母</span></span><br><span class="line">                        retuBuf.<span class="built_in">append</span>(spell.substring(<span class="number">0</span>, <span class="number">1</span>));</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125; <span class="comment">// end of for</span></span><br><span class="line">        <span class="keyword">return</span> retuBuf.toString();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="DataBean"><a href="#DataBean" class="headerlink" title="DataBean"></a>DataBean</h2><blockquote>
+<p>新建我们的DataBean.java</p>
+</blockquote>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.august.sortkeylist;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * Created by August on 16/5/11.</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DataBean</span> <span class="title">implements</span> <span class="title">Comparable</span>&lt;<span class="type">DataBean</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String <span class="keyword">data</span>;</span><br><span class="line">    <span class="keyword">private</span> char firstLetter;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String getData() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">data</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> void setData(String <span class="keyword">data</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>.<span class="keyword">data</span> = <span class="keyword">data</span>;</span><br><span class="line">        firstLetter = ChineseToEnglish.getFirstSpell(<span class="keyword">data</span>).charAt(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> char getFirstLetter() &#123;</span><br><span class="line">        <span class="keyword">return</span> firstLetter;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 使用Comparable接口,使数据可排序</span><br><span class="line">     * <span class="doctag">@param</span> dataBean</span><br><span class="line">     * <span class="doctag">@return</span></span><br><span class="line">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> int compareTo(DataBean dataBean) &#123;</span><br><span class="line">        <span class="keyword">if</span> (firstLetter &gt; dataBean.firstLetter) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (firstLetter &lt; dataBean.firstLetter) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="DataAdapter"><a href="#DataAdapter" class="headerlink" title="DataAdapter"></a>DataAdapter</h2><blockquote>
+<p>新建我们的DataAdapter.java代码文件</p>
+</blockquote>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line">package com.example.august.sortkeylist;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.view.LayoutInflater;</span><br><span class="line"><span class="keyword">import</span> android.view.View;</span><br><span class="line"><span class="keyword">import</span> android.view.ViewGroup;</span><br><span class="line"><span class="keyword">import</span> android.widget.BaseAdapter;</span><br><span class="line"><span class="keyword">import</span> android.widget.TextView;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.<span class="built_in">Map</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"><span class="markdown">/**</span><br><span class="line"> * Created by August on 16/5/11.</span><br><span class="line"> */</span></span></span><br><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">DataAdapter</span> <span class="keyword">extends</span> <span class="title">BaseAdapter</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    private DataBean[] mDatas;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="markdown">/**</span><br><span class="line"><span class="code">     * 用来保存已经每个字母的第一个数据的位置</span></span><br><span class="line"><span class="code">     */</span></span></span></span><br><span class="line">    private <span class="built_in">Map</span>&lt;<span class="built_in">String</span>, Integer&gt; marks = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public DataAdapter(DataBean[] mDatas) &#123;</span><br><span class="line">        <span class="keyword">this</span>.mDatas = mDatas;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; mDatas.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (marks.<span class="keyword">get</span>(<span class="built_in">String</span>.valueOf(mDatas[i].getFirstLetter())) == <span class="keyword">null</span>) &#123;</span><br><span class="line">                marks.put(<span class="built_in">String</span>.valueOf(mDatas[i].getFirstLetter()), i + <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment"><span class="markdown">/**</span><br><span class="line"><span class="code">         * 初始化索引所有字母的第一个数据的位置</span></span><br><span class="line"><span class="code">         * 键值为字母,值为位置+1,因为Map默认不存在时返回0,所以我们位置需要从1开始</span></span><br><span class="line"><span class="code">         */</span></span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    public <span class="built_in">int</span> getCount() &#123;</span><br><span class="line">        <span class="keyword">return</span> mDatas.length;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    public <span class="built_in">Object</span> getItem(<span class="built_in">int</span> i) &#123;</span><br><span class="line">        <span class="keyword">return</span> mDatas[i];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    public long getItemId(<span class="built_in">int</span> i) &#123;</span><br><span class="line">        <span class="keyword">return</span> i;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    public View getView(<span class="built_in">int</span> i, View view, ViewGroup viewGroup) &#123;</span><br><span class="line"></span><br><span class="line">        ViewHolder holder = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (view == <span class="keyword">null</span>) &#123;</span><br><span class="line">            view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_data, <span class="keyword">null</span>);</span><br><span class="line">            holder = <span class="keyword">new</span> ViewHolder();</span><br><span class="line">            holder.data = (TextView) view.findViewById(R.id.data);</span><br><span class="line">            holder.sortKey = (TextView) view.findViewById(R.id.sortKey);</span><br><span class="line">            view.setTag(holder);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            holder = (ViewHolder) view.getTag();</span><br><span class="line">        &#125;</span><br><span class="line">        holder.data.setText(mDatas[i].getData());</span><br><span class="line">        <span class="comment"><span class="markdown">/**</span><br><span class="line"><span class="code">         * 上面都是普通Adapter的代码</span></span><br><span class="line"><span class="code">         */</span></span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment"><span class="markdown">/**</span><br><span class="line"><span class="code">         * 下面是开始判断,当当前item的位置等于刚开始索引出来的位置时,我们把sortKey给显示出来</span></span><br><span class="line"><span class="code">         * 否则隐藏掉</span></span><br><span class="line"><span class="code">         */</span></span></span></span><br><span class="line">        <span class="keyword">if</span> (marks.<span class="keyword">get</span>(<span class="built_in">String</span>.valueOf(mDatas[i].getFirstLetter())) == i + <span class="number">1</span>) &#123;</span><br><span class="line">            holder.sortKey.setText(<span class="built_in">String</span>.valueOf(mDatas[i].getFirstLetter()));</span><br><span class="line">            holder.sortKey.setVisibility(View.VISIBLE);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            holder.sortKey.setVisibility(View.GONE);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> view;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">ViewHolder</span> </span>&#123;</span><br><span class="line">        TextView data;</span><br><span class="line">        TextView sortKey;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="添加数据"><a href="#添加数据" class="headerlink" title="添加数据"></a>添加数据</h2><blockquote>
+<p>现在我们的ListView部分基本完成,我们需要数据</p>
+</blockquote>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.august.sortkeylist;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.os.<span class="type">Bundle</span>;</span><br><span class="line"><span class="keyword">import</span> android.support.v7.app.<span class="type">AppCompatActivity</span>;</span><br><span class="line"><span class="keyword">import</span> android.view.<span class="type">Window</span>;</span><br><span class="line"><span class="keyword">import</span> android.widget.<span class="type">ListView</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.<span class="type">Arrays</span>;</span><br><span class="line"></span><br><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">ListView</span> mListView;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">DataBean</span>[] mDatas;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">DataAdapter</span> mAdapter;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> void onCreate(<span class="type">Bundle</span> savedInstanceState) &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        requestWindowFeature(<span class="type">Window</span>.<span class="type">FEATURE_NO_TITLE</span>);</span><br><span class="line">        setContentView(<span class="type">R</span>.layout.activity_main);</span><br><span class="line">        mListView = (<span class="type">ListView</span>) findViewById(<span class="type">R</span>.id.mListView);</span><br><span class="line">        mDatas = <span class="keyword">new</span> <span class="type">DataBean</span>[<span class="number">500</span>];</span><br><span class="line">        <span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; <span class="number">500</span>; i++) &#123;</span><br><span class="line">            <span class="type">DataBean</span> dataBean = <span class="keyword">new</span> <span class="type">DataBean</span>();</span><br><span class="line">            dataBean.setData(<span class="type">String</span>.valueOf((char) (<span class="number">65</span> + <span class="type">Math</span>.random() * <span class="number">26</span>))</span><br><span class="line">                    + <span class="type">String</span>.valueOf((char) (<span class="number">65</span> + <span class="type">Math</span>.random() * <span class="number">26</span>))</span><br><span class="line">                    + <span class="type">String</span>.valueOf((char) (<span class="number">65</span> + <span class="type">Math</span>.random() * <span class="number">26</span>)));</span><br><span class="line">            mDatas[i] = dataBean;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">Arrays</span>.sort(mDatas);</span><br><span class="line">        <span class="comment">/**</span><br><span class="line">         * 使用了Comparable接口,所以可以进行排序了</span><br><span class="line">         */</span></span><br><span class="line"></span><br><span class="line">        mAdapter = <span class="keyword">new</span> <span class="type">DataAdapter</span>(mDatas);</span><br><span class="line"></span><br><span class="line">        mListView.setAdapter(mAdapter);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="SortListView"><a href="#SortListView" class="headerlink" title="SortListView"></a>SortListView</h2><blockquote>
+<p>下面开始编写SortListView.java最简单时的代码</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.august.sortkeylist;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.content.Context;</span><br><span class="line"><span class="keyword">import</span> android.graphics.Canvas;</span><br><span class="line"><span class="keyword">import</span> android.graphics.Color;</span><br><span class="line"><span class="keyword">import</span> android.graphics.Paint;</span><br><span class="line"><span class="keyword">import</span> android.util.AttributeSet;</span><br><span class="line"><span class="keyword">import</span> android.util.TypedValue;</span><br><span class="line"><span class="keyword">import</span> android.view.ViewGroup;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * Created by August on 16/5/11.</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SortListView</span> <span class="keyword">extends</span> <span class="title">ViewGroup</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 这是索引的26个字母</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">private</span> String[] alphabet = <span class="keyword">new</span> String[]&#123;<span class="string">"A"</span>, <span class="string">"B"</span>, <span class="string">"C"</span>, <span class="string">"D"</span>, <span class="string">"E"</span>, <span class="string">"F"</span>, <span class="string">"G"</span>, <span class="string">"H"</span>, <span class="string">"I"</span>, <span class="string">"J"</span>, <span class="string">"K"</span>, <span class="string">"L"</span>, <span class="string">"M"</span>, <span class="string">"N"</span></span><br><span class="line">            , <span class="string">"O"</span>, <span class="string">"P"</span>, <span class="string">"Q"</span>, <span class="string">"R"</span>, <span class="string">"S"</span>, <span class="string">"T"</span>, <span class="string">"U"</span>, <span class="string">"V"</span>, <span class="string">"W"</span>, <span class="string">"X"</span>, <span class="string">"Y"</span>, <span class="string">"Z"</span>&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Paint mPaint = <span class="keyword">new</span> Paint(Paint.ANTI_ALIAS_FLAG);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SortListView</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SortListView</span><span class="params">(Context context, AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context, attrs);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SortListView</span><span class="params">(Context context, AttributeSet attrs, <span class="keyword">int</span> defStyleAttr)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context, attrs, defStyleAttr);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onMeasure</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onLayout</span><span class="params">(<span class="keyword">boolean</span> b, <span class="keyword">int</span> i, <span class="keyword">int</span> i1, <span class="keyword">int</span> i2, <span class="keyword">int</span> i3)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDraw</span><span class="params">(Canvas canvas)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onDraw(canvas);</span><br><span class="line"></span><br><span class="line">        mPaint.setColor(Color.GRAY);</span><br><span class="line">        mPaint.setTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, <span class="number">12</span>, getResources().getDisplayMetrics()));</span><br><span class="line">        <span class="keyword">int</span> eachHeight = getHeight() / alphabet.length;</span><br><span class="line">        <span class="keyword">int</span> width = getWidth();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; alphabet.length; i++) &#123;</span><br><span class="line">            <span class="keyword">float</span> x = width / <span class="number">2</span> - mPaint.measureText(alphabet[i]) / <span class="number">2</span>;</span><br><span class="line">            canvas.drawText(alphabet[i], x, eachHeight * (i + <span class="number">1</span>), mPaint);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span><br><span class="line">         * 每个字母占据的高度是当前 父容器的高度/字母个数</span><br><span class="line">         * 然后我们把每个字母给画出来</span><br><span class="line">         */</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="添加回调和点击事件"><a href="#添加回调和点击事件" class="headerlink" title="添加回调和点击事件"></a>添加回调和点击事件</h2><blockquote>
+<p>现在我们需要给SortListView来添加回调和点击事件</p>
+</blockquote>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> OnTouchListener mOnTouchListener;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">OnTouchListener</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onTouch</span>(<span class="params">String s</span>)</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * 上面是我们的回调接口和当前对象持有的回调</span><br><span class="line"> */</span></span><br><span class="line"></span><br><span class="line">@<span class="function">Override</span><br><span class="line"><span class="keyword">public</span> boolean <span class="title">dispatchTouchEvent</span>(<span class="params">MotionEvent <span class="keyword">event</span></span>) </span>&#123;</span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 我们去截取按下和移动的事件,通过点击的Y坐标我们可以轻易计算出点下的位置是对应哪个字母的索引</span><br><span class="line">     * 计算是根据公式 当前点击的Y坐标/当前View的总高度 = 字母索引/所有字母长度</span><br><span class="line">     * 然后把字母作为参数给传给回调</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">if</span> (mOnTouchListener != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">event</span>.getAction() == MotionEvent.ACTION_DOWN</span><br><span class="line">                || <span class="keyword">event</span>.getAction() == MotionEvent.ACTION_MOVE) &#123;</span><br><span class="line">            <span class="keyword">int</span> index = (<span class="keyword">int</span>) (<span class="keyword">event</span>.getY() / (getHeight() / alphabet.length));</span><br><span class="line">            <span class="keyword">if</span> (index &gt; <span class="number">-1</span> &amp;&amp; index &lt; alphabet.length) &#123;</span><br><span class="line">                mOnTouchListener.onTouch(alphabet[index]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> super.dispatchTouchEvent(<span class="keyword">event</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="SortListView最终代码"><a href="#SortListView最终代码" class="headerlink" title="SortListView最终代码"></a>SortListView最终代码</h2><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.august.sortkeylist;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.content.Context;</span><br><span class="line"><span class="keyword">import</span> android.graphics.Canvas;</span><br><span class="line"><span class="keyword">import</span> android.graphics.Color;</span><br><span class="line"><span class="keyword">import</span> android.graphics.Paint;</span><br><span class="line"><span class="keyword">import</span> android.util.AttributeSet;</span><br><span class="line"><span class="keyword">import</span> android.util.TypedValue;</span><br><span class="line"><span class="keyword">import</span> android.view.KeyEvent;</span><br><span class="line"><span class="keyword">import</span> android.view.MotionEvent;</span><br><span class="line"><span class="keyword">import</span> android.view.ViewGroup;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * Created by August on 16/5/11.</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SortListView</span> <span class="keyword">extends</span> <span class="title">ViewGroup</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 这是索引的26个字母</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">private</span> String[] alphabet = <span class="keyword">new</span> String[]&#123;<span class="string">"A"</span>, <span class="string">"B"</span>, <span class="string">"C"</span>, <span class="string">"D"</span>, <span class="string">"E"</span>, <span class="string">"F"</span>, <span class="string">"G"</span>, <span class="string">"H"</span>, <span class="string">"I"</span>, <span class="string">"J"</span>, <span class="string">"K"</span>, <span class="string">"L"</span>, <span class="string">"M"</span>, <span class="string">"N"</span></span><br><span class="line">            , <span class="string">"O"</span>, <span class="string">"P"</span>, <span class="string">"Q"</span>, <span class="string">"R"</span>, <span class="string">"S"</span>, <span class="string">"T"</span>, <span class="string">"U"</span>, <span class="string">"V"</span>, <span class="string">"W"</span>, <span class="string">"X"</span>, <span class="string">"Y"</span>, <span class="string">"Z"</span>&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Paint mPaint = <span class="keyword">new</span> Paint(Paint.ANTI_ALIAS_FLAG);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> OnTouchListener mOnTouchListener;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">OnTouchListener</span> </span>&#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">onTouch</span><span class="params">(String s)</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 上面是我们的回调接口和当前对象持有的回调</span><br><span class="line">     */</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SortListView</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">setmOnTouchListener</span><span class="params">(OnTouchListener mOnTouchListener)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.mOnTouchListener = mOnTouchListener;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SortListView</span><span class="params">(Context context, AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context, attrs);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SortListView</span><span class="params">(Context context, AttributeSet attrs, <span class="keyword">int</span> defStyleAttr)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context, attrs, defStyleAttr);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="function"><span class="keyword">void</span> <span class="title">onMeasure</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">dispatchTouchEvent</span><span class="params">(MotionEvent event)</span> </span>&#123;</span><br><span class="line">        <span class="comment">/**</span><br><span class="line">         * 我们去截取按下和移动的事件,通过点击的Y坐标我们可以轻易计算出点下的位置是对应哪个字母的索引</span><br><span class="line">         * 计算是根据公式 当前点击的Y坐标/当前View的总高度 = 字母索引/所有字母长度</span><br><span class="line">         * 然后把字母作为参数给传给回调</span><br><span class="line">         */</span></span><br><span class="line">        <span class="keyword">if</span> (mOnTouchListener != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (event.getAction() == MotionEvent.ACTION_DOWN</span><br><span class="line">                    || event.getAction() == MotionEvent.ACTION_MOVE) &#123;</span><br><span class="line">                <span class="keyword">int</span> index = (<span class="keyword">int</span>) (event.getY() / (getHeight() / alphabet.length));</span><br><span class="line">                <span class="keyword">if</span> (index &gt; <span class="number">-1</span> &amp;&amp; index &lt; alphabet.length) &#123;</span><br><span class="line">                    mOnTouchListener.onTouch(alphabet[index]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">return</span> <span class="keyword">super</span>.<span class="title">dispatchTouchEvent</span><span class="params">(event)</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="function"><span class="keyword">void</span> <span class="title">onLayout</span><span class="params">(<span class="keyword">boolean</span> b, <span class="keyword">int</span> i, <span class="keyword">int</span> i1, <span class="keyword">int</span> i2, <span class="keyword">int</span> i3)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">onTouchEvent</span><span class="params">(MotionEvent event)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">switch</span> (event.getAction()) &#123;</span><br><span class="line">            <span class="keyword">case</span> MotionEvent.ACTION_DOWN:</span><br><span class="line">                setBackgroundColor(Color.parseColor(<span class="string">"#bebebe"</span>));</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> MotionEvent.ACTION_UP:</span><br><span class="line">                setBackgroundColor(Color.WHITE);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        <span class="comment">//按下的时候给它设置一个颜色</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="function"><span class="keyword">void</span> <span class="title">onDraw</span><span class="params">(Canvas canvas)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onDraw(canvas);</span><br><span class="line"></span><br><span class="line">        mPaint.setColor(Color.GRAY);</span><br><span class="line">        mPaint.setTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, <span class="number">12</span>, getResources().getDisplayMetrics()));</span><br><span class="line">        <span class="keyword">int</span> eachHeight = getHeight() / alphabet.length;</span><br><span class="line">        <span class="keyword">int</span> width = getWidth();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; alphabet.length; i++) &#123;</span><br><span class="line">            <span class="keyword">float</span> x = width / <span class="number">2</span> - mPaint.measureText(alphabet[i]) / <span class="number">2</span>;</span><br><span class="line">            canvas.drawText(alphabet[i], x, eachHeight * (i + <span class="number">1</span>), mPaint);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span><br><span class="line">         * 每个字母占据的高度是当前 父容器的高度/字母个数</span><br><span class="line">         * 然后我们可以把每个字母给画出来</span><br><span class="line">         */</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="漏了一个方法"><a href="#漏了一个方法" class="headerlink" title="漏了一个方法"></a>漏了一个方法</h2><blockquote>
+<p>最后我们在DataAdapter添加一个方法,可以通过给定的字母返回对应Map里面的位置</p>
+</blockquote>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public Integer getPosition(String s) &#123;</span><br><span class="line">    Integer <span class="literal">result</span> = marks.<span class="keyword">get</span>(s);</span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">result</span> != null) &#123;</span><br><span class="line">        <span class="literal">result</span> = <span class="literal">result</span> - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="built_in">    return</span> <span class="literal">result</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="调用代码"><a href="#调用代码" class="headerlink" title="调用代码"></a>调用代码</h2><blockquote>
+<p>至此我们就完成了空间部分的代码了,下面就开始调用吧</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.august.sortkeylist;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.support.v7.app.AppCompatActivity;</span><br><span class="line"><span class="keyword">import</span> android.view.Window;</span><br><span class="line"><span class="keyword">import</span> android.widget.ListView;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> ListView mListView;</span><br><span class="line">    <span class="keyword">private</span> SortListView mSortListView;</span><br><span class="line">    <span class="keyword">private</span> DataBean[] mDatas;</span><br><span class="line">    <span class="keyword">private</span> DataAdapter mAdapter;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        requestWindowFeature(Window.FEATURE_NO_TITLE);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        mListView = (ListView) findViewById(R.id.mListView);</span><br><span class="line">        mSortListView = (SortListView) findViewById(R.id.mSortList);</span><br><span class="line">        mDatas = <span class="keyword">new</span> DataBean[<span class="number">500</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">500</span>; i++) &#123;</span><br><span class="line">            DataBean dataBean = <span class="keyword">new</span> DataBean();</span><br><span class="line">            dataBean.setData(String.valueOf((<span class="keyword">char</span>) (<span class="number">65</span> + Math.random() * <span class="number">26</span>))</span><br><span class="line">                    + String.valueOf((<span class="keyword">char</span>) (<span class="number">65</span> + Math.random() * <span class="number">26</span>))</span><br><span class="line">                    + String.valueOf((<span class="keyword">char</span>) (<span class="number">65</span> + Math.random() * <span class="number">26</span>)));</span><br><span class="line">            mDatas[i] = dataBean;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Arrays.sort(mDatas);</span><br><span class="line"></span><br><span class="line">        mAdapter = <span class="keyword">new</span> DataAdapter(mDatas);</span><br><span class="line">        mSortListView.setmOnTouchListener(<span class="keyword">new</span> SortListView.OnTouchListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onTouch</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">                Integer index = mAdapter.getPosition(s);</span><br><span class="line">                <span class="keyword">if</span> (index != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    mListView.setSelection(index);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        mListView.setAdapter(mAdapter);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Canvas/" rel="tag">#Canvas</a>
+          
+            <a href="/tags/自定义控件/" rel="tag">#自定义控件</a>
+          
+            <a href="/tags/事件分发/" rel="tag">#事件分发</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/05/08/android-canvas-4/" rel="next" title="使用Canvas自定义简单TextView(4)">
+                <i class="fa fa-chevron-left"></i> 使用Canvas自定义简单TextView(4)
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/05/08/android-canvas-5/" rel="prev" title="使用Canvas自定义简单TextView(4)">
+                使用Canvas自定义简单TextView(4) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/05/08/android-canvas-citylist-6/"
+           data-title="使用Canvas自定义ListView的字母索引列表(6)" data-url="http://august1996.top/2016/05/08/android-canvas-citylist-6/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="August1996" />
+          <p class="site-author-name" itemprop="name">August1996</p>
+          <p class="site-description motion-element" itemprop="description">新博客,新生活!!!</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">38</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/august1996" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/august1996" target="_blank" title="Zhihu">
+                  
+                    <i class="fa fa-fw fa-comments"></i>
+                  
+                  Zhihu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://ascenz.xyz/" title="Ascenz的博客" target="_blank">Ascenz的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://tangent.gift/" title="Tangent的博客" target="_blank">Tangent的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.cnblogs.com/wuweixin" title="Wyshon的博客" target="_blank">Wyshon的博客</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#效果图"><span class="nav-number">1.</span> <span class="nav-text">效果图</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#思路"><span class="nav-number">2.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#编码"><span class="nav-number">3.</span> <span class="nav-text">编码</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#item布局文件"><span class="nav-number">3.1.</span> <span class="nav-text">item布局文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工具类"><span class="nav-number">3.2.</span> <span class="nav-text">工具类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DataBean"><span class="nav-number">3.3.</span> <span class="nav-text">DataBean</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DataAdapter"><span class="nav-number">3.4.</span> <span class="nav-text">DataAdapter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加数据"><span class="nav-number">3.5.</span> <span class="nav-text">添加数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SortListView"><span class="nav-number">3.6.</span> <span class="nav-text">SortListView</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加回调和点击事件"><span class="nav-number">3.7.</span> <span class="nav-text">添加回调和点击事件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SortListView最终代码"><span class="nav-number">3.8.</span> <span class="nav-text">SortListView最终代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#漏了一个方法"><span class="nav-number">3.9.</span> <span class="nav-text">漏了一个方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调用代码"><span class="nav-number">3.10.</span> <span class="nav-text">调用代码</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">August1996</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"august1996"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+
+  
+
+  
+  
+</body>
+</html>

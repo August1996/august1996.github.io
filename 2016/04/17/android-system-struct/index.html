@@ -1,0 +1,957 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="架构," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="安卓系统架构经典示意图
+Linux层
+包含Android系统的核心服务,包括硬件驱动,进程管理,安全系统,等等
+
+Dalvik与ART
+Dalvik包含一整套的Android运行环境虚拟机,每个APP都会分配Dalvik虚拟机来保证互相之间不受干扰,并保持独立.从Android5.X开始,就用ART模式取代Dalvik了,其中Dalvik是运行时编译,而ART是安装时编译.当然,对在其虚拟机环境运">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android体系与系统架构">
+<meta property="og:url" content="http://august1996.top/2016/04/17/android-system-struct/index.html">
+<meta property="og:site_name" content="August1996的小狗窝">
+<meta property="og:description" content="安卓系统架构经典示意图
+Linux层
+包含Android系统的核心服务,包括硬件驱动,进程管理,安全系统,等等
+
+Dalvik与ART
+Dalvik包含一整套的Android运行环境虚拟机,每个APP都会分配Dalvik虚拟机来保证互相之间不受干扰,并保持独立.从Android5.X开始,就用ART模式取代Dalvik了,其中Dalvik是运行时编译,而ART是安装时编译.当然,对在其虚拟机环境运">
+<meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-system-struct-1.jpeg">
+<meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-system-struct-2.jpg">
+<meta property="og:updated_time" content="2016-06-08T12:31:16.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android体系与系统架构">
+<meta name="twitter:description" content="安卓系统架构经典示意图
+Linux层
+包含Android系统的核心服务,包括硬件驱动,进程管理,安全系统,等等
+
+Dalvik与ART
+Dalvik包含一整套的Android运行环境虚拟机,每个APP都会分配Dalvik虚拟机来保证互相之间不受干扰,并保持独立.从Android5.X开始,就用ART模式取代Dalvik了,其中Dalvik是运行时编译,而ART是安装时编译.当然,对在其虚拟机环境运">
+<meta name="twitter:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-system-struct-1.jpeg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6289901108416480000,
+      author: 'August1996'
+    }
+  };
+</script>
+
+  <title> Android体系与系统架构 | August1996的小狗窝 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?ca08f65a7dda04c0e669531a7ef88472";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">August1996的小狗窝</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">记录一个傻屌程序员的日常...</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'z8JdSugezj6oS795yEMb','2.0.0');
+</script>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android体系与系统架构
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-04-17T18:48:55+08:00" content="2016-04-17">
+              2016-04-17
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android进阶/" itemprop="url" rel="index">
+                    <span itemprop="name">Android进阶</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/04/17/android-system-struct/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/17/android-system-struct/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="安卓系统架构"><a href="#安卓系统架构" class="headerlink" title="安卓系统架构"></a>安卓系统架构</h1><h2 id="经典示意图"><a href="#经典示意图" class="headerlink" title="经典示意图"></a>经典示意图</h2><p><img src="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-system-struct-1.jpeg" alt="架构图1"><br><img src="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-system-struct-2.jpg" alt="架构图2"></p>
+<h2 id="Linux层"><a href="#Linux层" class="headerlink" title="Linux层"></a>Linux层</h2><blockquote>
+<p>包含Android系统的核心服务,包括<code>硬件驱动</code>,<code>进程管理</code>,<code>安全系统</code>,等等</p>
+</blockquote>
+<h2 id="Dalvik与ART"><a href="#Dalvik与ART" class="headerlink" title="Dalvik与ART"></a>Dalvik与ART</h2><blockquote>
+<p>Dalvik包含一整套的Android运行环境虚拟机,每个APP都会分配Dalvik虚拟机来保证互相之间不受干扰,并保持独立.从Android5.X开始,就用<code>ART</code>模式取代<code>Dalvik</code>了,其中Dalvik是<code>运行时编译</code>,而ART是<code>安装时编译</code>.当然,对在其虚拟机环境运行的大部分APP来说,它们都运行着同样的代码,只是编译时机不同.</p>
+</blockquote>
+<h2 id="Framework层"><a href="#Framework层" class="headerlink" title="Framework层"></a>Framework层</h2><blockquote>
+<p>书上没怎么说,那我也不会怎么说…就知道深入研究安卓设计的时候,就是跟这堆东西打交道</p>
+</blockquote>
+<h2 id="Standard-libraries"><a href="#Standard-libraries" class="headerlink" title="Standard libraries"></a>Standard libraries</h2><blockquote>
+<p>这里包含的是Android中的一些标准库,所谓标准,就是开源环境中可以被开发者使用的开发库</p>
+</blockquote>
+<h2 id="Application"><a href="#Application" class="headerlink" title="Application"></a>Application</h2><blockquote>
+<p>其中<code>Application</code>主要由NDK开发和Java开发的APP构成.所有的APP都必须有<code>Android Manifest</code>,<code>Dalvik</code>,<code>Classes</code>,<code>Resource</code>,<code>Bundle</code>几个文件.</p>
+</blockquote>
+<h1 id="Android-App组件架构-四大组件"><a href="#Android-App组件架构-四大组件" class="headerlink" title="Android App组件架构(四大组件)"></a>Android App组件架构(四大组件)</h1><blockquote>
+<p>四大组件:Activity,BroadCastReceiver,ContentProvider,Service.</p>
+</blockquote>
+<ul>
+<li>Activity:    作为人机交互的第一界面,用来向用户展示信息和处理结果.</li>
+<li>BroadCastReceiver:可通过广播形式给<code>Activity</code>,<code>Service</code>传递数据</li>
+<li>ContentProvider:从其他应用获取数据,交给该App自己处理</li>
+<li>Service:处理一些后台的业务逻辑,例如下载,计算,处理等</li>
+</ul>
+<blockquote>
+<p>还要说的就是<code>Intent</code>,它是一个数据的载体,使数据可以在各个组件,各种组件之间传递信息,交换数据.在各个组件通信中起着必不可少的作用.</p>
+</blockquote>
+<h1 id="上下文对象Context"><a href="#上下文对象Context" class="headerlink" title="上下文对象Context"></a>上下文对象Context</h1><blockquote>
+<p>什么是上下文?以前我们老师常说的请联系上下文,大概就是一个语境的意思.那么Android的上下文可以理解为对象所处的一个环境,一个与系统较好的过程<br>其中<code>Activity</code>,<code>Service</code>,<code>Application</code>都是继承自<code>Context</code></p>
+</blockquote>
+<h2 id="创建一个Context时机"><a href="#创建一个Context时机" class="headerlink" title="创建一个Context时机"></a>创建一个Context时机</h2><blockquote>
+<p>Android会在下面的时机创建一个Context</p>
+</blockquote>
+<ul>
+<li>创建Application</li>
+<li>创建Activity</li>
+<li>创建Service</li>
+</ul>
+<blockquote>
+<p>其实,每当创建Context的实现类的时候就会创建Context.<br>每个程序都会有一个Application对象,即是有一个Application Context.所有的Activity和Service都会共用这个Context,这个Context贯穿整个应用的生命周期.为全局提供了功能和环境支持<br>而当创建Activity和Service的时候,系统也会创建Context.在Activity获取Context的时候可以传入this参数,因为Activity本身就是继承自Context,但是在内部类需要使用<code>XXX.this</code>来指定对象.很多时候也可以使用<code>getApplicationContext()</code>获取全局ApplicationContext去作为传输传递<br>但是Application Context和某个组件的Context在一些时候还是有区别的.</p>
+</blockquote>
+<h1 id="Android系统源代码目录与系统目录"><a href="#Android系统源代码目录与系统目录" class="headerlink" title="Android系统源代码目录与系统目录:"></a>Android系统源代码目录与系统目录:</h1><h2 id="Android源代码目录-AOSP的为例子-一些芯片厂商的另当别论"><a href="#Android源代码目录-AOSP的为例子-一些芯片厂商的另当别论" class="headerlink" title="Android源代码目录:(AOSP的为例子,一些芯片厂商的另当别论)"></a>Android源代码目录:(AOSP的为例子,一些芯片厂商的另当别论)</h2><ul>
+<li>|– Makefile</li>
+<li>|– bionic                        （bionic C库）</li>
+<li>|– bootable                （启动引导相关代码）</li>
+<li>|– build                        （存放系统编译规则及generic等基础开发包配置）</li>
+<li>|– cts                        （Android兼容性测试套件标准）</li>
+<li>|– dalvik                        （dalvik JAVA虚拟机）</li>
+<li>|– development        （应用程序开发相关）</li>
+<li>|– external                （android使用的一些开源的模组）</li>
+<li>|– frameworks                （核心框架——java及C++语言）</li>
+<li>|– hardware                （部分厂家开源的硬解适配层HAL代码）</li>
+<li>|– out                        （编译完成后的代码输出与此目录）</li>
+<li>|– packages                （应用程序包）</li>
+<li>|– prebuilt                （x86和arm架构下预编译的一些资源）</li>
+<li>|– sdk                        （sdk及模拟器）</li>
+<li>|– system                        （底层文件系统库、应用及组件——C语言）</li>
+<li>|– vendor                （厂商定制代码）        </li>
+</ul>
+<blockquote>
+<p>可以看出,Android源代码编译是使用Makefile来管理的</p>
+</blockquote>
+<h2 id="Android系统目录-主要是-system和-data"><a href="#Android系统目录-主要是-system和-data" class="headerlink" title="Android系统目录:(主要是/system和/data)"></a>Android系统目录:(主要是/system和/data)</h2><ul>
+<li>|– /system/app:存放App</li>
+<li>|– /system/bin:Linux自带的组件,一些基础命令</li>
+<li>|– /system/build.prop:记录系统的属性信息</li>
+<li>|– /system/fonts:存放系统字体,root后下载TTF格式字体替换原字体就达到修改系统字体效果</li>
+<li>|– /system/framework:系统的核心文件 框架层</li>
+<li>|– /system/lib:存放几乎所有的共享库(.so)</li>
+<li>|– /system/media:存放系统默认的媒体文件</li>
+<li>|– alarms:闹铃声音</li>
+<li>|– notification:短信或提示音</li>
+<li>|– ringtones:来对待你铃声</li>
+<li>|– ui:存放界面的声音</li>
+<li>|– /system/usr:存放用户配置文件,如键盘布局 共享 时区文件等</li>
+<li>|– /data/app:系统安装或者升级的app</li>
+<li>|– /data/data:开发者接触最多的,存放一些app的配置 数据 文件等信息.以包名命名</li>
+<li>|– /data/system:包含手机的系统信息</li>
+<li>|– /data/misc:存放大部分的WiFi VPN信息</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/架构/" rel="tag">#架构</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/04/16/thread-type/" rel="next" title="线程种类">
+                <i class="fa fa-chevron-left"></i> 线程种类
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/05/08/android-canvas-4/" rel="prev" title="使用Canvas自定义简单TextView(4)">
+                使用Canvas自定义简单TextView(4) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/04/17/android-system-struct/"
+           data-title="Android体系与系统架构" data-url="http://august1996.top/2016/04/17/android-system-struct/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="August1996" />
+          <p class="site-author-name" itemprop="name">August1996</p>
+          <p class="site-description motion-element" itemprop="description">新博客,新生活!!!</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">38</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/august1996" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/august1996" target="_blank" title="Zhihu">
+                  
+                    <i class="fa fa-fw fa-comments"></i>
+                  
+                  Zhihu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://ascenz.xyz/" title="Ascenz的博客" target="_blank">Ascenz的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://tangent.gift/" title="Tangent的博客" target="_blank">Tangent的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.cnblogs.com/wuweixin" title="Wyshon的博客" target="_blank">Wyshon的博客</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#安卓系统架构"><span class="nav-number">1.</span> <span class="nav-text">安卓系统架构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#经典示意图"><span class="nav-number">1.1.</span> <span class="nav-text">经典示意图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux层"><span class="nav-number">1.2.</span> <span class="nav-text">Linux层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dalvik与ART"><span class="nav-number">1.3.</span> <span class="nav-text">Dalvik与ART</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Framework层"><span class="nav-number">1.4.</span> <span class="nav-text">Framework层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Standard-libraries"><span class="nav-number">1.5.</span> <span class="nav-text">Standard libraries</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Application"><span class="nav-number">1.6.</span> <span class="nav-text">Application</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Android-App组件架构-四大组件"><span class="nav-number">2.</span> <span class="nav-text">Android App组件架构(四大组件)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#上下文对象Context"><span class="nav-number">3.</span> <span class="nav-text">上下文对象Context</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建一个Context时机"><span class="nav-number">3.1.</span> <span class="nav-text">创建一个Context时机</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Android系统源代码目录与系统目录"><span class="nav-number">4.</span> <span class="nav-text">Android系统源代码目录与系统目录:</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Android源代码目录-AOSP的为例子-一些芯片厂商的另当别论"><span class="nav-number">4.1.</span> <span class="nav-text">Android源代码目录:(AOSP的为例子,一些芯片厂商的另当别论)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Android系统目录-主要是-system和-data"><span class="nav-number">4.2.</span> <span class="nav-text">Android系统目录:(主要是/system和/data)</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">August1996</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"august1996"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+
+  
+
+  
+  
+</body>
+</html>
