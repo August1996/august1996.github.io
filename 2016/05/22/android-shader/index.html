@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="C++,代码,栈," />
+  <meta name="keywords" content="Shader," />
 
 
 
@@ -84,30 +84,49 @@
 
 
 
-<meta name="description" content="栈（stack）又名堆栈，它是一种运算受限的线性表。其限制是仅允许在表的一端进行插入和删除运算。这一端被称为栈顶，相对地，把另一端称为栈底。向一个栈插入新元素又称作进栈、入栈或压栈，它是把新元素放到栈顶元素的上面，使之成为新的栈顶元素；从一个栈删除元素又称作出栈或退栈，它是把栈顶元素删除掉，使其相邻的元素成为新的栈顶元素。
+<meta name="description" content="简介
+Android绘图支持里面有有一个叫做Shader的东西,翻译过来就是叫做着色器,渲染器.作用是用来实现一种渐变,渲染的效果,其实就是填充.
+
+5种Shader
+BitmapShader    //位图
+LinearGradient    //线性
+RadialGradient    //光束
+SweepGradient    //梯度
+ComposeGradient    //混合
 
 
-使用C++重写以前C语言数据结构代码
-123456789101112">
+除">
 <meta property="og:type" content="article">
-<meta property="og:title" content="简单栈实现(C++纯代码)">
-<meta property="og:url" content="http://august1996.top/2016/04/09/datastruct-simple-stack-1/index.html">
+<meta property="og:title" content="Android着色器/渲染器">
+<meta property="og:url" content="http://august1996.top/2016/05/22/android-shader/index.html">
 <meta property="og:site_name" content="August1996的小狗窝">
-<meta property="og:description" content="栈（stack）又名堆栈，它是一种运算受限的线性表。其限制是仅允许在表的一端进行插入和删除运算。这一端被称为栈顶，相对地，把另一端称为栈底。向一个栈插入新元素又称作进栈、入栈或压栈，它是把新元素放到栈顶元素的上面，使之成为新的栈顶元素；从一个栈删除元素又称作出栈或退栈，它是把栈顶元素删除掉，使其相邻的元素成为新的栈顶元素。
+<meta property="og:description" content="简介
+Android绘图支持里面有有一个叫做Shader的东西,翻译过来就是叫做着色器,渲染器.作用是用来实现一种渐变,渲染的效果,其实就是填充.
+
+5种Shader
+BitmapShader    //位图
+LinearGradient    //线性
+RadialGradient    //光束
+SweepGradient    //梯度
+ComposeGradient    //混合
 
 
-使用C++重写以前C语言数据结构代码
-123456789101112">
-<meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagessimple_stack.jpg">
-<meta property="og:updated_time" content="2016-05-30T00:14:01.000Z">
+除">
+<meta property="og:updated_time" content="2016-06-08T13:45:51.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="简单栈实现(C++纯代码)">
-<meta name="twitter:description" content="栈（stack）又名堆栈，它是一种运算受限的线性表。其限制是仅允许在表的一端进行插入和删除运算。这一端被称为栈顶，相对地，把另一端称为栈底。向一个栈插入新元素又称作进栈、入栈或压栈，它是把新元素放到栈顶元素的上面，使之成为新的栈顶元素；从一个栈删除元素又称作出栈或退栈，它是把栈顶元素删除掉，使其相邻的元素成为新的栈顶元素。
+<meta name="twitter:title" content="Android着色器/渲染器">
+<meta name="twitter:description" content="简介
+Android绘图支持里面有有一个叫做Shader的东西,翻译过来就是叫做着色器,渲染器.作用是用来实现一种渐变,渲染的效果,其实就是填充.
+
+5种Shader
+BitmapShader    //位图
+LinearGradient    //线性
+RadialGradient    //光束
+SweepGradient    //梯度
+ComposeGradient    //混合
 
 
-使用C++重写以前C语言数据结构代码
-123456789101112">
-<meta name="twitter:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagessimple_stack.jpg">
+除">
 
 
 
@@ -125,7 +144,7 @@
   };
 </script>
 
-  <title> 简单栈实现(C++纯代码) | August1996的小狗窝 </title>
+  <title> Android着色器/渲染器 | August1996的小狗窝 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -304,7 +323,7 @@
             
             
               
-                简单栈实现(C++纯代码)
+                Android着色器/渲染器
               
             
           </h1>
@@ -316,8 +335,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-09T07:50:48+08:00" content="2016-04-09">
-              2016-04-09
+            <time itemprop="dateCreated" datetime="2016-05-22T14:48:14+08:00" content="2016-05-22">
+              2016-05-22
             </time>
           </span>
 
@@ -330,8 +349,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/数据结构与算法/" itemprop="url" rel="index">
-                    <span itemprop="name">数据结构与算法</span>
+                  <a href="/categories/Android进阶/" itemprop="url" rel="index">
+                    <span itemprop="name">Android进阶</span>
                   </a>
                 </span>
 
@@ -346,8 +365,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/04/09/datastruct-simple-stack-1/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/09/datastruct-simple-stack-1/" itemprop="commentsCount"></span>
+                <a href="/2016/05/22/android-shader/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/22/android-shader/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -370,12 +389,32 @@
       
 
       
-        <blockquote>
-<p>栈（stack）又名堆栈，它是一种运算受限的线性表。其限制是仅允许在表的一端进行插入和删除运算。这一端被称为栈顶，相对地，把另一端称为栈底。向一个栈插入新元素又称作进栈、入栈或压栈，它是把新元素放到栈顶元素的上面，使之成为新的栈顶元素；从一个栈删除元素又称作出栈或退栈，它是把栈顶元素删除掉，使其相邻的元素成为新的栈顶元素。</p>
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><blockquote>
+<p>Android绘图支持里面有有一个叫做<code>Shader</code>的东西,翻译过来就是叫做着色器,渲染器.作用是用来实现一种渐变,渲染的效果,其实就是填充.</p>
 </blockquote>
-<p><img src="http://o7xj6lxqq.bkt.clouddn.com/imagessimple_stack.jpg" alt="栈"></p>
-<p>使用C++重写以前C语言数据结构代码</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;</span><br><span class="line"><span class="keyword">class</span> Node&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    T data;</span><br><span class="line">    Node&lt;T&gt; * pBelow;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;</span><br><span class="line"><span class="keyword">class</span> Stack&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Stack();</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">push</span><span class="params">(T data)</span></span>;</span><br><span class="line">    <span class="function">T <span class="title">pop</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    Node&lt;T&gt; * pTop;</span><br><span class="line">    Node&lt;T&gt; * pBottom;</span><br><span class="line">    <span class="keyword">int</span> lenght;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;</span><br><span class="line">Stack&lt;T&gt;::Stack()&#123;</span><br><span class="line">    <span class="keyword">this</span>-&gt;pBottom = <span class="keyword">this</span>-&gt;pTop = <span class="keyword">new</span> Node&lt;T&gt;;</span><br><span class="line">    <span class="keyword">this</span>-&gt;pBottom-&gt;pBelow = <span class="keyword">this</span>-&gt;pTop-&gt;pBelow = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">this</span>-&gt;lenght = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;</span><br><span class="line"><span class="keyword">int</span> Stack&lt;T&gt;::push(T data)&#123;</span><br><span class="line">    <span class="keyword">this</span>-&gt;pTop-&gt;data = data;</span><br><span class="line">    Node&lt;T&gt; *pNew = <span class="keyword">new</span> Node&lt;T&gt;;</span><br><span class="line">    pNew-&gt;pBelow = <span class="keyword">this</span>-&gt;pTop;</span><br><span class="line">    <span class="keyword">this</span>-&gt;pTop = pNew;</span><br><span class="line">    <span class="keyword">return</span> ++<span class="keyword">this</span>-&gt;lenght;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;</span><br><span class="line">T Stack&lt;T&gt;::pop()&#123;</span><br><span class="line">    T result;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">this</span>-&gt;lenght &gt; <span class="number">0</span>)&#123;</span><br><span class="line">        result = pTop-&gt;pBelow-&gt;data;</span><br><span class="line">        Node&lt;T&gt; * pDel = <span class="keyword">this</span>-&gt;pTop;</span><br><span class="line">        pTop = pTop-&gt;pBelow;</span><br><span class="line">        <span class="keyword">delete</span> pDel;</span><br><span class="line">        <span class="keyword">this</span>-&gt;lenght--;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;</span><br><span class="line"><span class="keyword">void</span> Stack&lt;T&gt;::show()&#123;</span><br><span class="line">    Node&lt;T&gt; * p = <span class="keyword">this</span>-&gt;pTop-&gt;pBelow;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"----"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">while</span> (p != <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;p-&gt;data&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">        p = p-&gt;pBelow;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"----"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    Stack&lt;<span class="keyword">int</span>&gt; s;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>;i &lt; <span class="number">20</span>;i++)&#123;</span><br><span class="line">        s.push(i);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    s.show();</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>;i &lt; <span class="number">20</span>;i++)&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;s.pop()&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="5种Shader"><a href="#5种Shader" class="headerlink" title="5种Shader"></a>5种Shader</h1><ul>
+<li>BitmapShader    //位图</li>
+<li>LinearGradient    //线性</li>
+<li>RadialGradient    //光束</li>
+<li>SweepGradient    //梯度</li>
+<li>ComposeGradient    //混合</li>
+</ul>
+<blockquote>
+<p>除了<code>BitmapShader</code>之外,其他的真的是产生渐变效果<br>而<code>BitmapShader</code>则是生成一个图像,类似于Photoshop的图像填充,它的作用是通过<code>Paint</code>对<code>Canvas</code>进行制定的<code>Bitmap</code>填充</p>
+</blockquote>
+<h1 id="3种填充模式"><a href="#3种填充模式" class="headerlink" title="3种填充模式"></a>3种填充模式</h1><ul>
+<li>CLAMP    //拉伸填充</li>
+<li>REPEAT    //横纵向重复填充</li>
+<li>MIRROR    //横向,纵向不断翻转</li>
+</ul>
+<blockquote>
+<p>既然我们可以选择<code>Bitmap</code>去作为图像填充,那么我们可不可以实现这种<a href="http://august1996.top/2016/05/22/round-picture-1/">圆形头像的效果</a>呢?<br>肯定是可以的,我们可以用<code>Bitmap</code>去填充一个圆,在<a href="http://august1996.top/2016/05/22/round-picture-1/">这篇文章</a>的基础上做修改</p>
+</blockquote>
+<h1 id="修改process函数"><a href="#修改process函数" class="headerlink" title="修改process函数:"></a>修改process函数:</h1><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="built_in">process</span>(View v) &#123;</span><br><span class="line">    Bitmap mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.jpg);</span><br><span class="line">    BitmapShader mBitmapShader = <span class="keyword">new</span> BitmapShader(mBitmap, TileMode.CLAMP, TileMode.CLAMP);</span><br><span class="line">    Paint mPaint = <span class="keyword">new</span> Paint(Paint.ANTI_ALIAS_FLAG);</span><br><span class="line">    mPaint.setShader(mBitmapShader);</span><br><span class="line">    </span><br><span class="line">    Bitmap destBitmap = Bitmap.createBitmap(mBitmap.getWidth(), mBitmap.getHeight(), Bitmap.Config.ARGB_8888);</span><br><span class="line">    Canvas canvas = <span class="keyword">new</span> Canvas(destBitmap);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 以上设置BitmapShader到Paint里</span><br><span class="line">     * 下面就是使用这个填充去画一个圆</span><br><span class="line">     */</span></span><br><span class="line">    canvas.drawCircle(mBitmap.getWidth() / <span class="number">2</span>, mBitmap.getHeight() / <span class="number">2</span>,</span><br><span class="line">            (Math.<span class="built_in">min</span>(mBitmap.getWidth(), mBitmap.getHeight())) / <span class="number">2</span>, mPaint);</span><br><span class="line">    ((ImageView)</span><br><span class="line">    </span><br><span class="line">    findViewById(R.id.img)).setImageBitmap(destBitmap);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这是一个应用<code>BitmapShader</code>的小例子,下面的其他几个着色器就等大家动手去做啦.也可以看看这个<a href="http://august1996.top/2016/05/22/round-picture-1/">博客</a></p>
+<p>参考:<a href="http://august1996.top/2016/05/22/round-picture-1/">Canvas使用7行代码自定义圆形头像</a></p>
+</blockquote>
 
       
     </div>
@@ -397,11 +436,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/C/" rel="tag">#C++</a>
-          
-            <a href="/tags/代码/" rel="tag">#代码</a>
-          
-            <a href="/tags/栈/" rel="tag">#栈</a>
+            <a href="/tags/Shader/" rel="tag">#Shader</a>
           
         </div>
       
@@ -410,16 +445,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/04/09/datastruct-simple-queue-1/" rel="next" title="简单队列实现(C++纯代码)">
-                <i class="fa fa-chevron-left"></i> 简单队列实现(C++纯代码)
+              <a href="/2016/05/22/android-card-effect/" rel="next" title="Android实现卡券效果">
+                <i class="fa fa-chevron-left"></i> Android实现卡券效果
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/04/09/android-canvas-2/" rel="prev" title="Android使用Canvas自定义ImageTextView(2)">
-                Android使用Canvas自定义ImageTextView(2) <i class="fa fa-chevron-right"></i>
+              <a href="/2016/05/22/round-picture-1/" rel="prev" title="Android用Canvas使用7行代码自定义圆形头像">
+                Android用Canvas使用7行代码自定义圆形头像 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -469,8 +504,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/04/09/datastruct-simple-stack-1/"
-           data-title="简单栈实现(C++纯代码)" data-url="http://august1996.top/2016/04/09/datastruct-simple-stack-1/">
+      <div class="ds-thread" data-thread-key="2016/05/22/android-shader/"
+           data-title="Android着色器/渲染器" data-url="http://august1996.top/2016/05/22/android-shader/">
       </div>
     
   </div>
@@ -603,7 +638,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5种Shader"><span class="nav-number">2.</span> <span class="nav-text">5种Shader</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3种填充模式"><span class="nav-number">3.</span> <span class="nav-text">3种填充模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#修改process函数"><span class="nav-number">4.</span> <span class="nav-text">修改process函数:</span></a></li></ol></div>
             
           </div>
         </section>
