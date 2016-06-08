@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="august1996, 互联网, 编程, 安卓, Android, 学生" />
+  <meta name="keywords" content="动画,特效,Animator," />
 
 
 
@@ -84,16 +84,19 @@
 
 
 
-<meta name="description" content="新博客,新生活!!!">
+<meta name="description" content="一般动画的缺陷其实关于Animation动画还是有点不足的,动画过后容易造成事件丢失,测试下面的例子
+123456789TranslateAnimation =new TranslateAnimation(0, 0, 100, 100);rotateAnimation.setDuration(1000);translateAnimation.setFillAfter(true);translate">
 <meta property="og:type" content="article">
-<meta property="og:title" content="animation-1">
-<meta property="og:url" content="http://august1996.top/2016/06/08/animation-1/index.html">
+<meta property="og:title" content="一般动画(使用Animator封装特效工具类1)">
+<meta property="og:url" content="http://august1996.top/2016/04/13/animatior-1/index.html">
 <meta property="og:site_name" content="August1996的小狗窝">
-<meta property="og:description" content="新博客,新生活!!!">
-<meta property="og:updated_time" content="2016-06-08T03:01:07.000Z">
+<meta property="og:description" content="一般动画的缺陷其实关于Animation动画还是有点不足的,动画过后容易造成事件丢失,测试下面的例子
+123456789TranslateAnimation =new TranslateAnimation(0, 0, 100, 100);rotateAnimation.setDuration(1000);translateAnimation.setFillAfter(true);translate">
+<meta property="og:updated_time" content="2016-06-08T05:47:22.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="animation-1">
-<meta name="twitter:description" content="新博客,新生活!!!">
+<meta name="twitter:title" content="一般动画(使用Animator封装特效工具类1)">
+<meta name="twitter:description" content="一般动画的缺陷其实关于Animation动画还是有点不足的,动画过后容易造成事件丢失,测试下面的例子
+123456789TranslateAnimation =new TranslateAnimation(0, 0, 100, 100);rotateAnimation.setDuration(1000);translateAnimation.setFillAfter(true);translate">
 
 
 
@@ -111,7 +114,7 @@
   };
 </script>
 
-  <title> animation-1 | August1996的小狗窝 </title>
+  <title> 一般动画(使用Animator封装特效工具类1) | August1996的小狗窝 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -290,7 +293,7 @@
             
             
               
-                animation-1
+                一般动画(使用Animator封装特效工具类1)
               
             
           </h1>
@@ -302,19 +305,38 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-08T11:01:06+08:00" content="2016-06-08">
-              2016-06-08
+            <time itemprop="dateCreated" datetime="2016-04-13T13:15:06+08:00" content="2016-04-13">
+              2016-04-13
             </time>
           </span>
 
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android进阶/" itemprop="url" rel="index">
+                    <span itemprop="name">Android进阶</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
           
 
           
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/06/08/animation-1/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/08/animation-1/" itemprop="commentsCount"></span>
+                <a href="/2016/04/13/animatior-1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/13/animatior-1/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -337,7 +359,37 @@
       
 
       
-        
+        <h1 id="一般动画的缺陷"><a href="#一般动画的缺陷" class="headerlink" title="一般动画的缺陷"></a>一般动画的缺陷</h1><p>其实关于<code>Animation</code>动画还是有点不足的,动画过后容易造成<code>事件丢失</code>,测试下面的例子</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">TranslateAnimation =<span class="keyword">new</span> TranslateAnimation(<span class="number">0</span>, <span class="number">0</span>, <span class="number">100</span>, <span class="number">100</span>);</span><br><span class="line">rotateAnimation.setDuration(<span class="number">1000</span>);</span><br><span class="line">translateAnimation.setFillAfter(<span class="keyword">true</span>);</span><br><span class="line">translateBtn.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">        translateBtn.startAnimation(translateAnimation);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>多次点击Button后,它越走越远,但是一定距离后就造成了事件丢失.怎么回事呢?是因为<strong>Animation的动画只是改变了绘制出来的图片的位置,而View得位置是没有变的</strong>.因此我们绑定在View的事件就好像丢失了,实际上你点击原来View的位置.点击事件还是存在的,但是你只是View已经看不到了而已.那么我们有没有解决方法呢?有!!!</p>
+</blockquote>
+<ul>
+<li>存储位移的位置,然后在动画结束的时候使用View.invalidate(int l,int t,int r,int b)去从新绘制View的位置,使其与动画位置一直.</li>
+<li>使用属性动画<code>Animator</code>代替Animation(推荐)</li>
+</ul>
+<h1 id="属性动画"><a href="#属性动画" class="headerlink" title="属性动画"></a>属性动画</h1><p>#简介 </p>
+<blockquote>
+<p>我们来聊聊Animator的用法吧,首先它能实现Animation的效果,也有类似AnimationSet的类去把动画装起来一起播放或者按顺序播放</p>
+</blockquote>
+<h1 id="简单用法"><a href="#简单用法" class="headerlink" title="简单用法"></a>简单用法</h1><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ObjectAnimator alphaAnimator = ObjectAnimator.ofFloat(v, <span class="string">"alpha"</span>, <span class="number">0</span>, <span class="number">1</span>)<span class="comment">;</span></span><br><span class="line">alphaAnimator.start()<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>其中v就是需要作用的<code>View</code>,就是”<code>alpha</code>“是需要设置的属性,0是初始化的透明度,1是结束的透明度.一些Animation的方法,在这里也几乎是一样的,所以更多方法请移步前面一般动画<a href="http://august1996.top/2016/04/13/animation-1/">1</a> <a href="http://august1996.top/2016/04/13/animation-2/">2</a>的文章.</p>
+</blockquote>
+<p>有朋友可能会问,我怎么知道第二个属性填什么内容?</p>
+<blockquote>
+<p>很简单,你可以使用v.set????这样写,看IDE工具提示什么东西,如果是与动画相关的几乎都能写例如v.setTranslationX(),那么你第二个参数就可以写translationX.其实一共就那么四个.不过还可以自己去定义,后面会给一面文章讲一下自定义属性配合属性动画来做动画.</p>
+</blockquote>
+<h2 id="AnimatorSet"><a href="#AnimatorSet" class="headerlink" title="AnimatorSet"></a>AnimatorSet</h2><p>还有一个AnimatorSet,这个类相对于前面的来说比较有趣,说一些除了设置持续时间等于AnimationSet雷同的常见的方法   </p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">playTogether</span><span class="params">(Animator a1,Animator a2,...)</span></span>    <span class="comment">//后面可以跟无数多个动画,一起播放的</span></span><br><span class="line"><span class="function"><span class="title">playSequentially</span><span class="params">(Animator a1,Animator a2,...)</span></span>    <span class="comment">//类似上面那个,不过是按顺序播放</span></span><br><span class="line"><span class="function"><span class="title">play</span><span class="params">(Animation a)</span></span>  </span><br><span class="line"><span class="function"><span class="title">with</span><span class="params">(Animation a)</span></span>    </span><br><span class="line"><span class="function"><span class="title">before</span><span class="params">(Animation a)</span></span>    </span><br><span class="line"><span class="function"><span class="title">after</span><span class="params">(Animation a)</span></span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>上面四个方法连着说才好理解</p>
+</blockquote>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set.play(Animator <span class="built_in">a1</span>).with(Animator <span class="built_in">a2</span>).<span class="keyword">before(Animator </span><span class="built_in">a3</span>).after(Animator <span class="built_in">a4</span>)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>a3-&gt;a1,a2-&gt;a4    //箭头是顺序播放,逗号是一起播放<br>就大概这么点东西,当然只是皮毛</p>
+</blockquote>
+
       
     </div>
 
@@ -356,21 +408,31 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/动画/" rel="tag">#动画</a>
+          
+            <a href="/tags/特效/" rel="tag">#特效</a>
+          
+            <a href="/tags/Animator/" rel="tag">#Animator</a>
+          
+        </div>
+      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/06/08/custom-theme-3/" rel="next" title="custom-theme-3">
-                <i class="fa fa-chevron-left"></i> custom-theme-3
+              <a href="/2016/04/13/animation-2/" rel="next" title="一般动画(使用Animation封装特效工具类2)">
+                <i class="fa fa-chevron-left"></i> 一般动画(使用Animation封装特效工具类2)
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/06/08/animation-2/" rel="prev" title="animation-2">
-                animation-2 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/04/13/animatior-2/" rel="prev" title="一般动画(使用Animator封装特效工具类2)">
+                一般动画(使用Animator封装特效工具类2) <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -420,8 +482,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/06/08/animation-1/"
-           data-title="animation-1" data-url="http://august1996.top/2016/06/08/animation-1/">
+      <div class="ds-thread" data-thread-key="2016/04/13/animatior-1/"
+           data-title="一般动画(使用Animator封装特效工具类1)" data-url="http://august1996.top/2016/04/13/animatior-1/">
       </div>
     
   </div>
@@ -483,7 +545,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">32</span>
+                <span class="site-state-item-count">36</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -554,7 +616,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一般动画的缺陷"><span class="nav-number">1.</span> <span class="nav-text">一般动画的缺陷</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#属性动画"><span class="nav-number">2.</span> <span class="nav-text">属性动画</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#简单用法"><span class="nav-number">3.</span> <span class="nav-text">简单用法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#AnimatorSet"><span class="nav-number">3.1.</span> <span class="nav-text">AnimatorSet</span></a></li></ol></li></ol></div>
             
           </div>
         </section>

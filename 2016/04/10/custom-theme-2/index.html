@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="august1996, 互联网, 编程, 安卓, Android, 学生" />
+  <meta name="keywords" content="自定义,主题," />
 
 
 
@@ -84,16 +84,22 @@
 
 
 
-<meta name="description" content="新博客,新生活!!!">
+<meta name="description" content="在使用Dialog的时候,我们发现Dialog有一个构造方法Dialog(Context context,int themeResId),里面可以指定一个主题样式,下面我们就试试捣腾一下吧.因为Dialog需要setContentView的,所以我们偷个懒,先使用AlertDialog去玩玩.
+
+1234AlertDialog.Builder builder = new AlertDialog.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="custom-theme-3">
-<meta property="og:url" content="http://august1996.top/2016/06/08/custom-theme-3/index.html">
+<meta property="og:title" content="自定义主题(2)">
+<meta property="og:url" content="http://august1996.top/2016/04/10/custom-theme-2/index.html">
 <meta property="og:site_name" content="August1996的小狗窝">
-<meta property="og:description" content="新博客,新生活!!!">
-<meta property="og:updated_time" content="2016-06-08T03:00:53.000Z">
+<meta property="og:description" content="在使用Dialog的时候,我们发现Dialog有一个构造方法Dialog(Context context,int themeResId),里面可以指定一个主题样式,下面我们就试试捣腾一下吧.因为Dialog需要setContentView的,所以我们偷个懒,先使用AlertDialog去玩玩.
+
+1234AlertDialog.Builder builder = new AlertDialog.">
+<meta property="og:updated_time" content="2016-06-08T04:24:16.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="custom-theme-3">
-<meta name="twitter:description" content="新博客,新生活!!!">
+<meta name="twitter:title" content="自定义主题(2)">
+<meta name="twitter:description" content="在使用Dialog的时候,我们发现Dialog有一个构造方法Dialog(Context context,int themeResId),里面可以指定一个主题样式,下面我们就试试捣腾一下吧.因为Dialog需要setContentView的,所以我们偷个懒,先使用AlertDialog去玩玩.
+
+1234AlertDialog.Builder builder = new AlertDialog.">
 
 
 
@@ -111,7 +117,7 @@
   };
 </script>
 
-  <title> custom-theme-3 | August1996的小狗窝 </title>
+  <title> 自定义主题(2) | August1996的小狗窝 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -290,7 +296,7 @@
             
             
               
-                custom-theme-3
+                自定义主题(2)
               
             
           </h1>
@@ -302,19 +308,38 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-08T11:00:53+08:00" content="2016-06-08">
-              2016-06-08
+            <time itemprop="dateCreated" datetime="2016-04-10T16:21:46+08:00" content="2016-04-10">
+              2016-04-10
             </time>
           </span>
 
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android进阶/" itemprop="url" rel="index">
+                    <span itemprop="name">Android进阶</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
           
 
           
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/06/08/custom-theme-3/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/08/custom-theme-3/" itemprop="commentsCount"></span>
+                <a href="/2016/04/10/custom-theme-2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/10/custom-theme-2/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -337,7 +362,20 @@
       
 
       
-        
+        <blockquote>
+<p>在使用Dialog的时候,我们发现Dialog有一个构造方法Dialog(Context context,int themeResId),里面可以指定一个主题样式,下面我们就试试捣腾一下吧.因为Dialog需要setContentView的,所以我们偷个懒,先使用<code>AlertDialog</code>去玩玩.</p>
+</blockquote>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">AlertDialog.<span class="keyword">Builder </span><span class="keyword">builder </span>= new AlertDialog.<span class="keyword">Builder(MainActivity.this, </span>R.style.custom_dialog)<span class="comment">;</span></span><br><span class="line"><span class="keyword">builder.setTitle("提示信息:");</span><br><span class="line"></span><span class="keyword">builder.setMessage("你好呀!");</span><br><span class="line"></span><span class="keyword">builder.create().show();</span></span><br></pre></td></tr></table></figure>
+<p><code>styles.xml</code>添加下面样式</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"custom_dialog"</span> <span class="attr">parent</span>=<span class="string">"android:style/Theme.Dialog"</span>&gt;</span><span class="undefined"></span><br><span class="line"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这时效果是这样的,好丑,我们把边边的背景去掉</p>
+</blockquote>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;style name=<span class="string">"custom_dialog"</span> parent=<span class="string">"android:style/Theme.Dialog"</span>&gt;</span><br><span class="line">&lt;item name=<span class="string">"android:windowBackground"</span>&gt;<span class="variable">@android</span><span class="symbol">:color/transparent&lt;/item&gt;</span></span><br><span class="line">&lt;<span class="regexp">/style&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这时候就没有了背景了,只有需要显示的内容了.虽然还是很丑,但是我们会在下一篇文章结合之前的知识去做一个好看的ProgressDialog</p>
+</blockquote>
+
       
     </div>
 
@@ -356,21 +394,29 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/自定义/" rel="tag">#自定义</a>
+          
+            <a href="/tags/主题/" rel="tag">#主题</a>
+          
+        </div>
+      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/06/08/custom-theme-2/" rel="next" title="custom-theme-2">
-                <i class="fa fa-chevron-left"></i> custom-theme-2
+              <a href="/2016/04/10/custom-theme-1/" rel="next" title="自定义主题(1)">
+                <i class="fa fa-chevron-left"></i> 自定义主题(1)
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/06/08/animation-1/" rel="prev" title="animation-1">
-                animation-1 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/04/10/custom-theme-3/" rel="prev" title="自定义主题(3)">
+                自定义主题(3) <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -420,8 +466,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/06/08/custom-theme-3/"
-           data-title="custom-theme-3" data-url="http://august1996.top/2016/06/08/custom-theme-3/">
+      <div class="ds-thread" data-thread-key="2016/04/10/custom-theme-2/"
+           data-title="自定义主题(2)" data-url="http://august1996.top/2016/04/10/custom-theme-2/">
       </div>
     
   </div>
@@ -483,7 +529,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">32</span>
+                <span class="site-state-item-count">36</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
