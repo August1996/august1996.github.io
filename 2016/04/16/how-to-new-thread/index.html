@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="犯二," />
+  <meta name="keywords" content="多线程," />
 
 
 
@@ -84,16 +84,16 @@
 
 
 
-<meta name="description" content="最近一个多月没去上课结果就是我一直在烦一直在烦会不会挂科复习时间突然就被我减了10几天然后就一直没有敲代码 又想复习 复习又复不进去.卧槽,妈的就剩下几天啊!!!!感觉没时间了,会挂的!!!!结果是没复习,没敲代码,没看书….还有那么多时间,现在心情突然大好">
+<meta name="description" content="直接继承Thread类,重写run方法12345678910111213141516package snippet;public class test &amp;#123;    public static void main(String[] args) &amp;#123;        for (int i = 0; i &amp;lt; 5; i++) &amp;#123;            new MyThread">
 <meta property="og:type" content="article">
-<meta property="og:title" content="记错考试时间啦!!!!">
-<meta property="og:url" content="http://august1996.top/2016/06/08/sb1/index.html">
+<meta property="og:title" content="多线程实现的3种方式">
+<meta property="og:url" content="http://august1996.top/2016/04/16/how-to-new-thread/index.html">
 <meta property="og:site_name" content="August1996的小狗窝">
-<meta property="og:description" content="最近一个多月没去上课结果就是我一直在烦一直在烦会不会挂科复习时间突然就被我减了10几天然后就一直没有敲代码 又想复习 复习又复不进去.卧槽,妈的就剩下几天啊!!!!感觉没时间了,会挂的!!!!结果是没复习,没敲代码,没看书….还有那么多时间,现在心情突然大好">
-<meta property="og:updated_time" content="2016-06-08T02:57:08.000Z">
+<meta property="og:description" content="直接继承Thread类,重写run方法12345678910111213141516package snippet;public class test &amp;#123;    public static void main(String[] args) &amp;#123;        for (int i = 0; i &amp;lt; 5; i++) &amp;#123;            new MyThread">
+<meta property="og:updated_time" content="2016-06-08T10:16:47.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="记错考试时间啦!!!!">
-<meta name="twitter:description" content="最近一个多月没去上课结果就是我一直在烦一直在烦会不会挂科复习时间突然就被我减了10几天然后就一直没有敲代码 又想复习 复习又复不进去.卧槽,妈的就剩下几天啊!!!!感觉没时间了,会挂的!!!!结果是没复习,没敲代码,没看书….还有那么多时间,现在心情突然大好">
+<meta name="twitter:title" content="多线程实现的3种方式">
+<meta name="twitter:description" content="直接继承Thread类,重写run方法12345678910111213141516package snippet;public class test &amp;#123;    public static void main(String[] args) &amp;#123;        for (int i = 0; i &amp;lt; 5; i++) &amp;#123;            new MyThread">
 
 
 
@@ -111,7 +111,7 @@
   };
 </script>
 
-  <title> 记错考试时间啦!!!! | August1996的小狗窝 </title>
+  <title> 多线程实现的3种方式 | August1996的小狗窝 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -290,7 +290,7 @@
             
             
               
-                记错考试时间啦!!!!
+                多线程实现的3种方式
               
             
           </h1>
@@ -302,8 +302,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-08T10:50:25+08:00" content="2016-06-08">
-              2016-06-08
+            <time itemprop="dateCreated" datetime="2016-04-16T16:08:00+08:00" content="2016-04-16">
+              2016-04-16
             </time>
           </span>
 
@@ -316,8 +316,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/日常/" itemprop="url" rel="index">
-                    <span itemprop="name">日常</span>
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
                   </a>
                 </span>
 
@@ -332,8 +332,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/06/08/sb1/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/08/sb1/" itemprop="commentsCount"></span>
+                <a href="/2016/04/16/how-to-new-thread/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/16/how-to-new-thread/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -356,7 +356,19 @@
       
 
       
-        <h3 id="最近一个多月没去上课"><a href="#最近一个多月没去上课" class="headerlink" title="最近一个多月没去上课"></a>最近一个多月没去上课</h3><h4 id="结果就是我一直在烦一直在烦会不会挂科"><a href="#结果就是我一直在烦一直在烦会不会挂科" class="headerlink" title="结果就是我一直在烦一直在烦会不会挂科"></a>结果就是我一直在烦一直在烦会不会挂科</h4><h4 id="复习时间突然就被我减了10几天"><a href="#复习时间突然就被我减了10几天" class="headerlink" title="复习时间突然就被我减了10几天"></a>复习时间突然就被我减了10几天</h4><h4 id="然后就一直没有敲代码-又想复习-复习又复不进去"><a href="#然后就一直没有敲代码-又想复习-复习又复不进去" class="headerlink" title="然后就一直没有敲代码 又想复习 复习又复不进去."></a>然后就一直没有敲代码 又想复习 复习又复不进去.</h4><h4 id="卧槽-妈的就剩下几天啊-感觉没时间了-会挂的"><a href="#卧槽-妈的就剩下几天啊-感觉没时间了-会挂的" class="headerlink" title="卧槽,妈的就剩下几天啊!!!!感觉没时间了,会挂的!!!!"></a>卧槽,妈的就剩下几天啊!!!!感觉没时间了,会挂的!!!!</h4><h3 id="结果是没复习-没敲代码-没看书…"><a href="#结果是没复习-没敲代码-没看书…" class="headerlink" title="结果是没复习,没敲代码,没看书…."></a>结果是没复习,没敲代码,没看书….</h3><h4 id="还有那么多时间-现在心情突然大好"><a href="#还有那么多时间-现在心情突然大好" class="headerlink" title="还有那么多时间,现在心情突然大好"></a>还有那么多时间,现在心情突然大好</h4>
+        <h1 id="直接继承Thread类-重写run方法"><a href="#直接继承Thread类-重写run方法" class="headerlink" title="直接继承Thread类,重写run方法"></a>直接继承Thread类,重写run方法</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> snippet;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">test</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">new</span> MyThread().start();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyThread</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; <span class="number">100</span>; i++) &#123;</span><br><span class="line">            System.out.println(getName() + <span class="string">"---&gt;"</span> + i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="使用Runable接口-Thread"><a href="#使用Runable接口-Thread" class="headerlink" title="使用Runable接口+Thread"></a>使用Runable接口+Thread</h1><blockquote>
+<p>作为Thread 参数传入(与上面没有什么不同,只是为了减少设计的藕性)</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> snippet;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">test</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">new</span> Thread(<span class="keyword">new</span> MyRunnable()).start();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyRunnable</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; <span class="number">100</span>; i++) &#123;</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">"---&gt;"</span> + i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意,当实现Runable接口并且覆写Thread的run方法时,只会调用Thread的run方法.</p>
+</blockquote>
+<h1 id="使用Runable接口"><a href="#使用Runable接口" class="headerlink" title="使用Runable接口"></a>使用Runable接口</h1><blockquote>
+<p>使用Runable接口比较复杂,需要使用到<code>线程池</code>,但是它可以带<code>返回值</code>.</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> snippet;</span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.Callable;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.ExecutorService;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.Executors;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.Future;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyCallable</span> <span class="keyword">implements</span> <span class="title">Callable</span>&lt;<span class="title">Integer</span>&gt; </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span>    num1;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span>    num2;</span><br><span class="line">                </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MyCallable</span><span class="params">(<span class="keyword">int</span> num1, <span class="keyword">int</span> num2)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">this</span>.num1 = num1;</span><br><span class="line">            <span class="keyword">this</span>.num2 = num2;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Integer <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> num1 + num2;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">test</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        ExecutorService pool = Executors.newCachedThreadPool();</span><br><span class="line">        <span class="comment">/**</span><br><span class="line">         * 创建一个线程池</span><br><span class="line">         */</span></span><br><span class="line">        List&lt;Future&lt;Integer&gt;&gt; results = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="comment">/**</span><br><span class="line">         * Future&lt;T&gt;是泛型接口,其中泛型为返回数据类型</span><br><span class="line">         */</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">            Future&lt;Integer&gt; result = pool.submit(<span class="keyword">new</span> MyCallable(i, i + <span class="number">1</span>));</span><br><span class="line">            results.add(result);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; results.size(); i++) &#123;</span><br><span class="line">            System.out.println(results.get(i).get());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">/**</span><br><span class="line">         * 使用get去获取call方法返回的值,可设置超时. 因为有时候若等待时间太长,则造成体验不好</span><br><span class="line">         */</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
       
     </div>
 
@@ -377,7 +389,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/犯二/" rel="tag">#犯二</a>
+            <a href="/tags/多线程/" rel="tag">#多线程</a>
           
         </div>
       
@@ -386,16 +398,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/05/29/c-memory-test/" rel="next" title="挖一下那些年的东东(模拟内存申请与释放C语言)">
-                <i class="fa fa-chevron-left"></i> 挖一下那些年的东东(模拟内存申请与释放C语言)
+              <a href="/2016/04/16/muti-thread-download-2/" rel="next" title="Java多线程断点下载">
+                <i class="fa fa-chevron-left"></i> Java多线程断点下载
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/06/08/exam-xd/" rel="prev" title="考完线性代数啦!!!">
-                考完线性代数啦!!! <i class="fa fa-chevron-right"></i>
+              <a href="/2016/05/29/c-memory-test/" rel="prev" title="挖一下那些年的东东(模拟内存申请与释放C语言)">
+                挖一下那些年的东东(模拟内存申请与释放C语言) <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -445,8 +457,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/06/08/sb1/"
-           data-title="记错考试时间啦!!!!" data-url="http://august1996.top/2016/06/08/sb1/">
+      <div class="ds-thread" data-thread-key="2016/04/16/how-to-new-thread/"
+           data-title="多线程实现的3种方式" data-url="http://august1996.top/2016/04/16/how-to-new-thread/">
       </div>
     
   </div>
@@ -579,7 +591,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#最近一个多月没去上课"><span class="nav-number">1.</span> <span class="nav-text">最近一个多月没去上课</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#结果就是我一直在烦一直在烦会不会挂科"><span class="nav-number">1.1.</span> <span class="nav-text">结果就是我一直在烦一直在烦会不会挂科</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#复习时间突然就被我减了10几天"><span class="nav-number">1.2.</span> <span class="nav-text">复习时间突然就被我减了10几天</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#然后就一直没有敲代码-又想复习-复习又复不进去"><span class="nav-number">1.3.</span> <span class="nav-text">然后就一直没有敲代码 又想复习 复习又复不进去.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#卧槽-妈的就剩下几天啊-感觉没时间了-会挂的"><span class="nav-number">1.4.</span> <span class="nav-text">卧槽,妈的就剩下几天啊!!!!感觉没时间了,会挂的!!!!</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结果是没复习-没敲代码-没看书…"><span class="nav-number">2.</span> <span class="nav-text">结果是没复习,没敲代码,没看书….</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#还有那么多时间-现在心情突然大好"><span class="nav-number">2.1.</span> <span class="nav-text">还有那么多时间,现在心情突然大好</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#直接继承Thread类-重写run方法"><span class="nav-number">1.</span> <span class="nav-text">直接继承Thread类,重写run方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用Runable接口-Thread"><span class="nav-number">2.</span> <span class="nav-text">使用Runable接口+Thread</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用Runable接口"><span class="nav-number">3.</span> <span class="nav-text">使用Runable接口</span></a></li></ol></div>
             
           </div>
         </section>
