@@ -112,7 +112,7 @@ ComposeGradient    //混合
 
 
 除">
-<meta property="og:updated_time" content="2016-06-08T13:45:51.000Z">
+<meta property="og:updated_time" content="2016-06-08T13:56:25.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android着色器/渲染器">
 <meta name="twitter:description" content="简介
@@ -413,7 +413,7 @@ ComposeGradient    //混合
 <h1 id="修改process函数"><a href="#修改process函数" class="headerlink" title="修改process函数:"></a>修改process函数:</h1><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="built_in">process</span>(View v) &#123;</span><br><span class="line">    Bitmap mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.jpg);</span><br><span class="line">    BitmapShader mBitmapShader = <span class="keyword">new</span> BitmapShader(mBitmap, TileMode.CLAMP, TileMode.CLAMP);</span><br><span class="line">    Paint mPaint = <span class="keyword">new</span> Paint(Paint.ANTI_ALIAS_FLAG);</span><br><span class="line">    mPaint.setShader(mBitmapShader);</span><br><span class="line">    </span><br><span class="line">    Bitmap destBitmap = Bitmap.createBitmap(mBitmap.getWidth(), mBitmap.getHeight(), Bitmap.Config.ARGB_8888);</span><br><span class="line">    Canvas canvas = <span class="keyword">new</span> Canvas(destBitmap);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 以上设置BitmapShader到Paint里</span><br><span class="line">     * 下面就是使用这个填充去画一个圆</span><br><span class="line">     */</span></span><br><span class="line">    canvas.drawCircle(mBitmap.getWidth() / <span class="number">2</span>, mBitmap.getHeight() / <span class="number">2</span>,</span><br><span class="line">            (Math.<span class="built_in">min</span>(mBitmap.getWidth(), mBitmap.getHeight())) / <span class="number">2</span>, mPaint);</span><br><span class="line">    ((ImageView)</span><br><span class="line">    </span><br><span class="line">    findViewById(R.id.img)).setImageBitmap(destBitmap);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>这是一个应用<code>BitmapShader</code>的小例子,下面的其他几个着色器就等大家动手去做啦.也可以看看这个<a href="http://august1996.top/2016/05/22/round-picture-1/">博客</a></p>
-<p>参考:<a href="http://august1996.top/2016/05/22/round-picture-1/">Canvas使用7行代码自定义圆形头像</a></p>
+<p><strong>参考:<a href="http://august1996.top/2016/05/22/round-picture-1/">Canvas使用7行代码自定义圆形头像</a></strong></p>
 </blockquote>
 
       
@@ -453,8 +453,8 @@ ComposeGradient    //混合
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/05/22/round-picture-1/" rel="prev" title="Android用Canvas使用7行代码自定义圆形头像">
-                Android用Canvas使用7行代码自定义圆形头像 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/05/22/android-shadow/" rel="prev" title="Android实现图片倒影的效果">
+                Android实现图片倒影的效果 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -550,7 +550,7 @@ ComposeGradient    //混合
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">42</span>
+              <span class="site-state-item-count">50</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -567,7 +567,7 @@ ComposeGradient    //混合
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-count">48</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
