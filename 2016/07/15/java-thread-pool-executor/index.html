@@ -1,0 +1,960 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="线程池,并发," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="为什么使用线程池
+线程池作用就是通过限制系统中执行线程的数量从而达到优化资源分配的目的.
+
+控制执行线程的数量
+假如现在有一个工作台,上面只能有5个人作业.
+
+使用锁
+Java引入了Semaphore的一个类,称为信号量.可以指定开放多少把锁
+
+事例代码12345678910111213141516171819202122232425262728293031323334public class W">
+<meta property="og:type" content="article">
+<meta property="og:title" content="聊聊Java线程池那些事">
+<meta property="og:url" content="http://august1996.top/2016/07/15/java-thread-pool-executor/index.html">
+<meta property="og:site_name" content="August1996的小狗窝">
+<meta property="og:description" content="为什么使用线程池
+线程池作用就是通过限制系统中执行线程的数量从而达到优化资源分配的目的.
+
+控制执行线程的数量
+假如现在有一个工作台,上面只能有5个人作业.
+
+使用锁
+Java引入了Semaphore的一个类,称为信号量.可以指定开放多少把锁
+
+事例代码12345678910111213141516171819202122232425262728293031323334public class W">
+<meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesjava-thread-pool.jpg">
+<meta property="og:updated_time" content="2016-07-15T05:17:04.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="聊聊Java线程池那些事">
+<meta name="twitter:description" content="为什么使用线程池
+线程池作用就是通过限制系统中执行线程的数量从而达到优化资源分配的目的.
+
+控制执行线程的数量
+假如现在有一个工作台,上面只能有5个人作业.
+
+使用锁
+Java引入了Semaphore的一个类,称为信号量.可以指定开放多少把锁
+
+事例代码12345678910111213141516171819202122232425262728293031323334public class W">
+<meta name="twitter:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesjava-thread-pool.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6289901108416480000,
+      author: 'August1996'
+    }
+  };
+</script>
+
+  <title> 聊聊Java线程池那些事 | August1996的小狗窝 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?ca08f65a7dda04c0e669531a7ef88472";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">August1996的小狗窝</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">记录一个傻屌程序员的日常...</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'z8JdSugezj6oS795yEMb','2.0.0');
+</script>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                聊聊Java线程池那些事
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-15T11:35:44+08:00" content="2016-07-15">
+              2016-07-15
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/15/java-thread-pool-executor/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/15/java-thread-pool-executor/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="为什么使用线程池"><a href="#为什么使用线程池" class="headerlink" title="为什么使用线程池"></a>为什么使用线程池</h1><blockquote>
+<p>线程池作用就是通过限制系统中执行线程的数量从而达到优化资源分配的目的.</p>
+</blockquote>
+<h1 id="控制执行线程的数量"><a href="#控制执行线程的数量" class="headerlink" title="控制执行线程的数量"></a>控制执行线程的数量</h1><blockquote>
+<p>假如现在有一个工作台,上面只能有5个人作业.</p>
+</blockquote>
+<h2 id="使用锁"><a href="#使用锁" class="headerlink" title="使用锁"></a>使用锁</h2><blockquote>
+<p>Java引入了<code>Semaphore</code>的一个类,称为<code>信号量</code>.可以指定开放多少把<code>锁</code></p>
+</blockquote>
+<h3 id="事例代码"><a href="#事例代码" class="headerlink" title="事例代码"></a>事例代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WorkPlace</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> Semaphore semaphore = <span class="keyword">new</span> Semaphore(<span class="number">5</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		<span class="comment">/**</span><br><span class="line">		 * 模拟10个工人去申请使用工作台作业</span><br><span class="line">		 */</span></span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">			<span class="keyword">new</span> Thread() &#123;</span><br><span class="line">				<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">					work();</span><br><span class="line">				&#125;;</span><br><span class="line">			&#125;.start();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/*</span><br><span class="line">	 * 工作台的作业情景,每次只能有5个工人在上面作业</span><br><span class="line">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">work</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			semaphore.acquire();	<span class="comment">//要工作了,获取一把锁</span></span><br><span class="line">			System.out.println(Thread.currentThread().getName() + <span class="string">"正在工作!"</span>);</span><br><span class="line">			Thread.sleep(<span class="number">3000</span>);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(Thread.currentThread().getName() + <span class="string">"工作完毕!"</span>);</span><br><span class="line">		semaphore.release();	<span class="comment">//工作完毕,释放这把锁</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这样就保证了每次最多有5个工人可以在上面作业</p>
+</blockquote>
+<h2 id="使用线程池实现"><a href="#使用线程池实现" class="headerlink" title="使用线程池实现"></a>使用线程池实现</h2><h3 id="Java线程池类型"><a href="#Java线程池类型" class="headerlink" title="Java线程池类型"></a>Java线程池类型</h3><ul>
+<li><code>newSingleThreadExecutor</code> </li>
+</ul>
+<blockquote>
+<p>线程池中只有一个线程执行,相当于单线程.但是如果线程挂了之后(异常结束等),会重新启动一个线程替原来的线程执行下去</p>
+</blockquote>
+<ul>
+<li><code>newFixedThreadPool</code>    </li>
+</ul>
+<blockquote>
+<p>线程池的大小是固定的.每次提交一个任务就会创建一个线程，直到线程达到线程池的最大限制,里面有一个<code>任务队列</code>去维护未执行的任务,当有<code>空闲的线程</code>的时候就会到任务队列里面去取.</p>
+</blockquote>
+<ul>
+<li><code>newCachedThreadPool</code>    </li>
+</ul>
+<blockquote>
+<p>线程池中的线程是可缓存的.如果线程池的大小超过所需执行任务的大小,则系统会回收<code>空闲线程</code>(60秒不执行任务).当任务数增加时，线程池又可以自动添加新线程来处理任务.并且线程池不做大小的限制，线程池大小完全依赖于操作系统(或者说JVM)能够创建的最大线程大小。</p>
+</blockquote>
+<ul>
+<li>newScheduledThreadPool</li>
+</ul>
+<blockquote>
+<p>线程池不限大小,并且支持任务<code>定时</code>与<code>周期性循环</code></p>
+</blockquote>
+<h3 id="事例代码-1"><a href="#事例代码-1" class="headerlink" title="事例代码"></a>事例代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WorkPlace</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> Executor executor = Executors.newFixedThreadPool(<span class="number">5</span>);</span><br><span class="line">	<span class="comment">// private static Executor executor =  Executors.newScheduledThreadPool(5);//也可以</span></span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		<span class="comment">/**</span><br><span class="line">		 * 模拟100个工人去申请使用工作台作业</span><br><span class="line">		 */</span></span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++) &#123;</span><br><span class="line">			executor.execute(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">				</span><br><span class="line">				<span class="meta">@Override</span></span><br><span class="line">				<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">					work();</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/*</span><br><span class="line">	 * 工作台的作业情景,每次只能有5个工人在上面作业</span><br><span class="line">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">work</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			System.out.println(Thread.currentThread().getName() + <span class="string">"正在工作!"</span>);</span><br><span class="line">			Thread.sleep(<span class="number">3000</span>);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(Thread.currentThread().getName() + <span class="string">"工作完毕!"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="简单剖析Java的线程池类型"><a href="#简单剖析Java的线程池类型" class="headerlink" title="简单剖析Java的线程池类型"></a>简单剖析Java的线程池类型</h1><blockquote>
+<p>通过对方法的追踪,我们可以看到上面的四种线程池都是来自同一个东西<code>ThreadPoolExecutor</code><br>那我们能不能尝试使用<code>ThreadPoolExecutor</code>这个类来实现线程池呢?下面继续…</p>
+</blockquote>
+<h2 id="ThreadPoolExecutor构造器参数"><a href="#ThreadPoolExecutor构造器参数" class="headerlink" title="ThreadPoolExecutor构造器参数"></a>ThreadPoolExecutor构造器参数</h2><blockquote>
+<p>我们通过查看<code>ThreadPoolExecutor</code>类,可以看到有几个主要的参数.</p>
+</blockquote>
+<ul>
+<li><code>corePoolSize</code>        //核心线程数量</li>
+<li><code>maximumPoolSize</code>        //最大线程数量</li>
+<li><code>keepAliveTime</code>    //空闲线程存活时间</li>
+<li><code>unit</code>    //keepAliveTime的单位(时分秒等)</li>
+<li><code>workQueue</code>    //任务队列,用来存放将要执行的任务(Runnable类型)</li>
+<li><code>threadFactory</code>        //产生线程的方式</li>
+<li><code>handler</code>    //当线程池不能接受任务时抛出的异常由该对象处理</li>
+</ul>
+<h3 id="错综复杂的corePoolSize-maximumPoolSize-workQueue关系"><a href="#错综复杂的corePoolSize-maximumPoolSize-workQueue关系" class="headerlink" title="错综复杂的corePoolSize maximumPoolSize workQueue关系"></a>错综复杂的corePoolSize maximumPoolSize workQueue关系</h3><p><img src="http://o7xj6lxqq.bkt.clouddn.com/imagesjava-thread-pool.jpg" alt="异常"></p>
+<blockquote>
+<ol>
+<li>当提交任务时当前启动的线程总数小于<code>corePoolSize</code>的时候,每次提交一个任务,都会新建一个线程.</li>
+<li>当提交任务时当前启动的线程总数大于等于<code>corePoolSize</code>的时候,就会把任务扔到<code>workQueue</code>里面去,然后<code>新建</code>或者<code>复用</code>线程,并且保证启动的线程总数小于等于<code>maximumPoolSize</code>.</li>
+<li>每当一个任务结束之后,线程池里面的线程就会从<code>workQueue</code>中取.</li>
+</ol>
+<p><strong>maximumPoolSize = 核心线程数量 + 非核心线程数量</strong><br><strong>也容易看出,提交的任务总数应该小于<code>maximumPoolSize + workQueue的大小</code></strong><br>例如:maximumPoolSize = 10,workQueue的大小 = 20<br>当提交31个任务的时候,所有线程10个全开.然后还有21个任务需要进入任务队列里面等待被取走执行,但是任务队列的大小只有20,装不下21.这时候就会抛出<code>RejectedExecutionHandler</code>的异常</p>
+</blockquote>
+<h2 id="事例代码-2"><a href="#事例代码-2" class="headerlink" title="事例代码"></a>事例代码</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WorkPlace</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> AtomicInteger					count		= <span class="keyword">new</span> AtomicInteger(<span class="number">0</span>);</span><br><span class="line">																</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> LinkedBlockingQueue&lt;Runnable&gt;	workQueue	= <span class="keyword">new</span> LinkedBlockingQueue&lt;&gt;(<span class="number">5</span>);</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> Executor							executor	= <span class="keyword">new</span> ThreadPoolExecutor(<span class="number">5</span>, <span class="number">5</span>, <span class="number">1</span>, TimeUnit.SECONDS,</span><br><span class="line">			workQueue, <span class="keyword">new</span> ThreadFactory() &#123;</span><br><span class="line">				</span><br><span class="line">				<span class="meta">@Override</span></span><br><span class="line">				<span class="function"><span class="keyword">public</span> Thread <span class="title">newThread</span><span class="params">(Runnable r)</span> </span>&#123;</span><br><span class="line">					Thread thread = <span class="keyword">new</span> Thread(r);</span><br><span class="line">					thread.setName(<span class="string">"线程"</span> + count.getAndIncrement());</span><br><span class="line">					<span class="keyword">return</span> thread;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;);</span><br><span class="line">			</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		<span class="comment">/**</span><br><span class="line">		 * 模拟10个工人去申请使用工作台作业</span><br><span class="line">		 */</span></span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">			executor.execute(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">				</span><br><span class="line">				<span class="meta">@Override</span></span><br><span class="line">				<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">					work();</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/*</span><br><span class="line">	 * 工作台的作业情景,每次只能有5个工人在上面作业</span><br><span class="line">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">work</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			System.out.println(Thread.currentThread().getName() + <span class="string">"正在工作!"</span>);</span><br><span class="line">			Thread.sleep(<span class="number">3000</span>);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(Thread.currentThread().getName() + <span class="string">"工作完毕!"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>同样,上面的代码也能够实现前面的效果<br>当我们把10个工人修改成11个工人的时候,程序就抛出<code>RejectedExecutionHandler</code>异常了<br><code>AtomicInteger</code>是<code>int</code>的另一个包装类,不过是线程安全的.因为我们不清楚同时会有多少个对象去调用<code>ThreadFactory</code>的<code>newThread</code>方法,所以为了保证编号的正确性,所以使用<code>AtomicInteger</code>代替<code>int</code></p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/线程池/" rel="tag">#线程池</a>
+          
+            <a href="/tags/并发/" rel="tag">#并发</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/11/inject-demo/" rel="next" title="如何做一个简单的注解框架">
+                <i class="fa fa-chevron-left"></i> 如何做一个简单的注解框架
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/07/15/java-thread-pool-executor/"
+           data-title="聊聊Java线程池那些事" data-url="http://august1996.top/2016/07/15/java-thread-pool-executor/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="August1996" />
+          <p class="site-author-name" itemprop="name">August1996</p>
+          <p class="site-description motion-element" itemprop="description">新博客,新生活!!!</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">59</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">61</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/august1996" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/august1996" target="_blank" title="Zhihu">
+                  
+                    <i class="fa fa-fw fa-comments"></i>
+                  
+                  Zhihu
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/august1996" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://ascenz.xyz/" title="Ascenz的博客" target="_blank">Ascenz的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://tangent.gift/" title="Tangent的博客" target="_blank">Tangent的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.cnblogs.com/wuweixin" title="Wyshon的博客" target="_blank">Wyshon的博客</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么使用线程池"><span class="nav-number">1.</span> <span class="nav-text">为什么使用线程池</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#控制执行线程的数量"><span class="nav-number">2.</span> <span class="nav-text">控制执行线程的数量</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用锁"><span class="nav-number">2.1.</span> <span class="nav-text">使用锁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#事例代码"><span class="nav-number">2.1.1.</span> <span class="nav-text">事例代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用线程池实现"><span class="nav-number">2.2.</span> <span class="nav-text">使用线程池实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Java线程池类型"><span class="nav-number">2.2.1.</span> <span class="nav-text">Java线程池类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事例代码-1"><span class="nav-number">2.2.2.</span> <span class="nav-text">事例代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#简单剖析Java的线程池类型"><span class="nav-number">3.</span> <span class="nav-text">简单剖析Java的线程池类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ThreadPoolExecutor构造器参数"><span class="nav-number">3.1.</span> <span class="nav-text">ThreadPoolExecutor构造器参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#错综复杂的corePoolSize-maximumPoolSize-workQueue关系"><span class="nav-number">3.1.1.</span> <span class="nav-text">错综复杂的corePoolSize maximumPoolSize workQueue关系</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事例代码-2"><span class="nav-number">3.2.</span> <span class="nav-text">事例代码</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">August1996</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"august1996"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+
+  
+
+  
+  
+</body>
+</html>
