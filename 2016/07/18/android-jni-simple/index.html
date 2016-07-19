@@ -96,7 +96,7 @@ Android NDK是在SDK前面又加上了“原生”二字,即Native Development K
 
 JNI是Java Native Interface的缩写,它提供了若干的API实现了Java和其他语言的通信（主要是C&amp;amp;C++）.就是说我们使用在Java代码里面去使用其他语言现有的API.JNI不局限与Android平台.
 Android NDK是在SDK前面又加上了“原生”二字,即Native Development Kit,因此又被Goo">
-<meta property="og:updated_time" content="2016-07-19T00:23:20.000Z">
+<meta property="og:updated_time" content="2016-07-19T02:08:30.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AndroidJNI与Android NDK初探">
 <meta name="twitter:description" content="引言什么是JNI和Android NDK
@@ -492,6 +492,38 @@ Android NDK是在SDK前面又加上了“原生”二字,即Native Development K
 <blockquote>
 <p>从上面例子(<code>模板</code>)可以看到,需要操作类型的时候,<code>传参</code>跟<code>返回值</code>都要转换成对应的语言的类型.<br>这篇博客大概了解一下什么是<code>JNI</code>,其实我也是刚在学习.就mark一下吧.希望大家多多交流.</p>
 </blockquote>
+<h1 id="配置Eclipse的javah"><a href="#配置Eclipse的javah" class="headerlink" title="配置Eclipse的javah"></a>配置Eclipse的javah</h1><blockquote>
+<p>其实我们也可以去配置Eclipse的启动配置,不用手动切换目录去生成<code>C/C++</code>的文件声明</p>
+</blockquote>
+<h2 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h2><p><code>导航菜单</code>-&gt;<code>Run</code>-&gt;<code>External Tools</code>-&gt;<code>External Tools Configurations</code>-&gt;<code>Program</code>-&gt;<code>选项卡左上角加号</code>-&gt;<code>出现新配置项</code></p>
+<h2 id="第二步"><a href="#第二步" class="headerlink" title="第二步"></a>第二步</h2><blockquote>
+<p>说一下几个需要填写的东西</p>
+</blockquote>
+<ul>
+<li><code>Name</code>:    启动配置名称</li>
+<li><code>Location</code>    : 启动项的外部文件路径</li>
+<li><code>Working Directory</code>    :    外部文件的工作目录</li>
+<li><code>Arguments</code>    :    外部文件运行的参数</li>
+</ul>
+<blockquote>
+<p>下面是我的参考配置,<strong>除了Location外,其他可以直接拷贝</strong></p>
+</blockquote>
+<ul>
+<li><strong>Name</strong>:        <code>javah</code></li>
+<li><strong>Location</strong>    : <code>/System/Library/Frameworks/JavaVM.framework/Versions/Current/Commands/javah</code></li>
+<li><strong>Working Directory</strong>    :    <code>${project_loc}/src</code></li>
+<li><strong>Arguments</strong>    :    <code>-d ${project_loc}/jni  ${java_type_name}</code></li>
+</ul>
+<blockquote>
+<p><code>apply</code>上面配置后切换到<code>Refresh</code>选项卡,然后选中<code>The project containing the  selected resource</code>再<code>apply</code>一次就ok了</p>
+</blockquote>
+<h2 id="第三步"><a href="#第三步" class="headerlink" title="第三步"></a>第三步</h2><blockquote>
+<p>假设现在我们要为<code>MainActity</code>生成对应的<code>C/C++</code>声明文件.</p>
+</blockquote>
+<ol>
+<li>选中或者打开<code>MainActity.java</code>,一定要保证当前鼠标焦点在<code>需要生成的Java文件中</code></li>
+<li><code>Run</code>-&gt;<code>External Tools</code>-&gt;<code>javah</code>,直接就看到<code>jni</code>目录下面生成了头文件</li>
+</ol>
 
       
     </div>
@@ -722,7 +754,7 @@ Android NDK是在SDK前面又加上了“原生”二字,即Native Development K
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是JNI和Android-NDK"><span class="nav-number">1.1.</span> <span class="nav-text">什么是JNI和Android NDK</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用JNI有什么用"><span class="nav-number">1.2.</span> <span class="nav-text">使用JNI有什么用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#环境"><span class="nav-number">2.</span> <span class="nav-text">环境</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#本机的环境"><span class="nav-number">2.1.</span> <span class="nav-text">本机的环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置NDK的执行路径"><span class="nav-number">2.2.</span> <span class="nav-text">配置NDK的执行路径</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#解压NDK-路径信息不要出现中文"><span class="nav-number">2.2.1.</span> <span class="nav-text">解压NDK,路径信息不要出现中文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置环境变量-OSX为例"><span class="nav-number">2.2.2.</span> <span class="nav-text">配置环境变量(OSX为例)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置Eclipse环境"><span class="nav-number">2.2.3.</span> <span class="nav-text">配置Eclipse环境</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Demo1-Hello-world"><span class="nav-number">3.</span> <span class="nav-text">Demo1:Hello world</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#native方法声明"><span class="nav-number">3.1.</span> <span class="nav-text">native方法声明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法调用"><span class="nav-number">3.2.</span> <span class="nav-text">方法调用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用javah"><span class="nav-number">3.3.</span> <span class="nav-text">使用javah</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编写函数"><span class="nav-number">3.4.</span> <span class="nav-text">编写函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变量类型讲解"><span class="nav-number">3.5.</span> <span class="nav-text">变量类型讲解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加载模块"><span class="nav-number">3.6.</span> <span class="nav-text">加载模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#走起"><span class="nav-number">3.7.</span> <span class="nav-text">走起</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Demo2-字符串传参"><span class="nav-number">4.</span> <span class="nav-text">Demo2:字符串传参</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义函数"><span class="nav-number">4.1.</span> <span class="nav-text">定义函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成native函数版本的函数声明"><span class="nav-number">4.2.</span> <span class="nav-text">生成native函数版本的函数声明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改函数声明并添加到test-c中"><span class="nav-number">4.3.</span> <span class="nav-text">修改函数声明并添加到test.c中</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编写test-c具体代码"><span class="nav-number">4.4.</span> <span class="nav-text">编写test.c具体代码</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是JNI和Android-NDK"><span class="nav-number">1.1.</span> <span class="nav-text">什么是JNI和Android NDK</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用JNI有什么用"><span class="nav-number">1.2.</span> <span class="nav-text">使用JNI有什么用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#环境"><span class="nav-number">2.</span> <span class="nav-text">环境</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#本机的环境"><span class="nav-number">2.1.</span> <span class="nav-text">本机的环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置NDK的执行路径"><span class="nav-number">2.2.</span> <span class="nav-text">配置NDK的执行路径</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#解压NDK-路径信息不要出现中文"><span class="nav-number">2.2.1.</span> <span class="nav-text">解压NDK,路径信息不要出现中文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置环境变量-OSX为例"><span class="nav-number">2.2.2.</span> <span class="nav-text">配置环境变量(OSX为例)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置Eclipse环境"><span class="nav-number">2.2.3.</span> <span class="nav-text">配置Eclipse环境</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Demo1-Hello-world"><span class="nav-number">3.</span> <span class="nav-text">Demo1:Hello world</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#native方法声明"><span class="nav-number">3.1.</span> <span class="nav-text">native方法声明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法调用"><span class="nav-number">3.2.</span> <span class="nav-text">方法调用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用javah"><span class="nav-number">3.3.</span> <span class="nav-text">使用javah</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编写函数"><span class="nav-number">3.4.</span> <span class="nav-text">编写函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变量类型讲解"><span class="nav-number">3.5.</span> <span class="nav-text">变量类型讲解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加载模块"><span class="nav-number">3.6.</span> <span class="nav-text">加载模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#走起"><span class="nav-number">3.7.</span> <span class="nav-text">走起</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Demo2-字符串传参"><span class="nav-number">4.</span> <span class="nav-text">Demo2:字符串传参</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义函数"><span class="nav-number">4.1.</span> <span class="nav-text">定义函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成native函数版本的函数声明"><span class="nav-number">4.2.</span> <span class="nav-text">生成native函数版本的函数声明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改函数声明并添加到test-c中"><span class="nav-number">4.3.</span> <span class="nav-text">修改函数声明并添加到test.c中</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编写test-c具体代码"><span class="nav-number">4.4.</span> <span class="nav-text">编写test.c具体代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置Eclipse的javah"><span class="nav-number">5.</span> <span class="nav-text">配置Eclipse的javah</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一步"><span class="nav-number">5.1.</span> <span class="nav-text">第一步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二步"><span class="nav-number">5.2.</span> <span class="nav-text">第二步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三步"><span class="nav-number">5.3.</span> <span class="nav-text">第三步</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
