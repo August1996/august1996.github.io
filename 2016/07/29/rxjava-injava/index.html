@@ -1,0 +1,924 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="RXjava,设计模式,观察者," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="写来干嘛
+以前年少无知，粗略地学了一些RXJava的基本语句，感觉没什么用。因为群里面一些大神天天讨论只是因为逼格高。。。哎那时候还是年轻啊，最近一位搞IOS的朋友在大力赞赏RX这个概念。什么Reactive coco和RXSwift之类的。弄得我最后还是去学了，然后发现自己那时候真的是太年轻了，幼稚之中还带着那么一些弱智。。。不扯了，写这系列博客就是想分（zhuang）享（bi）一下。。。
+
+引">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一起来学RXJava吧（1）-观察者模式">
+<meta property="og:url" content="http://august1996.top/2016/07/29/rxjava-injava/index.html">
+<meta property="og:site_name" content="August1996的小狗窝">
+<meta property="og:description" content="写来干嘛
+以前年少无知，粗略地学了一些RXJava的基本语句，感觉没什么用。因为群里面一些大神天天讨论只是因为逼格高。。。哎那时候还是年轻啊，最近一位搞IOS的朋友在大力赞赏RX这个概念。什么Reactive coco和RXSwift之类的。弄得我最后还是去学了，然后发现自己那时候真的是太年轻了，幼稚之中还带着那么一些弱智。。。不扯了，写这系列博客就是想分（zhuang）享（bi）一下。。。
+
+引">
+<meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesrx-injava-1.png">
+<meta property="og:updated_time" content="2016-07-29T10:06:34.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一起来学RXJava吧（1）-观察者模式">
+<meta name="twitter:description" content="写来干嘛
+以前年少无知，粗略地学了一些RXJava的基本语句，感觉没什么用。因为群里面一些大神天天讨论只是因为逼格高。。。哎那时候还是年轻啊，最近一位搞IOS的朋友在大力赞赏RX这个概念。什么Reactive coco和RXSwift之类的。弄得我最后还是去学了，然后发现自己那时候真的是太年轻了，幼稚之中还带着那么一些弱智。。。不扯了，写这系列博客就是想分（zhuang）享（bi）一下。。。
+
+引">
+<meta name="twitter:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesrx-injava-1.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6289901108416480000,
+      author: 'August1996'
+    }
+  };
+</script>
+
+  <title> 一起来学RXJava吧（1）-观察者模式 | August1996的小狗窝 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?ca08f65a7dda04c0e669531a7ef88472";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">August1996的小狗窝</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">记录一个傻屌程序员的日常...</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'z8JdSugezj6oS795yEMb','2.0.0');
+</script>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                一起来学RXJava吧（1）-观察者模式
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-29T14:21:06+08:00" content="2016-07-29">
+              2016-07-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android进阶/" itemprop="url" rel="index">
+                    <span itemprop="name">Android进阶</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/29/rxjava-injava/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/29/rxjava-injava/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="写来干嘛"><a href="#写来干嘛" class="headerlink" title="写来干嘛"></a>写来干嘛</h1><blockquote>
+<p>以前年少无知，粗略地学了一些RXJava的基本语句，感觉没什么用。因为群里面一些大神天天讨论只是因为逼格高。。。哎那时候还是年轻啊，最近一位搞IOS的朋友在大力赞赏<code>RX</code>这个概念。什么<code>Reactive coco</code>和<code>RXSwift</code>之类的。弄得我最后还是去学了，然后发现自己那时候真的是太年轻了，幼稚之中还带着那么一些弱智。。。不扯了，写这系列博客就是想分（zhuang）享（bi）一下。。。</p>
+</blockquote>
+<h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><h2 id="什么是响应式编程"><a href="#什么是响应式编程" class="headerlink" title="什么是响应式编程"></a>什么是响应式编程</h2><blockquote>
+<p>响应式编程是一种基于<code>异步数据流</code>概念的编程模式。所有的数据流就像一条河一样。可以被<code>观测</code>，<code>被过滤</code>，<code>被操作</code>，<code>被合并</code>。</p>
+</blockquote>
+<h2 id="为什么是观察者模式"><a href="#为什么是观察者模式" class="headerlink" title="为什么是观察者模式"></a>为什么是观察者模式</h2><blockquote>
+<p>因为响应式是可<code>观测</code>的嘛。。。数据更新时必须去通知有相关依赖的对象。</p>
+</blockquote>
+<h2 id="什么是观察者模式"><a href="#什么是观察者模式" class="headerlink" title="什么是观察者模式"></a>什么是观察者模式</h2><blockquote>
+<p>观察者模式其实在我们生活中特别常见。就像你和隔壁老王订阅了天气和杂志。当有新的信息更新时，你和隔壁老王都会接到通知。<br>高大上的说法就是基于<code>Subject</code>这个概念，<code>Subject</code>是一个特殊对象，就是类似上面的天气信息，是作为<code>被观察的事物</code>，称为<code>被观察者</code>。而订阅的<code>Observers</code>，也就是你和老王，的称为<code>观察者</code>。当<code>Subject</code>保存的一系列信息被更新修改后就会通知所有定于的<code>Observers</code>。<br><strong>比较重要的一点是，<code>观察者</code>之间是没什么关系的，他们可以属于各种各样的人群。</strong><br><strong>下面这图看不懂就先算了吧。。。回头再看</strong><br><img src="http://o7xj6lxqq.bkt.clouddn.com/imagesrx-injava-1.png" alt="观察者与被观察者"></p>
+</blockquote>
+<h1 id="用Java动手写个观察者Demo呗"><a href="#用Java动手写个观察者Demo呗" class="headerlink" title="用Java动手写个观察者Demo呗"></a>用Java动手写个观察者Demo呗</h1><blockquote>
+<p>这里找一个场景。例如煎饼是在气象局工作。而煎饼的妈妈和女朋友（假装有女朋友）都订阅了煎饼的明天天气预报信息。到了等到煎饼第一时间知道天气信息更新的时候，就去通知她们两。</p>
+</blockquote>
+<h2 id="Observer模板"><a href="#Observer模板" class="headerlink" title="Observer模板"></a>Observer模板</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IObserver</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">update</span><span class="params">(T data)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>而Observer模板使用接口，是因为上面说到订阅者可以使各种人群，所以他们只需要是实现Observer接口就可以了，而且Java是单继承的。不用接口的话下面就不能去继承了。。。</p>
+</blockquote>
+<h2 id="Observable模板"><a href="#Observable模板" class="headerlink" title="Observable模板"></a>Observable模板</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Observable</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> T					data;</span><br><span class="line">								</span><br><span class="line">	<span class="keyword">private</span> List&lt;IObserver&lt;T&gt;&gt;	observerList	= <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">												</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">attach</span><span class="params">(IObserver&lt;T&gt; observer)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.observerList.add(observer);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">detach</span><span class="params">(IObserver&lt;T&gt; observer)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.observerList.remove(observer);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> T <span class="title">getData</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> data;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setData</span><span class="params">(T data)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.data = data;</span><br><span class="line">		notifyDataChange();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">notifyDataChange</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">for</span> (IObserver&lt;T&gt; observer : observerList) &#123;</span><br><span class="line">			observer.update(data);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这里的Observable模板使用抽象类，因为当信息更新的时候。提醒的行为是不一样的。所以就让实现类去完成这工作。</p>
+</blockquote>
+<h2 id="Girl实现类"><a href="#Girl实现类" class="headerlink" title="Girl实现类"></a>Girl实现类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Girl</span> <span class="keyword">implements</span> <span class="title">IObserver</span>&lt;<span class="title">String</span>&gt; </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> String	name;</span><br><span class="line">	<span class="keyword">private</span> String	something;</span><br><span class="line">					</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Girl</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Girl</span><span class="params">(String name, String something)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.name = name;</span><br><span class="line">		<span class="keyword">this</span>.something = something;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">(String data)</span> </span>&#123;</span><br><span class="line">		System.out.println(data + <span class="string">"，你要和"</span> + name + something + <span class="string">"。"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> name;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.name = name;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getSomething</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> something;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSomething</span><span class="params">(String something)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.something = something;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>上面就是妈妈和女朋友的<code>观察者</code>实现类，因为逻辑比较简单。所以并没有体现出<code>观察者</code>来自不同的类</p>
+</blockquote>
+<ul>
+<li><code>something</code>    ： 就是不同的<code>观察者</code>对<code>天气改变</code>做出的<code>响应</code></li>
+</ul>
+<h2 id="调用"><a href="#调用" class="headerlink" title="调用"></a>调用</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		IObserver&lt;String&gt; mother = <span class="keyword">new</span> Girl(<span class="string">"妈妈"</span>, <span class="string">"购物"</span>);</span><br><span class="line">		IObserver&lt;String&gt; girlFriend = <span class="keyword">new</span> Girl(<span class="string">"女朋友"</span>, <span class="string">"约会"</span>);</span><br><span class="line">		Observable&lt;String&gt; jb = <span class="keyword">new</span> Observable&lt;&gt;();</span><br><span class="line">		jb.attach(mother);</span><br><span class="line">		jb.attach(girlFriend);</span><br><span class="line">		jb.setData(<span class="string">"今天天气晴朗，万里晴空"</span>);</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">今天天气晴朗，万里晴空，你要和妈妈购物。</span><br><span class="line">今天天气晴朗，万里晴空，你要和女朋友约会。</span><br></pre></td></tr></table></figure>
+<h1 id="观察者在Java"><a href="#观察者在Java" class="headerlink" title="观察者在Java"></a>观察者在Java</h1><blockquote>
+<p>上面是自己写的一个观察者Demo。其实Java里面早就给我们封装好了观察者和被观察者啊哈哈。。。我们看看吧。<br>注意一下导包，都是在<code>java.util</code>下面的，别乱导。。。</p>
+</blockquote>
+<h2 id="Girl2-Observer"><a href="#Girl2-Observer" class="headerlink" title="Girl2(Observer)"></a>Girl2(Observer)</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Girl2</span> <span class="keyword">implements</span> <span class="title">Observer</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> String	name;</span><br><span class="line">	<span class="keyword">private</span> String	something;</span><br><span class="line">					</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Girl2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Girl2</span><span class="params">(String name, String something)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.name = name;</span><br><span class="line">		<span class="keyword">this</span>.something = something;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">(Observable o, Object arg)</span> </span>&#123;</span><br><span class="line">		System.out.println(arg + <span class="string">"，你要和"</span> + name + something + <span class="string">"。"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="JBWeather-Observable"><a href="#JBWeather-Observable" class="headerlink" title="JBWeather(Observable)"></a>JBWeather(Observable)</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JBWeather</span> <span class="keyword">extends</span> <span class="title">Observable</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> String weather;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getWeather</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> weather;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setWeather</span><span class="params">(String weather)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.weather = weather;</span><br><span class="line">		setChanged();</span><br><span class="line">		notifyObservers(weather);</span><br><span class="line">	&#125;	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="调用-1"><a href="#调用-1" class="headerlink" title="调用"></a>调用</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Observer mother = <span class="keyword">new</span> Girl2(<span class="string">"妈妈"</span>, <span class="string">"购物"</span>);</span><br><span class="line">		Observer girlFriend = <span class="keyword">new</span> Girl2(<span class="string">"女朋友"</span>, <span class="string">"约会"</span>);</span><br><span class="line">		JBWeather jb = <span class="keyword">new</span> JBWeather();</span><br><span class="line">		jb.addObserver(mother);</span><br><span class="line">		jb.addObserver(girlFriend);</span><br><span class="line">		jb.setWeather(<span class="string">"今天天气晴朗，万里晴空"</span>);</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>其实观察者模式中有两种推送数据的方法，一种是直接把需要的数据传给订阅者，一个是把自己送出去。。。其中<code>Observable</code>中的<code>notifyObservers()</code>和<code>notifyObservers(Object obj)</code>就是这个区别。给参数就只穿数据，不给参数就把自己传出去。我们也可以看到<code>Observer</code>中的参数也是有两个的。。<br>还有就是更新信息别忘了<code>setChanged</code>方法，我就是忘了这个，然后就找了很久，最后看了一下源码。。。gg了</p>
+</blockquote>
+<h1 id="什么时候用观察者"><a href="#什么时候用观察者" class="headerlink" title="什么时候用观察者"></a>什么时候用观察者</h1><ul>
+<li>有两个实体类，一个的数据依赖另一个，你想让他们数据能够同步，但是又要相互独立，那就让他们成为观察者把。</li>
+<li>当一个变化需要通知其他对象，，那就让他们成为观察者把。</li>
+<li>当一个变化需要通知无法推断的对象，那就让他们成为观察者把。</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/RXjava/" rel="tag">#RXjava</a>
+          
+            <a href="/tags/设计模式/" rel="tag">#设计模式</a>
+          
+            <a href="/tags/观察者/" rel="tag">#观察者</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/29/retrofit-doc/" rel="next" title="Retrofit学习？这篇博文就差不多了">
+                <i class="fa fa-chevron-left"></i> Retrofit学习？这篇博文就差不多了
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/07/29/rxjava-injava/"
+           data-title="一起来学RXJava吧（1）-观察者模式" data-url="http://august1996.top/2016/07/29/rxjava-injava/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="August1996" />
+          <p class="site-author-name" itemprop="name">August1996</p>
+          <p class="site-description motion-element" itemprop="description">新博客,新生活!!!</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">63</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">69</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/august1996" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/august1996" target="_blank" title="Zhihu">
+                  
+                    <i class="fa fa-fw fa-comments"></i>
+                  
+                  Zhihu
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/august1996" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://ascenz.xyz/" title="Ascenz的博客" target="_blank">Ascenz的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://tangent.gift/" title="Tangent的博客" target="_blank">Tangent的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.cnblogs.com/wuweixin" title="Wyshon的博客" target="_blank">Wyshon的博客</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#写来干嘛"><span class="nav-number">1.</span> <span class="nav-text">写来干嘛</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#引言"><span class="nav-number">2.</span> <span class="nav-text">引言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是响应式编程"><span class="nav-number">2.1.</span> <span class="nav-text">什么是响应式编程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么是观察者模式"><span class="nav-number">2.2.</span> <span class="nav-text">为什么是观察者模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是观察者模式"><span class="nav-number">2.3.</span> <span class="nav-text">什么是观察者模式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#用Java动手写个观察者Demo呗"><span class="nav-number">3.</span> <span class="nav-text">用Java动手写个观察者Demo呗</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Observer模板"><span class="nav-number">3.1.</span> <span class="nav-text">Observer模板</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Observable模板"><span class="nav-number">3.2.</span> <span class="nav-text">Observable模板</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Girl实现类"><span class="nav-number">3.3.</span> <span class="nav-text">Girl实现类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调用"><span class="nav-number">3.4.</span> <span class="nav-text">调用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结果"><span class="nav-number">3.5.</span> <span class="nav-text">结果</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#观察者在Java"><span class="nav-number">4.</span> <span class="nav-text">观察者在Java</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Girl2-Observer"><span class="nav-number">4.1.</span> <span class="nav-text">Girl2(Observer)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JBWeather-Observable"><span class="nav-number">4.2.</span> <span class="nav-text">JBWeather(Observable)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调用-1"><span class="nav-number">4.3.</span> <span class="nav-text">调用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#什么时候用观察者"><span class="nav-number">5.</span> <span class="nav-text">什么时候用观察者</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">August1996</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"august1996"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+
+  
+
+  
+  
+</body>
+</html>
