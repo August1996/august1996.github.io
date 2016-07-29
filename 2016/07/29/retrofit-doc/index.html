@@ -1,0 +1,987 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Retrofit,RESTful," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="差不多啥？只是差不多入门而已。。。
+
+引言
+最近项目没什么进度，一直在学习IOS跟复习PHP。Android这边也没怎么搞了。不过这东西可不能拉下啊。二话不说赶紧上Github学习下新的框架。就看到了两个比较火的RXJava和Retrofit。于是就开始啃一下Retrofit文档。文档可谓是短小精悍。。。一开始硬是没看懂。下面就把自己看懂的部分说一下吧。
+
+Retrofit到底是个啥
+Retro">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Retrofit学习？这篇博文就差不多了">
+<meta property="og:url" content="http://august1996.top/2016/07/29/retrofit-doc/index.html">
+<meta property="og:site_name" content="August1996的小狗窝">
+<meta property="og:description" content="差不多啥？只是差不多入门而已。。。
+
+引言
+最近项目没什么进度，一直在学习IOS跟复习PHP。Android这边也没怎么搞了。不过这东西可不能拉下啊。二话不说赶紧上Github学习下新的框架。就看到了两个比较火的RXJava和Retrofit。于是就开始啃一下Retrofit文档。文档可谓是短小精悍。。。一开始硬是没看懂。下面就把自己看懂的部分说一下吧。
+
+Retrofit到底是个啥
+Retro">
+<meta property="og:updated_time" content="2016-07-29T05:10:40.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Retrofit学习？这篇博文就差不多了">
+<meta name="twitter:description" content="差不多啥？只是差不多入门而已。。。
+
+引言
+最近项目没什么进度，一直在学习IOS跟复习PHP。Android这边也没怎么搞了。不过这东西可不能拉下啊。二话不说赶紧上Github学习下新的框架。就看到了两个比较火的RXJava和Retrofit。于是就开始啃一下Retrofit文档。文档可谓是短小精悍。。。一开始硬是没看懂。下面就把自己看懂的部分说一下吧。
+
+Retrofit到底是个啥
+Retro">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6289901108416480000,
+      author: 'August1996'
+    }
+  };
+</script>
+
+  <title> Retrofit学习？这篇博文就差不多了 | August1996的小狗窝 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?ca08f65a7dda04c0e669531a7ef88472";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">August1996的小狗窝</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">记录一个傻屌程序员的日常...</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'z8JdSugezj6oS795yEMb','2.0.0');
+</script>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Retrofit学习？这篇博文就差不多了
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-29T08:22:22+08:00" content="2016-07-29">
+              2016-07-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android进阶/" itemprop="url" rel="index">
+                    <span itemprop="name">Android进阶</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/29/retrofit-doc/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/29/retrofit-doc/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p><strong>差不多啥？只是差不多入门而已。。。</strong></p>
+</blockquote>
+<h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><blockquote>
+<p>最近项目没什么进度，一直在学习IOS跟复习PHP。Android这边也没怎么搞了。不过这东西可不能拉下啊。二话不说赶紧上Github学习下新的框架。就看到了两个比较火的<code>RXJava</code>和<code>Retrofit</code>。于是就开始啃一下<code>Retrofit</code>文档。文档可谓是短小精悍。。。一开始硬是没看懂。下面就把自己看懂的部分说一下吧。</p>
+</blockquote>
+<h1 id="Retrofit到底是个啥"><a href="#Retrofit到底是个啥" class="headerlink" title="Retrofit到底是个啥"></a>Retrofit到底是个啥</h1><blockquote>
+<p>Retrofit是一套RESTful架构的Android(Java)客户端实现，基于注解，提供JSON to POJO(Plain Ordinary Java Object,简单Java对象)，POJO to JSON，网络请求(POST，GET,PUT，DELETE等)封装。<br><strong>从别人那里偷来的定义，看清来应该已经足够清晰了吧？至于什么是<code>RESTful</code>？不要问我，因为我对这个概念也比较模糊。。。</strong></p>
+</blockquote>
+<h1 id="没时间解释了，赶紧上车"><a href="#没时间解释了，赶紧上车" class="headerlink" title="没时间解释了，赶紧上车"></a>没时间解释了，赶紧上车</h1><blockquote>
+<p>我们这里跟官方文档不一样，我们先获取最简单的网络数据吧。就是获取<code>String</code>类型的数据。<br>然后我们再去结合<code>Gson</code>去直接把返回的数据转成<code>模型</code>。</p>
+</blockquote>
+<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><ul>
+<li>Android Studio 2.1.1</li>
+<li>OSX 10.11.6</li>
+</ul>
+<h2 id="第一步：导入库"><a href="#第一步：导入库" class="headerlink" title="第一步：导入库"></a>第一步：导入库</h2><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">compile</span> <span class="string">'com.squareup.retrofit2:retrofit:2.1.0'</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>没啥好说的</p>
+</blockquote>
+<h2 id="第二部：编写服务接口"><a href="#第二部：编写服务接口" class="headerlink" title="第二部：编写服务接口"></a>第二部：编写服务接口</h2><blockquote>
+<p>刚开始看这种做法有点奇葩，可能是本人的见识不足，勿喷。。。。不过后来发现这样写是真的屌。。自己慢慢去体会。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * Created by August on 16/7/29.</span><br><span class="line"> * 获取Github首页的HTML源码</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">GithubService</span> </span>&#123;</span><br><span class="line">    <span class="meta">@GET</span>(<span class="string">"/"</span>)</span><br><span class="line">    <span class="function">Call&lt;String&gt; <span class="title">getGitHubIndexSource</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>上面只是获取HTML源码，别想太多。。。。</p>
+</blockquote>
+<ul>
+<li><code>@GET(&quot;/&quot;)</code>    ：使用<code>GET</code>方法，到时候请求某网站的<code>/</code>路径下的网页。获取啥就得到啥。一般根目录都是首页的。至于一般**获取数据使用<code>GET</code>，传输数据使用<code>POST</code>这个就没什么异议了吧？</li>
+<li><code>Call&lt;String&gt;</code>：最终数据类型使用<code>String</code></li>
+</ul>
+<h2 id="第三部：直接调用"><a href="#第三部：直接调用" class="headerlink" title="第三部：直接调用"></a>第三部：直接调用</h2><figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">Retrofit retrofit = <span class="keyword">new</span> Retrofit</span><br><span class="line">        .Builder()</span><br><span class="line">        .baseUrl(<span class="string">"https://github.com/"</span>)</span><br><span class="line">        .addConverterFactory(<span class="keyword">new</span> Converter.Factory() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            <span class="keyword">public</span> Converter&lt;ResponseBody, ?&gt; responseBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) &#123;</span><br><span class="line">                return <span class="keyword">new</span> Converter&lt;ResponseBody, <span class="built_in">String</span>&gt;() &#123;</span><br><span class="line">                    @Override</span><br><span class="line">                    <span class="keyword">public</span> <span class="built_in">String</span> convert(ResponseBody value) throws IOException &#123;</span><br><span class="line">                        return value.<span class="built_in">string</span>();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">        .build();</span><br><span class="line">GithubService githubService = retrofit.create(GithubService.<span class="keyword">class</span>);</span><br><span class="line"><span class="keyword">Call</span>&lt;<span class="built_in">String</span>&gt; indexSource = githubService.getGitHubIndexSource();</span><br><span class="line">indexSource.enqueue(<span class="keyword">new</span> Callback&lt;<span class="built_in">String</span>&gt;() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    <span class="keyword">public</span> void onResponse(<span class="keyword">Call</span>&lt;<span class="built_in">String</span>&gt; <span class="keyword">call</span>, <span class="built_in">Response</span>&lt;<span class="built_in">String</span>&gt; <span class="built_in">response</span>) &#123;</span><br><span class="line">        <span class="built_in">Log</span>.i(<span class="string">"TAG"</span>, <span class="built_in">response</span>.body());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    <span class="keyword">public</span> void onFailure(<span class="keyword">Call</span>&lt;<span class="built_in">String</span>&gt; <span class="keyword">call</span>, Throwable t) &#123;</span><br><span class="line">        <span class="built_in">Log</span>.i(<span class="string">"TAG"</span>, t.getMessage());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>我们成功就可以打印出结果了。看到这里你可能会想暴揍一顿笔者，然后头也不回地离开。。。我第一次也有这样的想法，不过你得耐心看下去，真的。。。因为此处我们使用了最基础的<code>Converter</code>所以代码写起来有点多。但是作为程序员要懂得<code>封装</code>。待会我们就可以使用<code>GsonConverter</code>编写出简介的代码。</p>
+</blockquote>
+<ul>
+<li><code>baseUrl</code>：这里才真正给出了请求的地址，这里的地址会和<code>GithubService</code>中的<code>GET</code>中的参数<code>/</code>进行拼接。</li>
+<li><code>addConverterFactory</code>：添加转换器，这里我们使用了原生的<code>Converter.Factory</code>抽象类结合<code>Converter</code>。我们把返回的<code>二进制流</code>(姑且认为你们都知道数据是以二进制数据流传输的。。。)转换成<code>ResponseBody</code>然后转换成<code>String</code>。<strong>其实我们一般只需要做<code>ResponseBody</code>到<code>String</code>或者<code>其他模型</code>的转换就可以了。因为Android开发一般访问都是要的是数据，所以二进制流的就甭管了。。。</strong></li>
+<li>然后我们就通过<code>retrofit.create</code>去实现<code>GithubService</code>接口并返回。内部具体怎样就不要问我，因为我也没（kan）去（bu）看（dong）它的源码。</li>
+<li><code>githubService.getGitHubIndexSource</code>：构造出来了一个<code>Call</code>对象咯，这跟很多网络库没啥区别。</li>
+<li><code>indexSource.enqueue</code>：把<code>Call</code>加入<code>异步请求队列</code>。然后通过回调获取结果。</li>
+</ul>
+<blockquote>
+<p>嗯？整个过程就大概像我上面那样说的。。。</p>
+</blockquote>
+<h1 id="一起装逼一起飞"><a href="#一起装逼一起飞" class="headerlink" title="一起装逼一起飞"></a>一起装逼一起飞</h1><blockquote>
+<p>上面使用原生的<code>CallBack</code>我们已经受够了。。。一坨坨的代码如翔一样挥之不去。。。我们结合别人封装的<code>GsonConverter</code>来写一个从<code>请求</code>到<code>模型的转换吧</code>。<br>我们使用一个<a href="">天气的API</a>来获取数据吧。自己注册开发者身份</p>
+</blockquote>
+<h2 id="第一步：还是导入库（这是新的库。。。）"><a href="#第一步：还是导入库（这是新的库。。。）" class="headerlink" title="第一步：还是导入库（这是新的库。。。）"></a>第一步：还是导入库（这是新的库。。。）</h2><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">compile</span> <span class="string">'com.squareup.retrofit2:converter-gson:2.1.0'</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>因为我们前面选择的是<code>Retrofit2.1.0</code>的库。所以我们选择的<code>converter-gson</code>的版本也要对应上，我在学习的过程中就遇到过版本不对上的话就出错了。可能版本之间差异还是比较大的。还有让你添加库，你丫的别把<code>Retrofit2.1.0</code>给删掉。。。</p>
+</blockquote>
+<h2 id="第二步：编写模型"><a href="#第二步：编写模型" class="headerlink" title="第二步：编写模型"></a>第二步：编写模型</h2><blockquote>
+<p>我们可以找到我们需要获取的数据的返回格式</p>
+</blockquote>
+<h3 id="获取城市列表返回数据"><a href="#获取城市列表返回数据" class="headerlink" title="获取城市列表返回数据"></a>获取城市列表返回数据</h3><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"><span class="symbol">    errNum:</span> <span class="number">0</span>,</span><br><span class="line"><span class="symbol">    errMsg:</span> <span class="string">"success"</span>,</span><br><span class="line"><span class="symbol">    retData:</span> [</span><br><span class="line">        &#123;</span><br><span class="line"><span class="symbol">            province_cn:</span> <span class="string">"北京"</span>,  <span class="comment">//省</span></span><br><span class="line"><span class="symbol">            district_cn:</span> <span class="string">"北京"</span>,  <span class="comment">//市</span></span><br><span class="line"><span class="symbol">            name_cn:</span> <span class="string">"朝阳"</span>,    <span class="comment">//区、县 </span></span><br><span class="line"><span class="symbol">            name_en:</span> <span class="string">"chaoyang"</span>,  <span class="comment">//城市拼音</span></span><br><span class="line"><span class="symbol">            area_id:</span> <span class="string">"101010300"</span>  <span class="comment">//城市代码</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line"><span class="symbol">            province_cn:</span> <span class="string">"辽宁"</span>,</span><br><span class="line"><span class="symbol">            district_cn:</span> <span class="string">"朝阳"</span>,</span><br><span class="line"><span class="symbol">            name_cn:</span> <span class="string">"朝阳"</span>,</span><br><span class="line"><span class="symbol">            name_en:</span> <span class="string">"chaoyang"</span>,</span><br><span class="line"><span class="symbol">            area_id:</span> <span class="string">"101071201"</span></span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="获取指定天气信息返回数据"><a href="#获取指定天气信息返回数据" class="headerlink" title="获取指定天气信息返回数据"></a>获取指定天气信息返回数据</h3><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"><span class="symbol">errNum:</span> <span class="number">0</span>,</span><br><span class="line"><span class="symbol">errMsg:</span> <span class="string">"success"</span>,</span><br><span class="line"><span class="symbol">retData:</span> &#123;</span><br><span class="line"><span class="symbol">   city:</span> <span class="string">"北京"</span>, <span class="comment">//城市</span></span><br><span class="line"><span class="symbol">   pinyin:</span> <span class="string">"beijing"</span>, <span class="comment">//城市拼音</span></span><br><span class="line"><span class="symbol">   citycode:</span> <span class="string">"101010100"</span>,  <span class="comment">//城市编码	</span></span><br><span class="line"><span class="symbol">   date:</span> <span class="string">"15-02-11"</span>, <span class="comment">//日期</span></span><br><span class="line"><span class="symbol">   time:</span> <span class="string">"11:00"</span>, <span class="comment">//发布时间</span></span><br><span class="line"><span class="symbol">   postCode:</span> <span class="string">"100000"</span>, <span class="comment">//邮编</span></span><br><span class="line"><span class="symbol">   longitude:</span> <span class="number">116.391</span>, <span class="comment">//经度</span></span><br><span class="line"><span class="symbol">   latitude:</span> <span class="number">39.904</span>, <span class="comment">//维度</span></span><br><span class="line"><span class="symbol">   altitude:</span> <span class="string">"33"</span>, <span class="comment">//海拔	</span></span><br><span class="line"><span class="symbol">   weather:</span> <span class="string">"晴"</span>,  <span class="comment">//天气情况</span></span><br><span class="line"><span class="symbol">   temp:</span> <span class="string">"10"</span>, <span class="comment">//气温</span></span><br><span class="line"><span class="symbol">   l_tmp:</span> <span class="string">"-4"</span>, <span class="comment">//最低气温</span></span><br><span class="line"><span class="symbol">   h_tmp:</span> <span class="string">"10"</span>, <span class="comment">//最高气温</span></span><br><span class="line"><span class="symbol">   WD:</span> <span class="string">"无持续风向"</span>,	 <span class="comment">//风向</span></span><br><span class="line"><span class="symbol">   WS:</span> <span class="string">"微风(&lt;10m/h)"</span>, <span class="comment">//风力</span></span><br><span class="line"><span class="symbol">   sunrise:</span> <span class="string">"07:12"</span>, <span class="comment">//日出时间</span></span><br><span class="line"><span class="symbol">   sunset:</span> <span class="string">"17:44"</span> <span class="comment">//日落时间</span></span><br><span class="line">  &#125;    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>从上面我们可以看出，我们需要建立4个模型。</p>
+<ul>
+<li><code>CityListResult</code>：包装<code>获取城市列表返回数据</code>整个JSON</li>
+<li><code>CityInfo</code>：包装<code>CityListResult</code>中的<code>retData</code>中的每一个城市信息</li>
+<li><code>WeatherResult</code>：包装<code>获取指定天气信息返回数据</code>整个JSON</li>
+<li><code>Weather</code>：包装<code>WeatherResult</code>中的每一个<code>retData</code></li>
+</ul>
+<p>所以我们的模型代码就像下面那样</p>
+</blockquote>
+<h3 id="CityInfo模型"><a href="#CityInfo模型" class="headerlink" title="CityInfo模型"></a>CityInfo模型</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CityInfo</span> </span>&#123;</span><br><span class="line">    <span class="meta">@SerializedName</span>(<span class="string">"province_cn"</span>)</span><br><span class="line">    <span class="keyword">private</span> String provinceCN;</span><br><span class="line">    <span class="meta">@SerializedName</span>(<span class="string">"district_cn"</span>)</span><br><span class="line">    <span class="keyword">private</span> String districtCN;</span><br><span class="line">    <span class="meta">@SerializedName</span>(<span class="string">"name_cn"</span>)</span><br><span class="line">    <span class="keyword">private</span> String nameCN;</span><br><span class="line">    <span class="meta">@SerializedName</span>(<span class="string">"name_en"</span>)</span><br><span class="line">    <span class="keyword">private</span> String nameEN;</span><br><span class="line">    <span class="meta">@SerializedName</span>(<span class="string">"area_id"</span>)</span><br><span class="line">    <span class="keyword">private</span> String areaID;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getProvinceCN</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> provinceCN;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setProvinceCN</span><span class="params">(String provinceCN)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.provinceCN = provinceCN;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDistrictCN</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> districtCN;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setDistrictCN</span><span class="params">(String districtCN)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.districtCN = districtCN;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getNameCN</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> nameCN;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setNameCN</span><span class="params">(String nameCN)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.nameCN = nameCN;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getNameEN</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> nameEN;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setNameEN</span><span class="params">(String nameEN)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.nameEN = nameEN;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getAreaID</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> areaID;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAreaID</span><span class="params">(String areaID)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.areaID = areaID;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="CityListResult模型"><a href="#CityListResult模型" class="headerlink" title="CityListResult模型"></a>CityListResult模型</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * Created by August on 16/7/29.</span><br><span class="line"> * 城市查询结果模型</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CityListResult</span> </span>&#123;</span><br><span class="line">    <span class="meta">@SerializedName</span>(<span class="string">"errNum"</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> errNum;</span><br><span class="line">    <span class="meta">@SerializedName</span>(<span class="string">"errMsg"</span>)</span><br><span class="line">    <span class="keyword">private</span> String errMsg;</span><br><span class="line">    <span class="meta">@SerializedName</span>(<span class="string">"retData"</span>)</span><br><span class="line">    <span class="keyword">private</span> List&lt;CityInfo&gt; retData;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getErrNum</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> errNum;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setErrNum</span><span class="params">(<span class="keyword">int</span> errNum)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.errNum = errNum;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getErrMsg</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> errMsg;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setErrMsg</span><span class="params">(String errMsg)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.errMsg = errMsg;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;CityInfo&gt; <span class="title">getRetData</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> retData;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setRetData</span><span class="params">(List&lt;CityInfo&gt; retData)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.retData = retData;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Weather模型"><a href="#Weather模型" class="headerlink" title="Weather模型"></a>Weather模型</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * Created by August on 16/7/29.</span><br><span class="line"> * 指定天气结果模型</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">package</span> demo.august1996.top.retrofitnewssample.model;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.google.gson.annotations.SerializedName;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * Created by August on 16/7/29.</span><br><span class="line"> * 指定天气结果模型</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Weather</span> </span>&#123;</span><br><span class="line">    <span class="meta">@SerializedName</span>(<span class="string">"city"</span>)</span><br><span class="line">    <span class="keyword">private</span> String city;</span><br><span class="line">    <span class="meta">@SerializedName</span>(<span class="string">"pinyin"</span>)</span><br><span class="line">    <span class="keyword">private</span> String pinyin;</span><br><span class="line">    <span class="meta">@SerializedName</span>(<span class="string">"citycode"</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> cityCode;</span><br><span class="line">    <span class="meta">@SerializedName</span>(<span class="string">"date"</span>)</span><br><span class="line">    <span class="keyword">private</span> String date;</span><br><span class="line">    <span class="meta">@SerializedName</span>(<span class="string">"time"</span>)</span><br><span class="line">    <span class="keyword">private</span> String time;</span><br><span class="line">    <span class="meta">@SerializedName</span>(<span class="string">"postCode"</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> postCode;</span><br><span class="line">    <span class="meta">@SerializedName</span>(<span class="string">"longitude"</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> longitude;</span><br><span class="line">    <span class="meta">@SerializedName</span>(<span class="string">"latitude"</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> latitude;</span><br><span class="line">    <span class="meta">@SerializedName</span>(<span class="string">"altitude"</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> altitude;</span><br><span class="line">    <span class="meta">@SerializedName</span>(<span class="string">"weather"</span>)</span><br><span class="line">    <span class="keyword">private</span> String weather;</span><br><span class="line">    <span class="meta">@SerializedName</span>(<span class="string">"temp"</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> temp;</span><br><span class="line">    <span class="meta">@SerializedName</span>(<span class="string">"l_tmp"</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> l_tmp;</span><br><span class="line">    <span class="meta">@SerializedName</span>(<span class="string">"h_tmp"</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> h_tmp;</span><br><span class="line">    <span class="meta">@SerializedName</span>(<span class="string">"WD"</span>)</span><br><span class="line">    <span class="keyword">private</span> String WD;</span><br><span class="line">    <span class="meta">@SerializedName</span>(<span class="string">"WS"</span>)</span><br><span class="line">    <span class="keyword">private</span> String WS;</span><br><span class="line">    <span class="meta">@SerializedName</span>(<span class="string">"sunrise"</span>)</span><br><span class="line">    <span class="keyword">private</span> String sunrise;</span><br><span class="line">    <span class="meta">@SerializedName</span>(<span class="string">"sunset"</span>)</span><br><span class="line">    <span class="keyword">private</span> String sunset;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getCity</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> city;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCity</span><span class="params">(String city)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.city = city;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getPinyin</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> pinyin;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPinyin</span><span class="params">(String pinyin)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.pinyin = pinyin;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">getCityCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> cityCode;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCityCode</span><span class="params">(<span class="keyword">long</span> cityCode)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.cityCode = cityCode;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> date;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setDate</span><span class="params">(String date)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.date = date;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getTime</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> time;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setTime</span><span class="params">(String time)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.time = time;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">getPostCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> postCode;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPostCode</span><span class="params">(<span class="keyword">long</span> postCode)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.postCode = postCode;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getLongitude</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> longitude;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setLongitude</span><span class="params">(<span class="keyword">double</span> longitude)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.longitude = longitude;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getLatitude</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> latitude;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setLatitude</span><span class="params">(<span class="keyword">double</span> latitude)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.latitude = latitude;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getAltitude</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> altitude;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAltitude</span><span class="params">(<span class="keyword">double</span> altitude)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.altitude = altitude;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getWeather</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> weather;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setWeather</span><span class="params">(String weather)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.weather = weather;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getTemp</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> temp;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setTemp</span><span class="params">(<span class="keyword">int</span> temp)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.temp = temp;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getL_tmp</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> l_tmp;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setL_tmp</span><span class="params">(<span class="keyword">int</span> l_tmp)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.l_tmp = l_tmp;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getH_tmp</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> h_tmp;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setH_tmp</span><span class="params">(<span class="keyword">int</span> h_tmp)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.h_tmp = h_tmp;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getWD</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> WD;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setWD</span><span class="params">(String WD)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.WD = WD;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getWS</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> WS;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setWS</span><span class="params">(String WS)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.WS = WS;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getSunrise</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> sunrise;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSunrise</span><span class="params">(String sunrise)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.sunrise = sunrise;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getSunset</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> sunset;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSunset</span><span class="params">(String sunset)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.sunset = sunset;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="WeatherResult模型"><a href="#WeatherResult模型" class="headerlink" title="WeatherResult模型"></a>WeatherResult模型</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * Created by August on 16/7/29.</span><br><span class="line"> * 获取特定城市返回结果模型</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WeatherResult</span> </span>&#123;</span><br><span class="line">    <span class="meta">@SerializedName</span>(<span class="string">"errNum"</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> errNum;</span><br><span class="line">    <span class="meta">@SerializedName</span>(<span class="string">"errMsg"</span>)</span><br><span class="line">    <span class="keyword">private</span> String errMsg;</span><br><span class="line">    <span class="meta">@SerializedName</span>(<span class="string">"retData"</span>)</span><br><span class="line">    <span class="keyword">private</span> Weather retData;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getErrNum</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> errNum;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setErrNum</span><span class="params">(<span class="keyword">int</span> errNum)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.errNum = errNum;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getErrMsg</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> errMsg;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setErrMsg</span><span class="params">(String errMsg)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.errMsg = errMsg;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Weather <span class="title">getRetData</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> retData;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setRetData</span><span class="params">(Weather retData)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.retData = retData;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>前面的例子中使用的是<code>String</code>类型的结果，这次使用的是<code>特定模型的结果</code>。</p>
+</blockquote>
+<ul>
+<li><code>@SerializedName</code>注解：里面的值就是<code>对应字段</code>的<code>JSON字段</code></li>
+</ul>
+<h2 id="编写服务接口"><a href="#编写服务接口" class="headerlink" title="编写服务接口"></a>编写服务接口</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * Created by August on 16/7/28.</span><br><span class="line"> * 获取天气相关的服务</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">WeatherService</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Headers</span>(<span class="string">"apikey:ffe27ca85324881f8414e8c1ab28xxxx"</span>)</span><br><span class="line">    <span class="meta">@GET</span>(<span class="string">"/apistore/weatherservice/citylist"</span>)</span><br><span class="line">    <span class="function">Call&lt;CityListResult&gt; <span class="title">getCityList</span><span class="params">(@Query(<span class="string">"cityname"</span>)</span> String cityName)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Headers</span>(<span class="string">"apikey:ffe27ca85324881f8414e8c1ab28xxxx"</span>)</span><br><span class="line">    <span class="meta">@GET</span>(<span class="string">"/apistore/weatherservice/cityid"</span>)</span><br><span class="line">    <span class="function">Call&lt;WeatherResult&gt; <span class="title">getWeather</span><span class="params">(@Query(<span class="string">"cityid"</span>)</span> String cityID)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>上面第一个就是获取城市列表与指定城市天气结果的定义</p>
+</blockquote>
+<ul>
+<li><code>@Headers</code>：根据API接口要求，在header中添加<code>apikey</code>。<strong>大家务必换成自己的<code>apikey</code></strong></li>
+<li><code>@Query(&quot;cityname&quot;) String cityName</code>：到时候调用时传入一个参数<code>cityName</code>，<strong><code>Retrofit</code>会把<code>cityName</code>自动映射到GET请求的<code>cityname</code>字段。</strong></li>
+<li>补充：<ul>
+<li>如果请求是<code>POST</code>请求就把上面的<code>@GET</code>换成<code>@POST</code>，同时把<code>@Query</code>换成<code>@Field</code>即可。</li>
+<li>因为有些请求参数不是写在请求参数里面的，而是修改链接的。例如Github的<code>https://api.github.com/users/august1996/repos</code>就是通过请求路径的这时候我们可以写成:</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GET</span>(<span class="string">"https://api.github.com/users/&#123;user&#125;/repos"</span>)</span><br><span class="line"><span class="function">Call&lt;String&gt; <span class="title">getGitHub</span><span class="params">(@Path(<span class="string">"user"</span>)</span> String user)</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="调用走起！"><a href="#调用走起！" class="headerlink" title="调用走起！"></a>调用走起！</h2><blockquote>
+<p>我们通过一个简单的ListView去展示城市列表，然后点击城市显示相应的天气信息。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> <span class="keyword">implements</span> <span class="title">View</span>.<span class="title">OnClickListener</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> ListView mListView;</span><br><span class="line">    <span class="keyword">private</span> CityListResult mResult;</span><br><span class="line">    <span class="keyword">private</span> ArrayList&lt;String&gt; mDatas = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    <span class="keyword">private</span> ArrayAdapter&lt;String&gt; mAdapter;</span><br><span class="line">    <span class="keyword">private</span> WeatherService mWeatherService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        findViewById(R.id.getBtn).setOnClickListener(<span class="keyword">this</span>);</span><br><span class="line">        mWeatherService = <span class="keyword">new</span> Retrofit.Builder()</span><br><span class="line">                .baseUrl(<span class="string">"http://apis.baidu.com"</span>)</span><br><span class="line">                .addConverterFactory(GsonConverterFactory.create())</span><br><span class="line">                .build().create(WeatherService.class);</span><br><span class="line">        mListView = (ListView) findViewById(R.id.mListView);</span><br><span class="line">        mAdapter = <span class="keyword">new</span> ArrayAdapter&lt;&gt;(<span class="keyword">this</span>, android.R.layout.simple_list_item_1, mDatas);</span><br><span class="line">        mListView.setAdapter(mAdapter);</span><br><span class="line">        mListView.setOnItemClickListener(<span class="keyword">new</span> AdapterView.OnItemClickListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onItemClick</span><span class="params">(AdapterView&lt;?&gt; adapterView, View view, <span class="keyword">final</span> <span class="keyword">int</span> i, <span class="keyword">long</span> l)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">                mWeatherService.getWeather(String.valueOf(mResult.getRetData().get(i).getAreaID()))</span><br><span class="line">                        .enqueue(<span class="keyword">new</span> Callback&lt;WeatherResult&gt;() &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onResponse</span><span class="params">(Call&lt;WeatherResult&gt; call, <span class="keyword">final</span> Response&lt;WeatherResult&gt; response)</span> </span>&#123;</span><br><span class="line">                        MainActivity.<span class="keyword">this</span>.runOnUiThread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                            <span class="meta">@Override</span></span><br><span class="line">                            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                                <span class="keyword">if</span> (response.body().getErrNum() == <span class="number">0</span>) &#123;</span><br><span class="line"></span><br><span class="line">                                    Toast.makeText(MainActivity.<span class="keyword">this</span>, response.body().getRetData().getWeather(), Toast.LENGTH_SHORT).show();</span><br><span class="line"></span><br><span class="line">                                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                                    Toast.makeText(MainActivity.<span class="keyword">this</span>, response.body().getErrMsg(), Toast.LENGTH_SHORT).show();</span><br><span class="line">                                &#125;</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;);</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onFailure</span><span class="params">(Call&lt;WeatherResult&gt; call, Throwable t)</span> </span>&#123;</span><br><span class="line">                        t.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View view)</span> </span>&#123;</span><br><span class="line">        mWeatherService.getCityList(<span class="string">"广东"</span>).enqueue(<span class="keyword">new</span> Callback&lt;CityListResult&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onResponse</span><span class="params">(Call&lt;CityListResult&gt; call, <span class="keyword">final</span> Response&lt;CityListResult&gt; response)</span> </span>&#123;</span><br><span class="line">                mResult = response.body();</span><br><span class="line">                <span class="keyword">if</span> (mResult.getErrNum() == <span class="number">0</span>) &#123;</span><br><span class="line">                    mDatas.clear();</span><br><span class="line">                    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; mResult.getRetData().size(); i++) &#123;</span><br><span class="line">                        mDatas.add(mResult.getRetData().get(i).getNameCN());</span><br><span class="line">                    &#125;</span><br><span class="line">                    MainActivity.<span class="keyword">this</span>.runOnUiThread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                        <span class="meta">@Override</span></span><br><span class="line">                        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                            mAdapter.notifyDataSetChanged();</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    MainActivity.<span class="keyword">this</span>.runOnUiThread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                        <span class="meta">@Override</span></span><br><span class="line">                        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                            Toast.makeText(MainActivity.<span class="keyword">this</span>, response.body().getErrMsg(), Toast.LENGTH_SHORT).show();</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onFailure</span><span class="params">(Call&lt;CityListResult&gt; call, Throwable t)</span> </span>&#123;</span><br><span class="line">                t.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>看到这么恶心的代码。。。把我自己也吓到了，其实并不多【尴尬死了】。主要的就是</p>
+</blockquote>
+<h3 id="获取服务"><a href="#获取服务" class="headerlink" title="获取服务"></a>获取服务</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mWeatherService = <span class="keyword">new</span> Retrofit.Builder()</span><br><span class="line">        .baseUrl(<span class="string">"http://apis.baidu.com"</span>)</span><br><span class="line">        .addConverterFactory(GsonConverterFactory.create())</span><br><span class="line">        .build().create(WeatherService.class);</span><br><span class="line">mListView = (ListView) findViewById(R.id.mListVie</span><br></pre></td></tr></table></figure>
+<h3 id="创建请求"><a href="#创建请求" class="headerlink" title="创建请求"></a>创建请求</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mWeatherService.getWeather(String.valueOf(mResult.getRetData().get(i).getAreaID())).enqueue(<span class="keyword">this</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="结果解析"><a href="#结果解析" class="headerlink" title="结果解析"></a>结果解析</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response.body();</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>好啦好啦，机房停电了。我可是开着2G网络来写这篇博文的。。。求同情，啊哈哈、、、</p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Retrofit/" rel="tag">#Retrofit</a>
+          
+            <a href="/tags/RESTful/" rel="tag">#RESTful</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/18/android-jni-simple/" rel="next" title="AndroidJNI与Android NDK初探">
+                <i class="fa fa-chevron-left"></i> AndroidJNI与Android NDK初探
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/07/29/retrofit-doc/"
+           data-title="Retrofit学习？这篇博文就差不多了" data-url="http://august1996.top/2016/07/29/retrofit-doc/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="August1996" />
+          <p class="site-author-name" itemprop="name">August1996</p>
+          <p class="site-description motion-element" itemprop="description">新博客,新生活!!!</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">62</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">66</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/august1996" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/august1996" target="_blank" title="Zhihu">
+                  
+                    <i class="fa fa-fw fa-comments"></i>
+                  
+                  Zhihu
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/august1996" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://ascenz.xyz/" title="Ascenz的博客" target="_blank">Ascenz的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://tangent.gift/" title="Tangent的博客" target="_blank">Tangent的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.cnblogs.com/wuweixin" title="Wyshon的博客" target="_blank">Wyshon的博客</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Retrofit到底是个啥"><span class="nav-number">2.</span> <span class="nav-text">Retrofit到底是个啥</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#没时间解释了，赶紧上车"><span class="nav-number">3.</span> <span class="nav-text">没时间解释了，赶紧上车</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#环境"><span class="nav-number">3.1.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第一步：导入库"><span class="nav-number">3.2.</span> <span class="nav-text">第一步：导入库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二部：编写服务接口"><span class="nav-number">3.3.</span> <span class="nav-text">第二部：编写服务接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三部：直接调用"><span class="nav-number">3.4.</span> <span class="nav-text">第三部：直接调用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一起装逼一起飞"><span class="nav-number">4.</span> <span class="nav-text">一起装逼一起飞</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一步：还是导入库（这是新的库。。。）"><span class="nav-number">4.1.</span> <span class="nav-text">第一步：还是导入库（这是新的库。。。）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二步：编写模型"><span class="nav-number">4.2.</span> <span class="nav-text">第二步：编写模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#获取城市列表返回数据"><span class="nav-number">4.2.1.</span> <span class="nav-text">获取城市列表返回数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取指定天气信息返回数据"><span class="nav-number">4.2.2.</span> <span class="nav-text">获取指定天气信息返回数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CityInfo模型"><span class="nav-number">4.2.3.</span> <span class="nav-text">CityInfo模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CityListResult模型"><span class="nav-number">4.2.4.</span> <span class="nav-text">CityListResult模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Weather模型"><span class="nav-number">4.2.5.</span> <span class="nav-text">Weather模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WeatherResult模型"><span class="nav-number">4.2.6.</span> <span class="nav-text">WeatherResult模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编写服务接口"><span class="nav-number">4.3.</span> <span class="nav-text">编写服务接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调用走起！"><span class="nav-number">4.4.</span> <span class="nav-text">调用走起！</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#获取服务"><span class="nav-number">4.4.1.</span> <span class="nav-text">获取服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建请求"><span class="nav-number">4.4.2.</span> <span class="nav-text">创建请求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结果解析"><span class="nav-number">4.4.3.</span> <span class="nav-text">结果解析</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">August1996</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"august1996"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+
+  
+
+  
+  
+</body>
+</html>
