@@ -97,7 +97,7 @@
 
 先摆个阵先上个布局文件1234567891011121314151617181920&amp;lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;    xmlns:to">
 <meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-bitmap-oom-img.jpg">
-<meta property="og:updated_time" content="2016-08-05T12:59:48.000Z">
+<meta property="og:updated_time" content="2016-08-05T13:00:10.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="聊聊Android中Bitmap缩放">
 <meta name="twitter:description" content="引言
@@ -402,6 +402,10 @@
 <h1 id="下面的方法慎用"><a href="#下面的方法慎用" class="headerlink" title="下面的方法慎用"></a>下面的方法慎用</h1><blockquote>
 <p><strong>因为图片始终会加载到内存中，所以如果是OOM的话就使用上面的方法。</strong><br>下面的方法只是提供缩放图片的思路</p>
 </blockquote>
+<h2 id="使用矩阵变换"><a href="#使用矩阵变换" class="headerlink" title="使用矩阵变换"></a>使用矩阵变换</h2><blockquote>
+<p>矩阵在图像领域中的应用非常广泛，只要给出对应的矩阵，就能实现缩放、平移等操作。但是在Android中我们并不需要自己构造矩阵，一切早已被封装好了。例如下面的<code>matrix.postScale(scaleW,scaleH)</code>，直接得到特定缩放比例后的矩阵。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">showThumbImage</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">	mImageView.setImageBitmap(thumbImageWithMatrix(mImageView.getWidth(), mImageView.getHeight()));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -632,7 +636,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#先摆个阵"><span class="nav-number">2.</span> <span class="nav-text">先摆个阵</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#先上个布局文件"><span class="nav-number">2.1.</span> <span class="nav-text">先上个布局文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Activity代码"><span class="nav-number">2.2.</span> <span class="nav-text">Activity代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#我们使用的图片"><span class="nav-number">2.3.</span> <span class="nav-text">我们使用的图片</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#好啦，上车吧"><span class="nav-number">3.</span> <span class="nav-text">好啦，上车吧</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Options的inSampleSize"><span class="nav-number">3.1.</span> <span class="nav-text">Options的inSampleSize</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#属性说明"><span class="nav-number">3.1.1.</span> <span class="nav-text">属性说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码"><span class="nav-number">3.1.2.</span> <span class="nav-text">代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#下面的方法慎用"><span class="nav-number">4.</span> <span class="nav-text">下面的方法慎用</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#先摆个阵"><span class="nav-number">2.</span> <span class="nav-text">先摆个阵</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#先上个布局文件"><span class="nav-number">2.1.</span> <span class="nav-text">先上个布局文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Activity代码"><span class="nav-number">2.2.</span> <span class="nav-text">Activity代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#我们使用的图片"><span class="nav-number">2.3.</span> <span class="nav-text">我们使用的图片</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#好啦，上车吧"><span class="nav-number">3.</span> <span class="nav-text">好啦，上车吧</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Options的inSampleSize"><span class="nav-number">3.1.</span> <span class="nav-text">Options的inSampleSize</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#属性说明"><span class="nav-number">3.1.1.</span> <span class="nav-text">属性说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码"><span class="nav-number">3.1.2.</span> <span class="nav-text">代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#下面的方法慎用"><span class="nav-number">4.</span> <span class="nav-text">下面的方法慎用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用矩阵变换"><span class="nav-number">4.1.</span> <span class="nav-text">使用矩阵变换</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
