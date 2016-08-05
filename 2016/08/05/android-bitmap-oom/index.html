@@ -84,16 +84,27 @@
 
 
 
-<meta name="description" content="新博客,新生活!!!">
+<meta name="description" content="引言
+最近在学IOS，发现IOS加载图片不像Android那样，动不动就OOM(Out of memory)，下面看看一个比较通用的方法。
+
+先摆个阵先上个布局文件1234567891011121314151617181920&amp;lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;    xmlns:to">
 <meta property="og:type" content="article">
 <meta property="og:title" content="聊聊Android中Bitmap缩放">
 <meta property="og:url" content="http://august1996.top/2016/08/05/android-bitmap-oom/index.html">
 <meta property="og:site_name" content="August1996的小狗窝">
-<meta property="og:description" content="新博客,新生活!!!">
-<meta property="og:updated_time" content="2016-08-05T12:59:22.000Z">
+<meta property="og:description" content="引言
+最近在学IOS，发现IOS加载图片不像Android那样，动不动就OOM(Out of memory)，下面看看一个比较通用的方法。
+
+先摆个阵先上个布局文件1234567891011121314151617181920&amp;lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;    xmlns:to">
+<meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-bitmap-oom-img.jpg">
+<meta property="og:updated_time" content="2016-08-05T12:59:48.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="聊聊Android中Bitmap缩放">
-<meta name="twitter:description" content="新博客,新生活!!!">
+<meta name="twitter:description" content="引言
+最近在学IOS，发现IOS加载图片不像Android那样，动不动就OOM(Out of memory)，下面看看一个比较通用的方法。
+
+先摆个阵先上个布局文件1234567891011121314151617181920&amp;lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;    xmlns:to">
+<meta name="twitter:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-bitmap-oom-img.jpg">
 
 
 
@@ -356,7 +367,42 @@
       
 
       
-        
+        <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><blockquote>
+<p>最近在学IOS，发现IOS加载图片不像Android那样，动不动就<code>OOM(Out of memory)</code>，下面看看一个比较通用的方法。</p>
+</blockquote>
+<h1 id="先摆个阵"><a href="#先摆个阵" class="headerlink" title="先摆个阵"></a>先摆个阵</h1><h2 id="先上个布局文件"><a href="#先上个布局文件" class="headerlink" title="先上个布局文件"></a>先上个布局文件</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    <span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span></span><br><span class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span><br><span class="line">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span> &gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">Button</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span><br><span class="line">        <span class="attr">android:onClick</span>=<span class="string">"showThumbImage"</span></span><br><span class="line">        <span class="attr">android:text</span>=<span class="string">"获取自适应图"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">ImageView</span></span><br><span class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/imageView"</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"0dp"</span></span><br><span class="line">        <span class="attr">android:layout_weight</span>=<span class="string">"1"</span></span><br><span class="line">        <span class="attr">android:scaleType</span>=<span class="string">"matrix"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="Activity代码"><a href="#Activity代码" class="headerlink" title="Activity代码"></a>Activity代码</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> ImageView mImageView;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">		setContentView(R.layout.activity_main);</span><br><span class="line">		mImageView = (ImageView) findViewById(R.id.imageView);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">showThumbImage</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//TODO 设置Bitmap</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="我们使用的图片"><a href="#我们使用的图片" class="headerlink" title="我们使用的图片"></a>我们使用的图片</h2><blockquote>
+<p>是一张<code>3500 × 2625</code>的图片，我们现在就让它缩放后显示到<code>512MB</code>的Android模拟器上面</p>
+</blockquote>
+<p><img src="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-bitmap-oom-img.jpg" alt="图片"></p>
+<h1 id="好啦，上车吧"><a href="#好啦，上车吧" class="headerlink" title="好啦，上车吧"></a>好啦，上车吧</h1><h2 id="Options的inSampleSize"><a href="#Options的inSampleSize" class="headerlink" title="Options的inSampleSize"></a>Options的inSampleSize</h2><blockquote>
+<p>在<code>BitmapFactory.decodeXXX</code>中我们都可以看到有一个<code>Options</code>的参数。我们可以设置这个参数，从而使图片按照预期加载。</p>
+</blockquote>
+<h3 id="属性说明"><a href="#属性说明" class="headerlink" title="属性说明"></a>属性说明</h3><p><strong>下面是<code>Options</code>的两个基本属性：</strong></p>
+<ul>
+<li><code>inJustDecodeBounds</code>：是否只加载图片的轮廓</li>
+<li><code>inSampleSize</code>：加载图片时加载原来的<code>1/inSampleSize</code>倍</li>
+</ul>
+<blockquote>
+<p>1、当<code>inJustDecodeBounds为true</code>的时候，Android系统并不会去加载图片的具体数据，只会提取图片的轮廓信息。在这里我们就可以防止加载大图片进来的时候把内存给挤爆。<br>2、上面获取了宽高有怎样？？？？这样我们就可以根据比例去挑中<code>inSampleSize</code>的值，<code>inSampleSize</code>可以告诉系统加载Bitmap的时候按照怎样的比例去加载（<strong>按照<code>1/inSampleSize</code>去加载</strong>），这样在加载进来系统之前就已经处理好了，就不会挤爆内存了。</p>
+</blockquote>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">showThumbImage</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">	mImageView.setImageBitmap(thumbImageWithInSampleSize(mImageView.getWidth(), mImageView.getHeight()));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Bitmap <span class="title">thumbImageWithInSampleSize</span><span class="params">(<span class="keyword">float</span> destWidth, <span class="keyword">float</span> destHeight)</span> </span>&#123;</span><br><span class="line">	Options opt = <span class="keyword">new</span> Options();</span><br><span class="line">	opt.inJustDecodeBounds = <span class="keyword">true</span>;</span><br><span class="line">	</span><br><span class="line">	BitmapFactory.decodeResource(getResources(), R.drawable.img, opt);</span><br><span class="line">	<span class="keyword">double</span> scaleW = Math.max(destWidth, opt.outWidth) / (Math.min(destWidth, opt.outWidth) * <span class="number">1.0</span>);</span><br><span class="line">	<span class="keyword">double</span> scaleH = Math.max(destHeight, opt.outHeight) / (Math.min(destHeight, opt.outHeight) * <span class="number">1.0</span>);</span><br><span class="line">	opt.inSampleSize = (<span class="keyword">int</span>) Math.max(scaleW, scaleH);</span><br><span class="line">	</span><br><span class="line">	opt.inJustDecodeBounds = <span class="keyword">false</span>;</span><br><span class="line">	</span><br><span class="line">	bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.img, opt);</span><br><span class="line">	<span class="keyword">return</span> bitmap;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<ul>
+<li>上面通过测试，图片可以正常显示出来。第一次设置<code>inJustDecodeBounds = true</code>是告诉Android系统不去加载Bitmap 的具体数据。<strong>计算完<code>inSampleSize</code>之后真正去加载的时候别忘了设置<code>inJustDecodeBounds = false</code>。</strong></li>
+<li>但是<code>inSampleSize</code>也有自身的缺点，就是只能缩放整数倍，所以很多时候可能不会自适应，这时候我们可以通过设置图片拉伸或者填充等方法达到预期效果。在强调不失真的情况下，也可以使用四舍五入的方法：</li>
+</ul>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">double</span> scaleW = Math.max(destWidth, opt.outWidth) / (Math.min(destWidth, opt.outWidth) * <span class="number">1.0</span>) - <span class="number">0.5</span>;</span><br><span class="line"><span class="keyword">double</span> scaleH = Math.max(destHeight, opt.outHeight) / (Math.min(destHeight, opt.outHeight) * <span class="number">1.0</span>) - <span class="number">0.5</span>;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>使用<code>-0.5</code>是因为最后缩放的是<code>1/inSampleSize</code>倍。</p>
+</blockquote>
+<h1 id="下面的方法慎用"><a href="#下面的方法慎用" class="headerlink" title="下面的方法慎用"></a>下面的方法慎用</h1><blockquote>
+<p><strong>因为图片始终会加载到内存中，所以如果是OOM的话就使用上面的方法。</strong><br>下面的方法只是提供缩放图片的思路</p>
+</blockquote>
+
       
     </div>
 
@@ -586,7 +632,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#先摆个阵"><span class="nav-number">2.</span> <span class="nav-text">先摆个阵</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#先上个布局文件"><span class="nav-number">2.1.</span> <span class="nav-text">先上个布局文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Activity代码"><span class="nav-number">2.2.</span> <span class="nav-text">Activity代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#我们使用的图片"><span class="nav-number">2.3.</span> <span class="nav-text">我们使用的图片</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#好啦，上车吧"><span class="nav-number">3.</span> <span class="nav-text">好啦，上车吧</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Options的inSampleSize"><span class="nav-number">3.1.</span> <span class="nav-text">Options的inSampleSize</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#属性说明"><span class="nav-number">3.1.1.</span> <span class="nav-text">属性说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码"><span class="nav-number">3.1.2.</span> <span class="nav-text">代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#下面的方法慎用"><span class="nav-number">4.</span> <span class="nav-text">下面的方法慎用</span></a></li></ol></div>
             
           </div>
         </section>
