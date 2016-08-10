@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="august1996, 互联网, 编程, 安卓, Android, 学生" />
+  <meta name="keywords" content="动画,特效,Animator," />
 
 
 
@@ -84,19 +84,19 @@
 
 
 
-<meta name="description" content="一般动画的缺陷其实关于Animation动画还是有点不足的,动画过后容易造成事件丢失,测试下面的例子
-123456789TranslateAnimation =new TranslateAnimation(0, 0, 100, 100);rotateAnimation.setDuration(1000);translateAnimation.setFillAfter(true);translate">
+<meta name="description" content="一般动画的缺陷其实关于Animation动画还是有点不足的,动画过后容易造成事件丢失,测试下面的例子：
+123456789TranslateAnimation =new TranslateAnimation(0, 0, 100, 100);rotateAnimation.setDuration(1000);translateAnimation.setFillAfter(true);translat">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android一般动画(使用Animator封装特效工具类1)">
 <meta property="og:url" content="http://august1996.top/2016/04/13/animatior-1/index.html">
 <meta property="og:site_name" content="August1996的小狗窝">
-<meta property="og:description" content="一般动画的缺陷其实关于Animation动画还是有点不足的,动画过后容易造成事件丢失,测试下面的例子
-123456789TranslateAnimation =new TranslateAnimation(0, 0, 100, 100);rotateAnimation.setDuration(1000);translateAnimation.setFillAfter(true);translate">
-<meta property="og:updated_time" content="2016-06-08T13:35:09.000Z">
+<meta property="og:description" content="一般动画的缺陷其实关于Animation动画还是有点不足的,动画过后容易造成事件丢失,测试下面的例子：
+123456789TranslateAnimation =new TranslateAnimation(0, 0, 100, 100);rotateAnimation.setDuration(1000);translateAnimation.setFillAfter(true);translat">
+<meta property="og:updated_time" content="2016-08-10T22:58:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android一般动画(使用Animator封装特效工具类1)">
-<meta name="twitter:description" content="一般动画的缺陷其实关于Animation动画还是有点不足的,动画过后容易造成事件丢失,测试下面的例子
-123456789TranslateAnimation =new TranslateAnimation(0, 0, 100, 100);rotateAnimation.setDuration(1000);translateAnimation.setFillAfter(true);translate">
+<meta name="twitter:description" content="一般动画的缺陷其实关于Animation动画还是有点不足的,动画过后容易造成事件丢失,测试下面的例子：
+123456789TranslateAnimation =new TranslateAnimation(0, 0, 100, 100);rotateAnimation.setDuration(1000);translateAnimation.setFillAfter(true);translat">
 
 
 
@@ -311,6 +311,25 @@
           </span>
 
           
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android进阶/" itemprop="url" rel="index">
+                    <span itemprop="name">Android进阶</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
 
           
             
@@ -340,7 +359,7 @@
       
 
       
-        <h1 id="一般动画的缺陷"><a href="#一般动画的缺陷" class="headerlink" title="一般动画的缺陷"></a>一般动画的缺陷</h1><p>其实关于<code>Animation</code>动画还是有点不足的,动画过后容易造成<code>事件丢失</code>,测试下面的例子</p>
+        <h1 id="一般动画的缺陷"><a href="#一般动画的缺陷" class="headerlink" title="一般动画的缺陷"></a>一般动画的缺陷</h1><p>其实关于<code>Animation</code>动画还是有点不足的,动画过后容易造成<code>事件丢失</code>,测试下面的例子：</p>
 <figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">TranslateAnimation =<span class="keyword">new</span> TranslateAnimation(<span class="number">0</span>, <span class="number">0</span>, <span class="number">100</span>, <span class="number">100</span>);</span><br><span class="line">rotateAnimation.setDuration(<span class="number">1000</span>);</span><br><span class="line">translateAnimation.setFillAfter(<span class="keyword">true</span>);</span><br><span class="line">translateBtn.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">        translateBtn.startAnimation(translateAnimation);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>多次点击Button后,它越走越远,但是一定距离后就造成了事件丢失.怎么回事呢?是因为<strong>Animation的动画只是改变了绘制出来的图片的位置,而View得位置是没有变的</strong>.因此我们绑定在View的事件就好像丢失了,实际上你点击原来View的位置.点击事件还是存在的,但是你只是View已经看不到了而已.那么我们有没有解决方法呢?有!!!</p>
@@ -388,6 +407,16 @@
     </div>
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/动画/" rel="tag">#动画</a>
+          
+            <a href="/tags/特效/" rel="tag">#特效</a>
+          
+            <a href="/tags/Animator/" rel="tag">#Animator</a>
+          
+        </div>
       
 
       
@@ -516,7 +545,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">75</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

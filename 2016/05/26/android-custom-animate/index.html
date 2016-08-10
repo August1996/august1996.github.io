@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="august1996, 互联网, 编程, 安卓, Android, 学生" />
+  <meta name="keywords" content="动画,布局," />
 
 
 
@@ -89,7 +89,7 @@
 
 使用方法
 实现最简单的动画效果只要在xml布局文件中对ViewGroup开启一个属性:android:animateLayoutChanges=&amp;quot;true&amp;quot;
-此外还能通过LayoutAnimationController其修改其默认的动画:
+此外还能通过LayoutAnimationController其修改其默认的动画：
 
 例子1234567891011//已知con">
 <meta property="og:type" content="article">
@@ -101,10 +101,10 @@
 
 使用方法
 实现最简单的动画效果只要在xml布局文件中对ViewGroup开启一个属性:android:animateLayoutChanges=&amp;quot;true&amp;quot;
-此外还能通过LayoutAnimationController其修改其默认的动画:
+此外还能通过LayoutAnimationController其修改其默认的动画：
 
 例子1234567891011//已知con">
-<meta property="og:updated_time" content="2016-06-09T00:28:10.000Z">
+<meta property="og:updated_time" content="2016-08-10T22:59:31.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android布局动画(让你添加View的时候动起来)">
 <meta name="twitter:description" content="简介
@@ -112,7 +112,7 @@
 
 使用方法
 实现最简单的动画效果只要在xml布局文件中对ViewGroup开启一个属性:android:animateLayoutChanges=&amp;quot;true&amp;quot;
-此外还能通过LayoutAnimationController其修改其默认的动画:
+此外还能通过LayoutAnimationController其修改其默认的动画：
 
 例子1234567891011//已知con">
 
@@ -329,6 +329,25 @@
           </span>
 
           
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android进阶/" itemprop="url" rel="index">
+                    <span itemprop="name">Android进阶</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
 
           
             
@@ -363,7 +382,7 @@
 </blockquote>
 <h1 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h1><ul>
 <li>实现最简单的动画效果只要在xml布局文件中对ViewGroup开启一个属性:<code>android:animateLayoutChanges=&quot;true&quot;</code></li>
-<li>此外还能通过<code>LayoutAnimationController</code>其修改其默认的动画:</li>
+<li>此外还能通过<code>LayoutAnimationController</code>其修改其默认的动画：</li>
 </ul>
 <h1 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h1><figure class="highlight cos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//已知container为某个ViewGroup</span></span><br><span class="line">ScaleAnimation sa = <span class="keyword">new</span> ScaleAnimation(<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, ScaleAnimation.RELATIVE_TO_SELF, <span class="number">0.5</span>f,</span><br><span class="line">ScaleAnimation.RELATIVE_TO_SELF, <span class="number">0.5</span>f)<span class="comment">;</span></span><br><span class="line">sa.setDuration(<span class="number">1000</span>)<span class="comment">;</span></span><br><span class="line">LayoutAnimationController lac = <span class="keyword">new</span> LayoutAnimationController(sa)<span class="comment">;</span></span><br><span class="line">container.setLayoutAnimation(lac)<span class="comment">;</span></span><br><span class="line"><span class="keyword">View</span> <span class="keyword">view</span> = <span class="keyword">new</span> <span class="keyword">View</span>(AnimatorActivity.this)<span class="comment">;</span></span><br><span class="line">LayoutParams lp = <span class="keyword">new</span> LayoutParams(<span class="number">300</span>, <span class="number">300</span>)<span class="comment">;</span></span><br><span class="line"><span class="keyword">view</span>.setLayoutParams(lp)<span class="comment">;</span></span><br><span class="line"><span class="keyword">view</span>.setBackgroundColor(Color.parseColor(<span class="string">"#ffeebb"</span>))<span class="comment">;</span></span><br><span class="line">container.addView(<span class="keyword">view</span>)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
 <blockquote>
@@ -387,6 +406,14 @@
     </div>
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/动画/" rel="tag">#动画</a>
+          
+            <a href="/tags/布局/" rel="tag">#布局</a>
+          
+        </div>
       
 
       
@@ -515,7 +542,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">75</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

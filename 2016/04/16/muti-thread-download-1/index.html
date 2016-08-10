@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="august1996, 互联网, 编程, 安卓, Android, 学生" />
+  <meta name="keywords" content="多线程,下载," />
 
 
 
@@ -85,34 +85,34 @@
 
 
 <meta name="description" content="原理
-原理是通过使用多个线程去争取服务器的更多资源
+原理是通过使用多个线程去争取服务器的更多资源。
 
 原理图
 原理解析
-接着就是我们都知道文件存储是有顺序的,当存储的二进制数据0和1发生了变化的时候,文件就发生了翻天覆地的变化.所以我们必须保证下载的东西存储顺序是原来一样的,一一对应.我们的思路每个线程负责一个区域的局部下载,所以我们把请求的数据分块,并把一个文件分块(这样就不必每次都需要请求一个完整的文件了).很幸运哈,http协议有个RAN">
+接着就是我们都知道文件存储是有顺序的,当存储的二进制数据0和1发生了变化的时候,文件就发生了翻天覆地的变化.所以我们必须保证下载的东西存储顺序是原来一样的,一一对应.我们的思路每个线程负责一个区域的局部下载,所以我们把请求的数据分块,并把一个文件分块(这样就不必每次都需要请求一个完整的文件了).很幸运哈,http协议有个RA">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java多线程下载">
 <meta property="og:url" content="http://august1996.top/2016/04/16/muti-thread-download-1/index.html">
 <meta property="og:site_name" content="August1996的小狗窝">
 <meta property="og:description" content="原理
-原理是通过使用多个线程去争取服务器的更多资源
+原理是通过使用多个线程去争取服务器的更多资源。
 
 原理图
 原理解析
-接着就是我们都知道文件存储是有顺序的,当存储的二进制数据0和1发生了变化的时候,文件就发生了翻天覆地的变化.所以我们必须保证下载的东西存储顺序是原来一样的,一一对应.我们的思路每个线程负责一个区域的局部下载,所以我们把请求的数据分块,并把一个文件分块(这样就不必每次都需要请求一个完整的文件了).很幸运哈,http协议有个RAN">
+接着就是我们都知道文件存储是有顺序的,当存储的二进制数据0和1发生了变化的时候,文件就发生了翻天覆地的变化.所以我们必须保证下载的东西存储顺序是原来一样的,一一对应.我们的思路每个线程负责一个区域的局部下载,所以我们把请求的数据分块,并把一个文件分块(这样就不必每次都需要请求一个完整的文件了).很幸运哈,http协议有个RA">
 <meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesmuti-thread-download-1.png">
 <meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesmuti-thread-download-2.png">
 <meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesmuti-thread-download-3.png">
 <meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesmuti-thread-download-4.png">
-<meta property="og:updated_time" content="2016-06-08T10:13:26.000Z">
+<meta property="og:updated_time" content="2016-08-10T22:58:09.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java多线程下载">
 <meta name="twitter:description" content="原理
-原理是通过使用多个线程去争取服务器的更多资源
+原理是通过使用多个线程去争取服务器的更多资源。
 
 原理图
 原理解析
-接着就是我们都知道文件存储是有顺序的,当存储的二进制数据0和1发生了变化的时候,文件就发生了翻天覆地的变化.所以我们必须保证下载的东西存储顺序是原来一样的,一一对应.我们的思路每个线程负责一个区域的局部下载,所以我们把请求的数据分块,并把一个文件分块(这样就不必每次都需要请求一个完整的文件了).很幸运哈,http协议有个RAN">
+接着就是我们都知道文件存储是有顺序的,当存储的二进制数据0和1发生了变化的时候,文件就发生了翻天覆地的变化.所以我们必须保证下载的东西存储顺序是原来一样的,一一对应.我们的思路每个线程负责一个区域的局部下载,所以我们把请求的数据分块,并把一个文件分块(这样就不必每次都需要请求一个完整的文件了).很幸运哈,http协议有个RA">
 <meta name="twitter:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesmuti-thread-download-1.png">
 
 
@@ -328,6 +328,25 @@
           </span>
 
           
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
 
           
             
@@ -358,7 +377,7 @@
 
       
         <h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><blockquote>
-<p>原理是通过使用多个线程去争取服务器的更多资源</p>
+<p>原理是通过使用多个线程去争取服务器的更多资源。</p>
 </blockquote>
 <h2 id="原理图"><a href="#原理图" class="headerlink" title="原理图"></a>原理图</h2><p><img src="http://o7xj6lxqq.bkt.clouddn.com/imagesmuti-thread-download-1.png" alt="原理图1"><br><img src="http://o7xj6lxqq.bkt.clouddn.com/imagesmuti-thread-download-2.png" alt="原理图2"><br><img src="http://o7xj6lxqq.bkt.clouddn.com/imagesmuti-thread-download-3.png" alt="原理图3"></p>
 <h2 id="原理解析"><a href="#原理解析" class="headerlink" title="原理解析"></a>原理解析</h2><blockquote>
@@ -411,6 +430,14 @@
     </div>
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/多线程/" rel="tag">#多线程</a>
+          
+            <a href="/tags/下载/" rel="tag">#下载</a>
+          
+        </div>
       
 
       
@@ -539,7 +566,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">75</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

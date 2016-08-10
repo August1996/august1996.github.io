@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="august1996, 互联网, 编程, 安卓, Android, 学生" />
+  <meta name="keywords" content="反射,注解,框架," />
 
 
 
@@ -85,7 +85,7 @@
 
 
 <meta name="description" content="反射(Reflect)
-程序集包含模块，而模块包含类型，类型又包含成员。反射则提供了封装程序集、模块和类型的对象。您可以使用反射动态地创建类型的实例，将类型绑定到现有对象，或从现有对象中获取类型。然后，可以调用类型的方法或访问其字段和属性。
+程序集包含模块，而模块包含类型，类型又包含成员。反射则提供了封装程序集、模块和类型的对象。您可以使用反射动态地创建类型的实例，将类型绑定到现有对象，或从现有对象中获取类型。然后，可以调用类型的方法或访问其字段和属性.
 
 Person.java123456789public class Person &amp;#123;		private String	name;	private i">
 <meta property="og:type" content="article">
@@ -93,14 +93,14 @@ Person.java123456789public class Person &amp;#123;		private String	name;	private
 <meta property="og:url" content="http://august1996.top/2016/07/11/inject-demo/index.html">
 <meta property="og:site_name" content="August1996的小狗窝">
 <meta property="og:description" content="反射(Reflect)
-程序集包含模块，而模块包含类型，类型又包含成员。反射则提供了封装程序集、模块和类型的对象。您可以使用反射动态地创建类型的实例，将类型绑定到现有对象，或从现有对象中获取类型。然后，可以调用类型的方法或访问其字段和属性。
+程序集包含模块，而模块包含类型，类型又包含成员。反射则提供了封装程序集、模块和类型的对象。您可以使用反射动态地创建类型的实例，将类型绑定到现有对象，或从现有对象中获取类型。然后，可以调用类型的方法或访问其字段和属性.
 
 Person.java123456789public class Person &amp;#123;		private String	name;	private i">
-<meta property="og:updated_time" content="2016-07-12T01:15:21.000Z">
+<meta property="og:updated_time" content="2016-08-10T23:00:44.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何做一个简单的注解框架">
 <meta name="twitter:description" content="反射(Reflect)
-程序集包含模块，而模块包含类型，类型又包含成员。反射则提供了封装程序集、模块和类型的对象。您可以使用反射动态地创建类型的实例，将类型绑定到现有对象，或从现有对象中获取类型。然后，可以调用类型的方法或访问其字段和属性。
+程序集包含模块，而模块包含类型，类型又包含成员。反射则提供了封装程序集、模块和类型的对象。您可以使用反射动态地创建类型的实例，将类型绑定到现有对象，或从现有对象中获取类型。然后，可以调用类型的方法或访问其字段和属性.
 
 Person.java123456789public class Person &amp;#123;		private String	name;	private i">
 
@@ -317,6 +317,25 @@ Person.java123456789public class Person &amp;#123;		private String	name;	private
           </span>
 
           
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android进阶/" itemprop="url" rel="index">
+                    <span itemprop="name">Android进阶</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
 
           
             
@@ -347,7 +366,7 @@ Person.java123456789public class Person &amp;#123;		private String	name;	private
 
       
         <h1 id="反射-Reflect"><a href="#反射-Reflect" class="headerlink" title="反射(Reflect)"></a>反射(Reflect)</h1><blockquote>
-<p>程序集包含模块，而模块包含类型，类型又包含成员。反射则提供了封装程序集、模块和类型的对象。您可以使用反射动态地创建类型的实例，将类型绑定到现有对象，或从现有对象中获取类型。然后，可以调用类型的方法或访问其字段和属性。</p>
+<p>程序集包含模块，而模块包含类型，类型又包含成员。反射则提供了封装程序集、模块和类型的对象。您可以使用反射动态地创建类型的实例，将类型绑定到现有对象，或从现有对象中获取类型。然后，可以调用类型的方法或访问其字段和属性.</p>
 </blockquote>
 <h2 id="Person-java"><a href="#Person-java" class="headerlink" title="Person.java"></a>Person.java</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> String	name;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span>		age;</span><br><span class="line">					</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">intro</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"我叫"</span> + name + <span class="string">",我今年"</span> + age + <span class="string">"岁."</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="TestDemo-java"><a href="#TestDemo-java" class="headerlink" title="TestDemo.java"></a>TestDemo.java</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestDemo</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		</span><br><span class="line">		Person person = <span class="keyword">new</span> Person();</span><br><span class="line">		Class&lt;?&gt; cls = person.getClass();</span><br><span class="line">		<span class="comment">// 获取Person运行时的类</span></span><br><span class="line">		</span><br><span class="line">		Field nameField = cls.getDeclaredField(<span class="string">"name"</span>);</span><br><span class="line">		Field ageField = cls.getDeclaredField(<span class="string">"age"</span>);</span><br><span class="line">		<span class="comment">// 获取name和age属性</span></span><br><span class="line">		<span class="comment">// cls.getDeclaredFields(); //获取所有属性</span></span><br><span class="line">		</span><br><span class="line">		nameField.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">		ageField.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">		<span class="comment">// 打破name和age属性的封装性</span></span><br><span class="line">		</span><br><span class="line">		nameField.set(person, <span class="string">"小明"</span>);</span><br><span class="line">		ageField.set(person, <span class="number">19</span>);</span><br><span class="line">		<span class="comment">// 为person对象对应的属性设置值</span></span><br><span class="line">		</span><br><span class="line">		Method method = cls.getDeclaredMethod(<span class="string">"intro"</span>);</span><br><span class="line">		<span class="comment">// 获取intro方法</span></span><br><span class="line">		<span class="comment">// cls.getDeclaredMethods(); //获取所有方法</span></span><br><span class="line">		</span><br><span class="line">		method.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">		<span class="comment">// 打破intro方法的封装性</span></span><br><span class="line">		</span><br><span class="line">		method.invoke(person);</span><br><span class="line">		<span class="comment">//调用person的intro方法,</span></span><br><span class="line">		<span class="comment">// method.invoke(person, "arg1","arg2"...);	支持不定长参数作为方法的参数</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -388,6 +407,16 @@ Person.java123456789public class Person &amp;#123;		private String	name;	private
     </div>
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/反射/" rel="tag">#反射</a>
+          
+            <a href="/tags/注解/" rel="tag">#注解</a>
+          
+            <a href="/tags/框架/" rel="tag">#框架</a>
+          
+        </div>
       
 
       
@@ -516,7 +545,7 @@ Person.java123456789public class Person &amp;#123;		private String	name;	private
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">75</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

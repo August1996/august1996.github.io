@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="august1996, 互联网, 编程, 安卓, Android, 学生" />
+  <meta name="keywords" content="解析器," />
 
 
 
@@ -90,7 +90,7 @@
 <meta property="og:url" content="http://august1996.top/2016/04/03/javascript-resolver-1/index.html">
 <meta property="og:site_name" content="August1996的小狗窝">
 <meta property="og:description" content="例:1234567891011scope = &apos;hello&apos;;    function func()&amp;#123;    console.log(scope);    //hello&amp;#125;func();scope = &apos;hello&apos;;function func()&amp;#123;    console.log(scope);    //undefined    var scope = &apos;world">
-<meta property="og:updated_time" content="2016-05-29T23:43:59.000Z">
+<meta property="og:updated_time" content="2016-08-10T22:55:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript权威指南4-JS解析器">
 <meta name="twitter:description" content="例:1234567891011scope = &apos;hello&apos;;    function func()&amp;#123;    console.log(scope);    //hello&amp;#125;func();scope = &apos;hello&apos;;function func()&amp;#123;    console.log(scope);    //undefined    var scope = &apos;world">
@@ -308,6 +308,25 @@
           </span>
 
           
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
 
           
             
@@ -339,7 +358,7 @@
       
         <h2 id="例"><a href="#例" class="headerlink" title="例:"></a>例:</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">scope = <span class="string">'hello'</span>;    </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(scope);    <span class="comment">//hello</span></span><br><span class="line">&#125;</span><br><span class="line">func();</span><br><span class="line">scope = <span class="string">'hello'</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(scope);    <span class="comment">//undefined</span></span><br><span class="line">    <span class="keyword">var</span> scope = <span class="string">'world'</span>;</span><br><span class="line">&#125;</span><br><span class="line">func();</span><br></pre></td></tr></table></figure>
 <ul>
-<li>解释:JavaScript的函数作用于是指在函数内部的所有变量在函数体内始终是课件的.有意思的是,这意味着变量被声明前就已经被使用了.JavaScript的这个特性通常被称作声明提前,即JavaScript函数里声明的所有变量都被提前到函数体的顶部.如上面第二个代码等价于:</li>
+<li>解释:JavaScript的函数作用于是指在函数内部的所有变量在函数体内始终是课件的.有意思的是,这意味着变量被声明前就已经被使用了.JavaScript的这个特性通常被称作声明提前,即JavaScript函数里声明的所有变量都被提前到函数体的顶部.如上面第二个代码等价于：</li>
 </ul>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">scope = <span class="string">'hello'</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> scope;</span><br><span class="line">    debug(scope);</span><br><span class="line">    scope = <span class="string">'world'</span>;</span><br><span class="line">&#125;</span><br><span class="line">func();</span><br></pre></td></tr></table></figure>
 <p>类似的还有函数的预解析,有下面例子:</p>
@@ -378,6 +397,12 @@
     </div>
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/解析器/" rel="tag">#解析器</a>
+          
+        </div>
       
 
       
@@ -506,7 +531,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">75</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

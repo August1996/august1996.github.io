@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="august1996, 互联网, 编程, 安卓, Android, 学生" />
+  <meta name="keywords" content="SurfaceView," />
 
 
 
@@ -94,7 +94,7 @@
 <meta property="og:description" content="#SurfaceView与View的区别
 
 一般情况下,View可以满足我们大多数的绘画要求.但是有些时候View本身的限制限制了开发的需求.因为View是通过刷新来重新绘图的,Android系统通过发送VSYNC信号来进行屏幕的绘制,刷新的时间为16ms.如果绘图能在16ms内完成, 那么View是 完成可以胜任的,用户在视觉上不会有任何的卡顿.但是例如游戏跟视频处理之类的,onDraw里面有复">
-<meta property="og:updated_time" content="2016-06-09T00:21:00.000Z">
+<meta property="og:updated_time" content="2016-08-10T22:59:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android的SurfaceView的使用及其模板(View的孪生兄弟)">
 <meta name="twitter:description" content="#SurfaceView与View的区别
@@ -314,6 +314,25 @@
           </span>
 
           
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android进阶/" itemprop="url" rel="index">
+                    <span itemprop="name">Android进阶</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
 
           
             
@@ -345,7 +364,7 @@
       
         <p>#SurfaceView与View的区别</p>
 <blockquote>
-<p>一般情况下,<code>View</code>可以满足我们大多数的绘画要求.但是有些时候View本身的限制限制了开发的需求.因为View是通过刷新来重新绘图的,Android系统通过发送<code>VSYNC</code>信号来进行屏幕的绘制,刷新的时间为<code>16ms</code>.如果绘图能在16ms内完成, 那么View是 完成可以胜任的,用户在视觉上不会有任何的卡顿.<br>但是例如游戏跟视频处理之类的,<code>onDraw</code>里面有复杂繁琐的运算,造成了16ms内不能完成一次onDraw,那么就会引起卡顿的效果,并带有类似”skipped xxx frames!The application may be doing too much”的警告.</p>
+<p>一般情况下,<code>View</code>可以满足我们大多数的绘画要求.但是有些时候View本身的限制限制了开发的需求.因为View是通过刷新来重新绘图的,Android系统通过发送<code>VSYNC</code>信号来进行屏幕的绘制,刷新的时间为<code>16ms</code>.如果绘图能在16ms内完成, 那么View是 完成可以胜任的,用户在视觉上不会有任何的卡顿.<br>但是例如游戏跟视频处理之类的,<code>onDraw</code>里面有复杂繁琐的运算,造成了16ms内不能完成一次onDraw,那么就会引起卡顿的效果,并带有类似”skipped xxx frames!The application may be doing too much”的警告。</p>
 </blockquote>
 <h1 id="为什么引入SurfaceView"><a href="#为什么引入SurfaceView" class="headerlink" title="为什么引入SurfaceView"></a>为什么引入SurfaceView</h1><blockquote>
 <p>就是为了避免上述问题,于是引入了<code>SurfaceView</code><br>SurfaceView与View的主要区别:</p>
@@ -381,6 +400,12 @@
     </div>
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SurfaceView/" rel="tag">#SurfaceView</a>
+          
+        </div>
       
 
       
@@ -509,7 +534,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">75</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

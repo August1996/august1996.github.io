@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="august1996, 互联网, 编程, 安卓, Android, 学生" />
+  <meta name="keywords" content="Adapter," />
 
 
 
@@ -90,7 +90,7 @@
 <meta property="og:url" content="http://august1996.top/2016/04/09/general-baseadapter/index.html">
 <meta property="og:site_name" content="August1996的小狗窝">
 <meta property="og:description" content="一般BaseAdapter的写法12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849package com.example.august.commonadapter;import android.content.Context;import android.view.Lay">
-<meta property="og:updated_time" content="2016-06-09T01:03:44.000Z">
+<meta property="og:updated_time" content="2016-08-10T22:57:25.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android打造一个通用的BaseAdapter">
 <meta name="twitter:description" content="一般BaseAdapter的写法12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849package com.example.august.commonadapter;import android.content.Context;import android.view.Lay">
@@ -308,6 +308,25 @@
           </span>
 
           
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android进阶/" itemprop="url" rel="index">
+                    <span itemprop="name">Android进阶</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
 
           
             
@@ -339,7 +358,7 @@
       
         <h1 id="一般BaseAdapter的写法"><a href="#一般BaseAdapter的写法" class="headerlink" title="一般BaseAdapter的写法"></a>一般BaseAdapter的写法</h1><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.august.commonadapter;</span><br><span class="line"><span class="keyword">import</span> android.content.Context;</span><br><span class="line"><span class="keyword">import</span> android.view.LayoutInflater;</span><br><span class="line"><span class="keyword">import</span> android.view.View;</span><br><span class="line"><span class="keyword">import</span> android.view.ViewGroup;</span><br><span class="line"><span class="keyword">import</span> android.widget.BaseAdapter;</span><br><span class="line"><span class="keyword">import</span> android.widget.TextView;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * Created by August on 16/4/9.</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyAdapter</span> <span class="keyword">extends</span> <span class="title">BaseAdapter</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> List&lt;String&gt; mDatas;</span><br><span class="line">    <span class="keyword">private</span> Context mContext;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MyAdapter</span><span class="params">(List&lt;String&gt; mDatas, Context mContext)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.mDatas = mDatas;</span><br><span class="line">        <span class="keyword">this</span>.mContext = mContext;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">int</span> <span class="title">getCount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">return</span> mDatas.<span class="title">size</span><span class="params">()</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function">Object <span class="title">getItem</span><span class="params">(<span class="keyword">int</span> position)</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">return</span> mDatas.<span class="title">get</span><span class="params">(position)</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">long</span> <span class="title">getItemId</span><span class="params">(<span class="keyword">int</span> position)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function">View <span class="title">getView</span><span class="params">(<span class="keyword">int</span> position, View convertView, ViewGroup parent)</span> </span>&#123;</span><br><span class="line">        ViewHolder holder = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (convertView == <span class="keyword">null</span>) &#123;</span><br><span class="line">            LayoutInflater inflater = LayoutInflater.from(mContext);</span><br><span class="line">            convertView = inflater.inflate(R.layout.item_text, <span class="keyword">null</span>);</span><br><span class="line">            holder = <span class="keyword">new</span> ViewHolder();</span><br><span class="line">            holder.mTextView = (TextView) convertView.findViewById(R.id.mTextView);</span><br><span class="line">            convertView.setTag(holder);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            holder = (ViewHolder) convertView.getTag();</span><br><span class="line">        &#125;</span><br><span class="line">        holder.mTextView.setText(mDatas.get(position));</span><br><span class="line">        <span class="keyword">return</span> convertView;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">ViewHolder</span> </span>&#123;</span><br><span class="line">        TextView mTextView;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>每次写的<code>Adapter</code>都写得要死,一堆都是复用的代码,下面我们就开始封装一个自己的通用Adapter,把以后的代码量尽可能减少.</p>
+<p>每次写的<code>Adapter</code>都写得要死,一堆都是复用的代码,下面我们就开始封装一个自己的通用Adapter,把以后的代码量尽可能减少。</p>
 </blockquote>
 <p>findView的时间,我们会用一个<code>ViewHolder</code>来保存之前查找的view.以上的Adapter思路就是给Adapter传入一个经常调用的context参数还有适配的数据,其中构造器,<code>getCount</code>,<code>getItem</code>,<code>getItemId</code>,几乎是一样的.然后为了减少.其中我们找出每个Adapter可能不同的内容有哪些:</p>
 <ul>
@@ -403,6 +422,12 @@
     </div>
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Adapter/" rel="tag">#Adapter</a>
+          
+        </div>
       
 
       
@@ -531,7 +556,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">75</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="august1996, 互联网, 编程, 安卓, Android, 学生" />
+  <meta name="keywords" content="属性," />
 
 
 
@@ -84,18 +84,18 @@
 
 
 
-<meta name="description" content="例1:首先,对性属性值可以用一个或两个方法替代,这两个方法就是getter和seetter.由getter和setter定义的属性称作”存取器属性”,它不同于”数据属性”,数据属性只有一个简单的值.有如下代码:
+<meta name="description" content="例1:首先,对性属性值可以用一个或两个方法替代,这两个方法就是getter和seetter.由getter和setter定义的属性称作”存取器属性”,它不同于”数据属性”,数据属性只有一个简单的值.有如下代码：
 1234567891011var o = &amp;#123;    $num : 0,    set a(n)&amp;#123;        this.$num = n + 1;    &amp;#125;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JavaScript权威指南6-属性的特性(1)">
 <meta property="og:url" content="http://august1996.top/2016/04/04/javascript-property-1/index.html">
 <meta property="og:site_name" content="August1996的小狗窝">
-<meta property="og:description" content="例1:首先,对性属性值可以用一个或两个方法替代,这两个方法就是getter和seetter.由getter和setter定义的属性称作”存取器属性”,它不同于”数据属性”,数据属性只有一个简单的值.有如下代码:
+<meta property="og:description" content="例1:首先,对性属性值可以用一个或两个方法替代,这两个方法就是getter和seetter.由getter和setter定义的属性称作”存取器属性”,它不同于”数据属性”,数据属性只有一个简单的值.有如下代码：
 1234567891011var o = &amp;#123;    $num : 0,    set a(n)&amp;#123;        this.$num = n + 1;    &amp;#125;">
-<meta property="og:updated_time" content="2016-05-29T23:44:35.000Z">
+<meta property="og:updated_time" content="2016-08-10T22:55:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript权威指南6-属性的特性(1)">
-<meta name="twitter:description" content="例1:首先,对性属性值可以用一个或两个方法替代,这两个方法就是getter和seetter.由getter和setter定义的属性称作”存取器属性”,它不同于”数据属性”,数据属性只有一个简单的值.有如下代码:
+<meta name="twitter:description" content="例1:首先,对性属性值可以用一个或两个方法替代,这两个方法就是getter和seetter.由getter和setter定义的属性称作”存取器属性”,它不同于”数据属性”,数据属性只有一个简单的值.有如下代码：
 1234567891011var o = &amp;#123;    $num : 0,    set a(n)&amp;#123;        this.$num = n + 1;    &amp;#125;">
 
 
@@ -311,6 +311,25 @@
           </span>
 
           
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
 
           
             
@@ -340,7 +359,7 @@
       
 
       
-        <h2 id="例1"><a href="#例1" class="headerlink" title="例1:"></a>例1:</h2><p>首先,对性属性值可以用一个或两个方法替代,这两个方法就是getter和seetter.由getter和setter定义的属性称作”存取器属性”,它不同于”数据属性”,数据属性只有一个简单的值.有如下代码:</p>
+        <h2 id="例1"><a href="#例1" class="headerlink" title="例1:"></a>例1:</h2><p>首先,对性属性值可以用一个或两个方法替代,这两个方法就是getter和seetter.由getter和setter定义的属性称作”存取器属性”,它不同于”数据属性”,数据属性只有一个简单的值.有如下代码：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> o = &#123;</span><br><span class="line">    $num : <span class="number">0</span>,</span><br><span class="line">    set a(n)&#123;</span><br><span class="line">        <span class="keyword">this</span>.$num = n + <span class="number">1</span>;</span><br><span class="line">    &#125;,</span><br><span class="line">    get a()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.$num + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">o.a = <span class="number">10</span>;<span class="comment">//调用setter后值为11</span></span><br><span class="line"><span class="built_in">console</span>.log(o.a);<span class="comment">//调用getter后返回的值为12</span></span><br></pre></td></tr></table></figure>
 <ul>
 <li><p>注意:和数据属性不同,存储器属性不具有可写性.三种情况:</p>
@@ -373,6 +392,12 @@
     </div>
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/属性/" rel="tag">#属性</a>
+          
+        </div>
       
 
       
@@ -501,7 +526,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">75</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
