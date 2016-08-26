@@ -362,9 +362,9 @@
       
         
           
-          目录Android跨进程（APP）通信（一）- 一些例子Android跨进程（APP）通信（二） - 非AIDL
+          目录Android跨进程（APP）通信（一）- 一些例子Android跨进程（APP）通信（二） - 非AIDLAndroid跨进程（APP）通信（三） - Proxy和Stub模式Android跨进程（APP）通信（四） - AIDL
 什么是AIDL
-从该系列的几篇文章里，我们知道了Proxy和Stub模式。其实跨进程通信中所谓的AIDL就是帮我们去实现Proxy和Stub模式，帮我们封装好编码和译码功能。底层还是tr
+从该系列的几篇文章里，我们知道了Proxy和S
           ...
 
           <div class="post-more-link text-center">
@@ -489,10 +489,8 @@
       
         
           
-          什么是Proxy和Stub模式在Android跨进程（APP）通信（二） - 非AIDL这篇文章里，通信的过程大概就是这样的
-
-
-其中transact和onTransact里面都有code的参数，呼叫方transact的时候给定一个code称为编码的过程。而onTransact取出code处理对应事
+          目录Android跨进程（APP）通信（一）- 一些例子Android跨进程（APP）通信（二） - 非AIDLAndroid跨进程（APP）通信（三） - Proxy和Stub模式Android跨进程（APP）通信（四） - AIDL
+什么是Proxy和Stub模式在Android跨进程（APP）
           ...
 
           <div class="post-more-link text-center">
@@ -617,10 +615,9 @@
       
         
           
-          从最常用的例子谈起
-这篇文章围绕的核心主题就是IBinder，或许你早就在Service的onBind方法中见过。该方法就是返回一个IBinder对象。一般我们的做法是这样的：
-
-service代码12345678910111213141516171819public class MusicServ
+          目录Android跨进程（APP）通信（一）- 一些例子Android跨进程（APP）通信（二） - 非AIDLAndroid跨进程（APP）通信（三） - Proxy和Stub模式Android跨进程（APP）通信（四） - AIDL
+从最常用的例子谈起
+这篇文章围绕的核心主题就是IBinder，
           ...
 
           <div class="post-more-link text-center">
@@ -745,11 +742,9 @@ service代码12345678910111213141516171819public class MusicServ
       
         
           
-          跨进程通信
-跨进程通信就是IPC，IPC就是跨进程通信。因为每个进程都是独立的，有属于自己的内存空间，所以出于安全性考虑，最起码自己的东西不能随便就被人家操作。跨进程通信要比在同一进程中相互通信麻烦得多，限制也是比较多的。对于Android而言，跨进程通信的方法有以下几种：
-
-
-跨进程调用Activ
+          目录Android跨进程（APP）通信（一）- 一些例子Android跨进程（APP）通信（二） - 非AIDLAndroid跨进程（APP）通信（三） - Proxy和Stub模式Android跨进程（APP）通信（四） - AIDL
+跨进程通信
+跨进程通信就是IPC，IPC就是跨进程通信。因为每
           ...
 
           <div class="post-more-link text-center">

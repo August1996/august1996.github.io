@@ -84,31 +84,22 @@
 
 
 
-<meta name="description" content="跨进程通信
-跨进程通信就是IPC，IPC就是跨进程通信。因为每个进程都是独立的，有属于自己的内存空间，所以出于安全性考虑，最起码自己的东西不能随便就被人家操作。跨进程通信要比在同一进程中相互通信麻烦得多，限制也是比较多的。对于Android而言，跨进程通信的方法有以下几种：
-
-
-跨进程调用Activity    ：    简单提一下
-使用Content Provider提供支持其他应用程序对数据进">
+<meta name="description" content="目录Android跨进程（APP）通信（一）- 一些例子Android跨进程（APP）通信（二） - 非AIDLAndroid跨进程（APP）通信（三） - Proxy和Stub模式Android跨进程（APP）通信（四） - AIDL
+跨进程通信
+跨进程通信就是IPC，IPC就是跨进程通信。因为每个进程都是独立的，有属于自己的内存空间，所以出于安全性考虑，最起码自己的东西不能随便就被人家操作。跨">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android跨进程（APP）通信（一）- 一些例子">
 <meta property="og:url" content="http://august1996.top/2016/08/23/android-ipc-simple-example/index.html">
 <meta property="og:site_name" content="August1996的小狗窝">
-<meta property="og:description" content="跨进程通信
-跨进程通信就是IPC，IPC就是跨进程通信。因为每个进程都是独立的，有属于自己的内存空间，所以出于安全性考虑，最起码自己的东西不能随便就被人家操作。跨进程通信要比在同一进程中相互通信麻烦得多，限制也是比较多的。对于Android而言，跨进程通信的方法有以下几种：
-
-
-跨进程调用Activity    ：    简单提一下
-使用Content Provider提供支持其他应用程序对数据进">
-<meta property="og:updated_time" content="2016-08-23T22:46:43.000Z">
+<meta property="og:description" content="目录Android跨进程（APP）通信（一）- 一些例子Android跨进程（APP）通信（二） - 非AIDLAndroid跨进程（APP）通信（三） - Proxy和Stub模式Android跨进程（APP）通信（四） - AIDL
+跨进程通信
+跨进程通信就是IPC，IPC就是跨进程通信。因为每个进程都是独立的，有属于自己的内存空间，所以出于安全性考虑，最起码自己的东西不能随便就被人家操作。跨">
+<meta property="og:updated_time" content="2016-08-26T04:20:07.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android跨进程（APP）通信（一）- 一些例子">
-<meta name="twitter:description" content="跨进程通信
-跨进程通信就是IPC，IPC就是跨进程通信。因为每个进程都是独立的，有属于自己的内存空间，所以出于安全性考虑，最起码自己的东西不能随便就被人家操作。跨进程通信要比在同一进程中相互通信麻烦得多，限制也是比较多的。对于Android而言，跨进程通信的方法有以下几种：
-
-
-跨进程调用Activity    ：    简单提一下
-使用Content Provider提供支持其他应用程序对数据进">
+<meta name="twitter:description" content="目录Android跨进程（APP）通信（一）- 一些例子Android跨进程（APP）通信（二） - 非AIDLAndroid跨进程（APP）通信（三） - Proxy和Stub模式Android跨进程（APP）通信（四） - AIDL
+跨进程通信
+跨进程通信就是IPC，IPC就是跨进程通信。因为每个进程都是独立的，有属于自己的内存空间，所以出于安全性考虑，最起码自己的东西不能随便就被人家操作。跨">
 
 
 
@@ -371,7 +362,8 @@
       
 
       
-        <h1 id="跨进程通信"><a href="#跨进程通信" class="headerlink" title="跨进程通信"></a>跨进程通信</h1><blockquote>
+        <h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><p><a href="http://august1996.top/2016/08/23/android-ipc-simple-example/">Android跨进程（APP）通信（一）- 一些例子</a><br><a href="http://august1996.top/2016/08/24/android-ipc-not-aidl/">Android跨进程（APP）通信（二） - 非AIDL</a><br><a href="http://august1996.top/2016/08/25/android-proxy-stub/">Android跨进程（APP）通信（三） - Proxy和Stub模式</a><br><a href="http://august1996.top/2016/08/26/android-aidl/index.html">Android跨进程（APP）通信（四） - AIDL</a></p>
+<h1 id="跨进程通信"><a href="#跨进程通信" class="headerlink" title="跨进程通信"></a>跨进程通信</h1><blockquote>
 <p><code>跨进程通信</code>就是<code>IPC</code>，<code>IPC</code>就是<code>跨进程通信</code>。因为每个进程都是独立的，有属于自己的内存空间，所以出于安全性考虑，最起码自己的东西不能随便就被人家操作。跨进程通信要比在同一进程中相互通信麻烦得多，限制也是比较多的。<br>对于Android而言，跨进程通信的方法有以下几种：</p>
 </blockquote>
 <ul>
@@ -652,7 +644,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#跨进程通信"><span class="nav-number">1.</span> <span class="nav-text">跨进程通信</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#跨进程调用Activity"><span class="nav-number">2.</span> <span class="nav-text">跨进程调用Activity</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#举个例子"><span class="nav-number">2.1.</span> <span class="nav-text">举个例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Action的设置"><span class="nav-number">2.2.</span> <span class="nav-text">Action的设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调起"><span class="nav-number">2.3.</span> <span class="nav-text">调起</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#另一种隐式调用"><span class="nav-number">2.4.</span> <span class="nav-text">另一种隐式调用</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#目录"><span class="nav-number">1.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#跨进程通信"><span class="nav-number">2.</span> <span class="nav-text">跨进程通信</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#跨进程调用Activity"><span class="nav-number">3.</span> <span class="nav-text">跨进程调用Activity</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#举个例子"><span class="nav-number">3.1.</span> <span class="nav-text">举个例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Action的设置"><span class="nav-number">3.2.</span> <span class="nav-text">Action的设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调起"><span class="nav-number">3.3.</span> <span class="nav-text">调起</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#另一种隐式调用"><span class="nav-number">3.4.</span> <span class="nav-text">另一种隐式调用</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
