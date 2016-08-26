@@ -1,0 +1,920 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="AIDL,跨进程,IPC," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="从最常用的例子谈起
+这篇文章围绕的核心主题就是IBinder，或许你早就在Service的onBind方法中见过。该方法就是返回一个IBinder对象。一般我们的做法是这样的：
+
+service代码12345678910111213141516171819public class MusicService extends Service&amp;#123;	public IBinder onBind(In">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android跨进程（APP）通信（二） - 非AIDL">
+<meta property="og:url" content="http://august1996.top/2016/08/24/android-ipc-not-aidl/index.html">
+<meta property="og:site_name" content="August1996的小狗窝">
+<meta property="og:description" content="从最常用的例子谈起
+这篇文章围绕的核心主题就是IBinder，或许你早就在Service的onBind方法中见过。该方法就是返回一个IBinder对象。一般我们的做法是这样的：
+
+service代码12345678910111213141516171819public class MusicService extends Service&amp;#123;	public IBinder onBind(In">
+<meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesibinder-struct.png">
+<meta property="og:updated_time" content="2016-08-26T02:14:25.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android跨进程（APP）通信（二） - 非AIDL">
+<meta name="twitter:description" content="从最常用的例子谈起
+这篇文章围绕的核心主题就是IBinder，或许你早就在Service的onBind方法中见过。该方法就是返回一个IBinder对象。一般我们的做法是这样的：
+
+service代码12345678910111213141516171819public class MusicService extends Service&amp;#123;	public IBinder onBind(In">
+<meta name="twitter:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesibinder-struct.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6289901108416480000,
+      author: 'August1996'
+    }
+  };
+</script>
+
+  <title> Android跨进程（APP）通信（二） - 非AIDL | August1996的小狗窝 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?ca08f65a7dda04c0e669531a7ef88472";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">August1996的小狗窝</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">记录一个傻屌程序员的日常...</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'z8JdSugezj6oS795yEMb','2.0.0');
+</script>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android跨进程（APP）通信（二） - 非AIDL
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-24T06:46:06+08:00" content="2016-08-24">
+              2016-08-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android进阶/" itemprop="url" rel="index">
+                    <span itemprop="name">Android进阶</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/24/android-ipc-not-aidl/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/24/android-ipc-not-aidl/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="从最常用的例子谈起"><a href="#从最常用的例子谈起" class="headerlink" title="从最常用的例子谈起"></a>从最常用的例子谈起</h1><blockquote>
+<p>这篇文章围绕的核心主题就是<code>IBinder</code>，或许你早就在<code>Service</code>的<code>onBind</code>方法中见过。该方法就是返回一个<code>IBinder</code>对象。一般我们的做法是这样的：</p>
+</blockquote>
+<h2 id="service代码"><a href="#service代码" class="headerlink" title="service代码"></a>service代码</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MusicService</span> <span class="keyword">extends</span> <span class="title">Service</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> IBinder <span class="title">onBind</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> MyBinder();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">		<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyBinder</span> <span class="keyword">extends</span> <span class="title">Binder</span> </span>&#123;</span><br><span class="line">		<span class="function"><span class="keyword">public</span> MyService <span class="title">getMyService</span><span class="params">()</span> </span>&#123;</span><br><span class="line">			<span class="keyword">return</span> MusicService.<span class="keyword">this</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">play</span><span class="params">()</span></span>&#123;</span><br><span class="line">			Log.i(<span class="string">"TAG"</span>, <span class="string">"play"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">pause</span><span class="params">()</span></span>&#123;</span><br><span class="line">			Log.i(<span class="string">"TAG"</span>, <span class="string">"pause"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="获取service控制权代码"><a href="#获取service控制权代码" class="headerlink" title="获取service控制权代码"></a>获取service控制权代码</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line">	Intent				service;</span><br><span class="line">	ServiceConnection	conn;</span><br><span class="line">	MyService			myService;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">		setContentView(R.layout.activity_main);</span><br><span class="line">		service = <span class="keyword">new</span> Intent(MainActivity.<span class="keyword">this</span>, MusicService.class);</span><br><span class="line">		conn = <span class="keyword">new</span> ServiceConnection() &#123;</span><br><span class="line">			</span><br><span class="line">			<span class="meta">@Override</span></span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onServiceDisconnected</span><span class="params">(ComponentName name)</span> </span>&#123;</span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">			<span class="meta">@Override</span></span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onServiceConnected</span><span class="params">(ComponentName name, IBinder binder)</span> </span>&#123;</span><br><span class="line">				myService = ((MyBinder) binder).getMyService();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;;</span><br><span class="line">		bindService(service, conn, BIND_AUTO_CREATE);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>我们通过<code>ServiceConnection</code>去绑定一个<code>Service</code>然后绑定成功后返回一个<code>IBinder</code>对象，其中<code>IBinder</code>就充当与一个<code>中介</code>。是的，中介这个词没有用错。再通过<code>MyBinder</code>提供的<code>getMyService</code>来获取服务进而控制<code>Service</code>。</p>
+</blockquote>
+<h1 id="一个真相引发的血案"><a href="#一个真相引发的血案" class="headerlink" title="一个真相引发的血案"></a>一个真相引发的血案</h1><blockquote>
+<p>其实上面的例子跟文章要说的内容没什么卵关系，只是让你更好的回忆一下<code>IBinder</code>接口。这篇文章主要讲一下<code>onTransact</code>方法。</p>
+</blockquote>
+<h2 id="IBinder跨进程通信图"><a href="#IBinder跨进程通信图" class="headerlink" title="IBinder跨进程通信图"></a>IBinder跨进程通信图</h2><p><img src="http://o7xj6lxqq.bkt.clouddn.com/imagesibinder-struct.png" alt="ibinder"></p>
+<blockquote>
+<p>下面就大概简单说明一下。</p>
+</blockquote>
+<ul>
+<li>首先<code>myActivity</code>通过调用<code>bindService</code>去绑定一个远程的服务（<code>myService</code>），绑定成功后返回一个<code>IBinder</code>对象。这时候双方就算是建立了连接了。</li>
+<li>建立连接之后，双方就可以通过持有的<code>IBinder</code>进行通信。<code>myActivity</code>使用<code>IBinder</code>的<code>transact</code>方法去给底层的<code>Binder Driver</code>（Linux层）发送消息间接调用底层的<code>IBinder</code>的<code>execTransact</code>方法。</li>
+<li>而<code>execTransact</code>导致的结果就是调用<code>onTransact</code>方法。那么这时候事件的处理就可以在该环节进行了。</li>
+</ul>
+<p><strong>其实就是一个transact-&gt;onTransact的一个过程</strong></p>
+<blockquote>
+<p>事实上我们看到<code>transact</code>和<code>onTransact</code>的参数是一模一样的。</p>
+</blockquote>
+<p><code>protected boolean onTransact(int code, Parcel data, Parcel reply,int flags);</code><br><code>public final boolean transact(int code, Parcel data, Parcel reply,int flags);</code></p>
+<h2 id="transact的参数"><a href="#transact的参数" class="headerlink" title="transact的参数"></a>transact的参数</h2><ul>
+<li><code>code</code>        :    这是一个识别码，类似于Handler体系里面的Message的what属性。根据不同的code产生不同的响应。</li>
+<li><code>data</code>        :    调用transact的对象传送过去的参数。</li>
+<li><code>reply</code>    :    调用onTransact的对象返回的参数。</li>
+<li><code>flags</code>    :    Java里面默认的native方法都是阻塞的，当不需要阻塞的时候设置为<code>IBinder.FLAG_ONEWAY</code>，否则设置为0</li>
+</ul>
+<h2 id="一个小例子"><a href="#一个小例子" class="headerlink" title="一个小例子"></a>一个小例子</h2><h3 id="环境："><a href="#环境：" class="headerlink" title="环境："></a>环境：</h3><ul>
+<li>一个叫做RemoteService的APP</li>
+<li>一个叫做RemoteServiceDemo的APP</li>
+<li>RemoteServiceDemo中的Activity去控制RemoteService中的Service。</li>
+</ul>
+<h3 id="RemoteService"><a href="#RemoteService" class="headerlink" title="RemoteService"></a>RemoteService</h3><h4 id="Service声明"><a href="#Service声明" class="headerlink" title="Service声明"></a>Service声明</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">service</span> <span class="attr">android:name</span>=<span class="string">"com.example.remoteservice.MusicService"</span> &gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"top.august1996.musicservice"</span> /&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">service</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>别忘了加入<strong>\<action android:name="top.august1996.musicservice"></action></strong>，否则会抛出安全异常。</p>
+</blockquote>
+<h4 id="Service代码"><a href="#Service代码" class="headerlink" title="Service代码"></a>Service代码</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MusicService</span> <span class="keyword">extends</span> <span class="title">Service</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> SimpleDateFormat sdf = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd HH:mm:ss"</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> IBinder <span class="title">onBind</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> MyBinder();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyBinder</span> <span class="keyword">extends</span> <span class="title">Binder</span> </span>&#123;</span><br><span class="line">		<span class="meta">@Override</span></span><br><span class="line">		<span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">onTransact</span><span class="params">(<span class="keyword">int</span> code, Parcel data, Parcel reply, <span class="keyword">int</span> flags)</span> <span class="keyword">throws</span> RemoteException </span>&#123;</span><br><span class="line">			<span class="keyword">switch</span> (code) &#123;</span><br><span class="line">				<span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">					Log.i(<span class="string">"TAG"</span>, data.readString());</span><br><span class="line">					play();</span><br><span class="line">					reply.writeString(<span class="string">"Service play Music at "</span> + sdf.format(<span class="keyword">new</span> Date()));</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				<span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">					Log.i(<span class="string">"TAG"</span>, data.readString());</span><br><span class="line">					pause();</span><br><span class="line">					reply.writeString(<span class="string">"Service pause Music at "</span> + sdf.format(<span class="keyword">new</span> Date()));</span><br><span class="line">					</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				<span class="keyword">default</span>:</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">play</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		Log.d(<span class="string">"TAG"</span>, <span class="string">"play"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">pause</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		Log.d(<span class="string">"TAG"</span>, <span class="string">"pause"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>服务的代码很简单，也没什么需要说的。</p>
+</blockquote>
+<h3 id="RemoteServiceDemo"><a href="#RemoteServiceDemo" class="headerlink" title="RemoteServiceDemo"></a>RemoteServiceDemo</h3><h4 id="布局"><a href="#布局" class="headerlink" title="布局"></a>布局</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    <span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span></span><br><span class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span><br><span class="line">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span> &gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">Button</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span><br><span class="line">        <span class="attr">android:onClick</span>=<span class="string">"bind"</span></span><br><span class="line">        <span class="attr">android:text</span>=<span class="string">"bind service"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">Button</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span><br><span class="line">        <span class="attr">android:onClick</span>=<span class="string">"unbind"</span></span><br><span class="line">        <span class="attr">android:text</span>=<span class="string">"unbind service"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">Button</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span><br><span class="line">        <span class="attr">android:onClick</span>=<span class="string">"play"</span></span><br><span class="line">        <span class="attr">android:text</span>=<span class="string">"play"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">Button</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span><br><span class="line">        <span class="attr">android:onClick</span>=<span class="string">"pause"</span></span><br><span class="line">        <span class="attr">android:text</span>=<span class="string">"pause"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> ServiceConnection	mServiceConnection	= <span class="keyword">new</span> ServiceConnection() &#123;</span><br><span class="line">														<span class="meta">@Override</span></span><br><span class="line">														<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onServiceDisconnected</span><span class="params">(ComponentName name)</span> </span>&#123;</span><br><span class="line">															</span><br><span class="line">														&#125;</span><br><span class="line">														<span class="meta">@Override</span></span><br><span class="line">														<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onServiceConnected</span><span class="params">(ComponentName name,</span><br><span class="line">																IBinder service)</span> </span>&#123;</span><br><span class="line">															mBinder = service;</span><br><span class="line">														&#125;</span><br><span class="line">													&#125;;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> IBinder				mBinder				= <span class="keyword">null</span>;</span><br><span class="line">	<span class="keyword">private</span> Parcel				data				= Parcel.obtain();</span><br><span class="line">	<span class="keyword">private</span> Parcel				reply				= Parcel.obtain();</span><br><span class="line">	<span class="keyword">private</span> SimpleDateFormat	sdf					= <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd HH:mm:ss"</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">		setContentView(R.layout.activity_main);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">bind</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (isBinded()) &#123;</span><br><span class="line">			<span class="keyword">return</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">/**</span><br><span class="line">		 * 通过ComponentName去定位意图</span><br><span class="line">		 * 第一个参数是应用包名</span><br><span class="line">		 * 第二个参数是Service或者Activity所在的包名+类名</span><br><span class="line">		 */</span></span><br><span class="line">		bindService(</span><br><span class="line">				<span class="keyword">new</span> Intent().setComponent(</span><br><span class="line">						<span class="keyword">new</span> ComponentName(<span class="string">"com.example.remoteservice"</span>, <span class="string">"com.example.remoteservice.MusicService"</span>)),</span><br><span class="line">				mServiceConnection, Context.BIND_AUTO_CREATE);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">unbind</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (!isBinded()) &#123;</span><br><span class="line">			<span class="keyword">return</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		unbindService(mServiceConnection);</span><br><span class="line">		mBinder = <span class="keyword">null</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">play</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (!isBinded()) &#123;</span><br><span class="line">			<span class="keyword">return</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			data.writeString(<span class="string">"Activity request to play music at "</span> + sdf.format(<span class="keyword">new</span> Date()));</span><br><span class="line">			mBinder.transact(<span class="number">0</span>, data, reply, <span class="number">0</span>);</span><br><span class="line">			Log.i(<span class="string">"TAG"</span>, reply.readString());</span><br><span class="line">		&#125; <span class="keyword">catch</span> (RemoteException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">pause</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			data.writeString(<span class="string">"Activity request to pause music at "</span> + sdf.format(<span class="keyword">new</span> Date()));</span><br><span class="line">			mBinder.transact(<span class="number">1</span>, data, reply, <span class="number">0</span>);</span><br><span class="line">			Log.i(<span class="string">"TAG"</span>, reply.readString());</span><br><span class="line">		&#125; <span class="keyword">catch</span> (RemoteException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isBinded</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> mBinder != <span class="keyword">null</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>因为我们需要使用<code>reply</code>，所以我们使用阻塞的<code>transact</code>，否则我们调用了<code>transact</code>,但是那边还未给reply写入字符串，最终导致NullPointException。</p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/AIDL/" rel="tag">#AIDL</a>
+          
+            <a href="/tags/跨进程/" rel="tag">#跨进程</a>
+          
+            <a href="/tags/IPC/" rel="tag">#IPC</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/23/android-ipc-simple-example/" rel="next" title="Android跨进程（APP）通信（一）- 一些例子">
+                <i class="fa fa-chevron-left"></i> Android跨进程（APP）通信（一）- 一些例子
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/08/24/android-ipc-not-aidl/"
+           data-title="Android跨进程（APP）通信（二） - 非AIDL" data-url="http://august1996.top/2016/08/24/android-ipc-not-aidl/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="August1996" />
+          <p class="site-author-name" itemprop="name">August1996</p>
+          <p class="site-description motion-element" itemprop="description">新博客,新生活!!!</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">70</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">82</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/august1996" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/august1996" target="_blank" title="Zhihu">
+                  
+                    <i class="fa fa-fw fa-comments"></i>
+                  
+                  Zhihu
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/august1996" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://ascenz.xyz/" title="Ascenz的博客" target="_blank">Ascenz的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://tangent.gift/" title="Tangent的博客" target="_blank">Tangent的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.cnblogs.com/wuweixin" title="Wyshon的博客" target="_blank">Wyshon的博客</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#从最常用的例子谈起"><span class="nav-number">1.</span> <span class="nav-text">从最常用的例子谈起</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#service代码"><span class="nav-number">1.1.</span> <span class="nav-text">service代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取service控制权代码"><span class="nav-number">1.2.</span> <span class="nav-text">获取service控制权代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一个真相引发的血案"><span class="nav-number">2.</span> <span class="nav-text">一个真相引发的血案</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#IBinder跨进程通信图"><span class="nav-number">2.1.</span> <span class="nav-text">IBinder跨进程通信图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#transact的参数"><span class="nav-number">2.2.</span> <span class="nav-text">transact的参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一个小例子"><span class="nav-number">2.3.</span> <span class="nav-text">一个小例子</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#环境："><span class="nav-number">2.3.1.</span> <span class="nav-text">环境：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RemoteService"><span class="nav-number">2.3.2.</span> <span class="nav-text">RemoteService</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Service声明"><span class="nav-number">2.3.2.1.</span> <span class="nav-text">Service声明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Service代码"><span class="nav-number">2.3.2.2.</span> <span class="nav-text">Service代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RemoteServiceDemo"><span class="nav-number">2.3.3.</span> <span class="nav-text">RemoteServiceDemo</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#布局"><span class="nav-number">2.3.3.1.</span> <span class="nav-text">布局</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码"><span class="nav-number">2.3.3.2.</span> <span class="nav-text">代码</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">August1996</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"august1996"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+
+  
+
+  
+  
+</body>
+</html>

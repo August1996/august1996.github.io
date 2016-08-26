@@ -292,6 +292,263 @@
             
               
                 
+                <a class="post-title-link" href="/2016/08/24/android-ipc-not-aidl/" itemprop="url">
+                  Android跨进程（APP）通信（二） - 非AIDL
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-24T06:46:06+08:00" content="2016-08-24">
+              2016-08-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android进阶/" itemprop="url" rel="index">
+                    <span itemprop="name">Android进阶</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/24/android-ipc-not-aidl/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/24/android-ipc-not-aidl/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          从最常用的例子谈起
+这篇文章围绕的核心主题就是IBinder，或许你早就在Service的onBind方法中见过。该方法就是返回一个IBinder对象。一般我们的做法是这样的：
+
+service代码12345678910111213141516171819public class MusicServ
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/08/24/android-ipc-not-aidl/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/08/23/android-ipc-simple-example/" itemprop="url">
+                  Android跨进程（APP）通信（一）- 一些例子
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-23T20:51:01+08:00" content="2016-08-23">
+              2016-08-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android进阶/" itemprop="url" rel="index">
+                    <span itemprop="name">Android进阶</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/23/android-ipc-simple-example/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/23/android-ipc-simple-example/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          跨进程通信
+跨进程通信就是IPC，IPC就是跨进程通信。因为每个进程都是独立的，有属于自己的内存空间，所以出于安全性考虑，最起码自己的东西不能随便就被人家操作。跨进程通信要比在同一进程中相互通信麻烦得多，限制也是比较多的。对于Android而言，跨进程通信的方法有以下几种：
+
+
+跨进程调用Activ
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/08/23/android-ipc-simple-example/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/08/20/android-timeline-view/" itemprop="url">
                   Android自定义时间线控件
                 </a>
@@ -1292,275 +1549,6 @@ Android ND
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/16/muti-projects-git-manage/" itemprop="url">
-                  Git多个项目私钥管理
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-16T14:32:12+08:00" content="2016-07-16">
-              2016-07-16
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/工具/" itemprop="url" rel="index">
-                    <span itemprop="name">工具</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/07/16/muti-projects-git-manage/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/16/muti-projects-git-manage/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          场景信息
-我的邮箱:xxxfish@qq.com
-三个项目分别为：
-project1
-project2
-project3
-
-
-代码托管平台:开源中国(git.oschina.net)
-
-第一步:生成公钥和私钥123ssh-keygen -t rsa -C "xxxfish@qq.com" -f ~/
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/07/16/muti-projects-git-manage/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/15/java-thread-pool-executor/" itemprop="url">
-                  聊聊Java线程池那些事
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-15T11:35:44+08:00" content="2016-07-15">
-              2016-07-15
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/07/15/java-thread-pool-executor/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/15/java-thread-pool-executor/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          为什么使用线程池
-线程池作用就是通过限制系统中执行线程的数量从而达到优化资源分配的目的。
-
-控制执行线程的数量
-假如现在有一个工作台,上面只能有5个人作业.
-
-使用锁
-Java引入了Semaphore的一个类,称为信号量.可以指定开放多少把锁
-
-事例代码12345678910111213141516
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/07/15/java-thread-pool-executor/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1606,7 +1594,7 @@ Java引入了Semaphore的一个类,称为信号量.可以指定开放多少把�
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">68</span>
+              <span class="site-state-item-count">70</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1623,7 +1611,7 @@ Java引入了Semaphore的一个类,称为信号量.可以指定开放多少把�
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">79</span>
+                <span class="site-state-item-count">82</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
