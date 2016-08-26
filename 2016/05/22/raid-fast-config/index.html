@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next mist use-motion">
+<html class="theme-next pisces use-motion">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -130,7 +130,7 @@
 <script type="text/javascript" id="hexo.configuration">
   var NexT = window.NexT || {};
   var CONFIG = {
-    scheme: 'Mist',
+    scheme: 'Pisces',
     sidebar: {"position":"left","display":"post"},
     fancybox: true,
     motion: true,
@@ -394,15 +394,15 @@
 <li>安装mdadm</li>
 <li>分区4个或以上</li>
 </ul>
-<h2 id="创建RAID5"><a href="#创建RAID5" class="headerlink" title="创建RAID5"></a>创建RAID5</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mdadm -C /dev/md0 <span class="_">-a</span> yes <span class="_">-l</span> 5 -n 4 -x 1 /dev/sdb&#123;5,6,7,8,9&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="创建RAID5"><a href="#创建RAID5" class="headerlink" title="创建RAID5"></a>创建RAID5</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mdadm -C /dev/md0 -a yes -l 5 -n 4 -x 1 /dev/sdb&#123;5,6,7,8,9&#125;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>-C：创建/dev/md0设备，-a：是否自动检测这里为yes,-l：raid的级别这里为 raid5，-n：几块硬盘做为RUN，-x：几块硬盘作为备用 </p>
 </blockquote>
-<h2 id="查看-dev-md0的详细信息"><a href="#查看-dev-md0的详细信息" class="headerlink" title="查看/dev/md0的详细信息"></a>查看/dev/md0的详细信息</h2><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mdadm <span class="comment">--detail /dev/md0 </span></span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line"><span class="comment">## 格式化、挂载、使用/dev/md0</span></span><br></pre></td></tr></table></figure>
-<p>mkfs.ext4 /dev/md0<br>mkdir /raid5<br>mount /dev/md0 /raid5/<br><figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="vala"><span class="meta">## 设置开机启动RAID5</span></span></span><br></pre></td></tr></table></figure></p>
+<h2 id="查看-dev-md0的详细信息"><a href="#查看-dev-md0的详细信息" class="headerlink" title="查看/dev/md0的详细信息"></a>查看/dev/md0的详细信息</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mdadm --detail /dev/md0 </span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">## 格式化、挂载、使用/dev/md0</span><br></pre></td></tr></table></figure>
+<p>mkfs.ext4 /dev/md0<br>mkdir /raid5<br>mount /dev/md0 /raid5/<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line"></span><br><span class="line">## 设置开机启动RAID5</span><br></pre></td></tr></table></figure></p>
 <p>mdadm –detail –scan &gt;/etc/mdadm.conf</p>
-<p>#创建mdadm配置文件，不创建则开机md0装置被误扫描成其他类型<br><figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&gt; <span class="regexp">/etc/fstab</span>加入</span><br></pre></td></tr></table></figure></p>
-<p>/dev/md0 /raid5 ext4 defaults 0 0<br><figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="vala"><span class="meta">## 管理RAID5：</span></span></span><br></pre></td></tr></table></figure></p>
+<p>#创建mdadm配置文件，不创建则开机md0装置被误扫描成其他类型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&gt; /etc/fstab加入</span><br></pre></td></tr></table></figure></p>
+<p>/dev/md0 /raid5 ext4 defaults 0 0<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line"></span><br><span class="line">## 管理RAID5：</span><br></pre></td></tr></table></figure></p>
 <p>cat /proc/mdstat #查看raid的状态</p>
 <p>mdadm –detail /dev/md0＃查看特定raid设备的详细信息</p>
 <p>mdadm /dev/md0 –fail /dev/sdb5＃模拟硬盘损坏</p>
@@ -733,6 +733,13 @@
 
   
   
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
 
   
   <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>

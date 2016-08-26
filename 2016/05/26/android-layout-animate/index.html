@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next mist use-motion">
+<html class="theme-next pisces use-motion">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -120,7 +120,7 @@
 <script type="text/javascript" id="hexo.configuration">
   var NexT = window.NexT || {};
   var CONFIG = {
-    scheme: 'Mist',
+    scheme: 'Pisces',
     sidebar: {"position":"left","display":"post"},
     fancybox: true,
     motion: true,
@@ -380,15 +380,15 @@
 <h1 id="使用说明"><a href="#使用说明" class="headerlink" title="使用说明"></a>使用说明</h1><blockquote>
 <p>对于自定义动画,只需要重写<code>Animation</code>类的<code>applyTransformation</code>方法就可以了。</p>
 </blockquote>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">applyTransformation</span><span class="params">(<span class="keyword">float</span> interpolatedTime, Transformation t)</span> </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">protected void applyTransformation(float interpolatedTime, Transformation t) &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>其中<code>interpolatedTime</code>参数是<code>差值器</code>的<code>时间因子Interpolator</code>,不同的差值器同一时间计算出来的是不一样的.此值是由当前动画完成的百分比和当前时间所对应的差值计算得来的.取值范围是<code>0-1</code>.<strong>我的理解就是下一阶段将要 完成整个动画的百分比,不知道是否正确.</strong><br>第二个参数<code>Transformation</code>是矩阵的封装类,它封装了一下方法去操作矩阵.</p>
 </blockquote>
 <h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><blockquote>
 <p>所以可以写出关闭电视的动画类是这样的</p>
 </blockquote>
-<h2 id="动画代码"><a href="#动画代码" class="headerlink" title="动画代码"></a>动画代码</h2><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">class</span> <span class="selector-tag">OffTVAnimation</span> <span class="selector-tag">extends</span> <span class="selector-tag">Animation</span> &#123;</span><br><span class="line">    <span class="variable">@Override</span></span><br><span class="line">    protected void applyTransformation(float interpolatedTime, Transformation t) &#123;</span><br><span class="line">        Matrix matrix = t<span class="selector-class">.getMatrix</span>();</span><br><span class="line">        matrix<span class="selector-class">.preScale</span>(<span class="number">1</span>, <span class="number">1</span> - interpolatedTime, view.getWidth() / <span class="number">2</span>, view.getHeight() / <span class="number">2</span>);</span><br><span class="line">        <span class="comment">/**</span><br><span class="line">         * 使宽度不缩放,高度缩小最后是0.然后后面两个参数是按被缩放的view的中心点缩放</span><br><span class="line">         */</span></span><br><span class="line">        view<span class="selector-class">.setAlpha</span>(<span class="number">1</span> - interpolatedTime);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="variable">@Override</span></span><br><span class="line">    public void initialize(int width, int height, int parentWidth, int parentHeight) &#123;</span><br><span class="line">        super<span class="selector-class">.initialize</span>(width, height, parentWidth, parentHeight);</span><br><span class="line">        setDuration(200);</span><br><span class="line">        setInterpolator(new DecelerateInterpolator());</span><br><span class="line">        setFillAfter(true);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="调用代码"><a href="#调用代码" class="headerlink" title="调用代码"></a>调用代码</h2><figure class="highlight cos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">OffTVAnimation offTVAnimation = <span class="keyword">new</span> OffTVAnimation()<span class="comment">;</span></span><br><span class="line"><span class="keyword">view</span>.startAnimation(offTVAnimation)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<h2 id="动画代码"><a href="#动画代码" class="headerlink" title="动画代码"></a>动画代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">class OffTVAnimation extends Animation &#123;</span><br><span class="line">    @Override</span><br><span class="line">    protected void applyTransformation(float interpolatedTime, Transformation t) &#123;</span><br><span class="line">        Matrix matrix = t.getMatrix();</span><br><span class="line">        matrix.preScale(1, 1 - interpolatedTime, view.getWidth() / 2, view.getHeight() / 2);</span><br><span class="line">        /**</span><br><span class="line">         * 使宽度不缩放,高度缩小最后是0.然后后面两个参数是按被缩放的view的中心点缩放</span><br><span class="line">         */</span><br><span class="line">        view.setAlpha(1 - interpolatedTime);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    @Override</span><br><span class="line">    public void initialize(int width, int height, int parentWidth, int parentHeight) &#123;</span><br><span class="line">        super.initialize(width, height, parentWidth, parentHeight);</span><br><span class="line">        setDuration(200);</span><br><span class="line">        setInterpolator(new DecelerateInterpolator());</span><br><span class="line">        setFillAfter(true);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="调用代码"><a href="#调用代码" class="headerlink" title="调用代码"></a>调用代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">OffTVAnimation offTVAnimation = new OffTVAnimation();</span><br><span class="line">view.startAnimation(offTVAnimation);</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -710,6 +710,13 @@
 
   
   
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
 
   
   <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>

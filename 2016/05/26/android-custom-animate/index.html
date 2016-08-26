@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next mist use-motion">
+<html class="theme-next pisces use-motion">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -121,7 +121,7 @@
 <script type="text/javascript" id="hexo.configuration">
   var NexT = window.NexT || {};
   var CONFIG = {
-    scheme: 'Mist',
+    scheme: 'Pisces',
     sidebar: {"position":"left","display":"post"},
     fancybox: true,
     motion: true,
@@ -384,7 +384,7 @@
 <li>实现最简单的动画效果只要在xml布局文件中对ViewGroup开启一个属性:<code>android:animateLayoutChanges=&quot;true&quot;</code></li>
 <li>此外还能通过<code>LayoutAnimationController</code>其修改其默认的动画：</li>
 </ul>
-<h1 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h1><figure class="highlight cos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//已知container为某个ViewGroup</span></span><br><span class="line">ScaleAnimation sa = <span class="keyword">new</span> ScaleAnimation(<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, ScaleAnimation.RELATIVE_TO_SELF, <span class="number">0.5</span>f,</span><br><span class="line">ScaleAnimation.RELATIVE_TO_SELF, <span class="number">0.5</span>f)<span class="comment">;</span></span><br><span class="line">sa.setDuration(<span class="number">1000</span>)<span class="comment">;</span></span><br><span class="line">LayoutAnimationController lac = <span class="keyword">new</span> LayoutAnimationController(sa)<span class="comment">;</span></span><br><span class="line">container.setLayoutAnimation(lac)<span class="comment">;</span></span><br><span class="line"><span class="keyword">View</span> <span class="keyword">view</span> = <span class="keyword">new</span> <span class="keyword">View</span>(AnimatorActivity.this)<span class="comment">;</span></span><br><span class="line">LayoutParams lp = <span class="keyword">new</span> LayoutParams(<span class="number">300</span>, <span class="number">300</span>)<span class="comment">;</span></span><br><span class="line"><span class="keyword">view</span>.setLayoutParams(lp)<span class="comment">;</span></span><br><span class="line"><span class="keyword">view</span>.setBackgroundColor(Color.parseColor(<span class="string">"#ffeebb"</span>))<span class="comment">;</span></span><br><span class="line">container.addView(<span class="keyword">view</span>)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<h1 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//已知container为某个ViewGroup</span><br><span class="line">ScaleAnimation sa = new ScaleAnimation(0, 1, 0, 1, ScaleAnimation.RELATIVE_TO_SELF, 0.5f,</span><br><span class="line">ScaleAnimation.RELATIVE_TO_SELF, 0.5f);</span><br><span class="line">sa.setDuration(1000);</span><br><span class="line">LayoutAnimationController lac = new LayoutAnimationController(sa);</span><br><span class="line">container.setLayoutAnimation(lac);</span><br><span class="line">View view = new View(AnimatorActivity.this);</span><br><span class="line">LayoutParams lp = new LayoutParams(300, 300);</span><br><span class="line">view.setLayoutParams(lp);</span><br><span class="line">view.setBackgroundColor(Color.parseColor(&quot;#ffeebb&quot;));</span><br><span class="line">container.addView(view);</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>上面的代码就是使添加View的时候子View通过中心放大的形式出现</p>
 </blockquote>
@@ -711,6 +711,13 @@
 
   
   
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
 
   
   <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>

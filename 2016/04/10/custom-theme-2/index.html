@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next mist use-motion">
+<html class="theme-next pisces use-motion">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -106,7 +106,7 @@
 <script type="text/javascript" id="hexo.configuration">
   var NexT = window.NexT || {};
   var CONFIG = {
-    scheme: 'Mist',
+    scheme: 'Pisces',
     sidebar: {"position":"left","display":"post"},
     fancybox: true,
     motion: true,
@@ -365,13 +365,13 @@
         <blockquote>
 <p>在使用Dialog的时候,我们发现Dialog有一个构造方法Dialog(Context context,int themeResId),里面可以指定一个主题样式,下面我们就试试捣腾一下吧.因为Dialog需要setContentView的,所以我们偷个懒,先使用<code>AlertDialog</code>去玩玩。</p>
 </blockquote>
-<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">AlertDialog.<span class="keyword">Builder </span><span class="keyword">builder </span>= new AlertDialog.<span class="keyword">Builder(MainActivity.this, </span>R.style.custom_dialog)<span class="comment">;</span></span><br><span class="line"><span class="keyword">builder.setTitle("提示信息:");</span><br><span class="line"></span><span class="keyword">builder.setMessage("你好呀!");</span><br><span class="line"></span><span class="keyword">builder.create().show();</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this, R.style.custom_dialog);</span><br><span class="line">builder.setTitle(&quot;提示信息:&quot;);</span><br><span class="line">builder.setMessage(&quot;你好呀!&quot;);</span><br><span class="line">builder.create().show();</span><br></pre></td></tr></table></figure>
 <p><code>styles.xml</code>添加下面样式</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"custom_dialog"</span> <span class="attr">parent</span>=<span class="string">"android:style/Theme.Dialog"</span>&gt;</span><span class="undefined"></span><br><span class="line"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;style name=&quot;custom_dialog&quot; parent=&quot;android:style/Theme.Dialog&quot;&gt;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>这时效果是这样的,好丑,我们把边边的背景去掉</p>
 </blockquote>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;style name=<span class="string">"custom_dialog"</span> parent=<span class="string">"android:style/Theme.Dialog"</span>&gt;</span><br><span class="line">&lt;item name=<span class="string">"android:windowBackground"</span>&gt;<span class="variable">@android</span><span class="symbol">:color/transparent&lt;/item&gt;</span></span><br><span class="line">&lt;<span class="regexp">/style&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;style name=&quot;custom_dialog&quot; parent=&quot;android:style/Theme.Dialog&quot;&gt;</span><br><span class="line">&lt;item name=&quot;android:windowBackground&quot;&gt;@android:color/transparent&lt;/item&gt;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>这时候就没有了背景了,只有需要显示的内容了.虽然还是很丑,但是我们会在下一篇文章结合之前的知识去做一个好看的ProgressDialog</p>
 </blockquote>
@@ -696,6 +696,13 @@
 
   
   
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
 
   
   <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>

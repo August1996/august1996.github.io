@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next mist use-motion">
+<html class="theme-next pisces use-motion">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -85,17 +85,17 @@
 
 
 <meta name="description" content="这篇博客我们来看一下Android的主题样式,首先我们看看主题样式是个什么鬼,我们看看styles.xml文件里面写的都是些什么.发现这里什么都没有，就只有一个
-12&amp;lt;style name=&quot;AppTheme&quot; parent=&quot;Theme.AppCompat.Light.NoActionBar&quot;&amp;gt;&amp;lt;/style&amp;gt;
+12&amp;lt;style name=&amp;quot;AppTheme&amp;quot; parent=&amp;quot;Theme.AppCompat.Light.NoActionBar&amp;quot;&amp;gt;&amp;lt;/style&amp;gt;
 
-我们看到了parent属性,其实这就相当于继承,嗯就说继承">
+我们看到了pare">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android自定义主题(1)">
 <meta property="og:url" content="http://august1996.top/2016/04/10/custom-theme-1/index.html">
 <meta property="og:site_name" content="August1996的小狗窝">
 <meta property="og:description" content="这篇博客我们来看一下Android的主题样式,首先我们看看主题样式是个什么鬼,我们看看styles.xml文件里面写的都是些什么.发现这里什么都没有，就只有一个
-12&amp;lt;style name=&quot;AppTheme&quot; parent=&quot;Theme.AppCompat.Light.NoActionBar&quot;&amp;gt;&amp;lt;/style&amp;gt;
+12&amp;lt;style name=&amp;quot;AppTheme&amp;quot; parent=&amp;quot;Theme.AppCompat.Light.NoActionBar&amp;quot;&amp;gt;&amp;lt;/style&amp;gt;
 
-我们看到了parent属性,其实这就相当于继承,嗯就说继承">
+我们看到了pare">
 <meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagescustom-theme-1-1.png">
 <meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagescustom-theme-1-2.png">
 <meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagescustom-theme-1-3.png">
@@ -103,9 +103,9 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android自定义主题(1)">
 <meta name="twitter:description" content="这篇博客我们来看一下Android的主题样式,首先我们看看主题样式是个什么鬼,我们看看styles.xml文件里面写的都是些什么.发现这里什么都没有，就只有一个
-12&amp;lt;style name=&quot;AppTheme&quot; parent=&quot;Theme.AppCompat.Light.NoActionBar&quot;&amp;gt;&amp;lt;/style&amp;gt;
+12&amp;lt;style name=&amp;quot;AppTheme&amp;quot; parent=&amp;quot;Theme.AppCompat.Light.NoActionBar&amp;quot;&amp;gt;&amp;lt;/style&amp;gt;
 
-我们看到了parent属性,其实这就相当于继承,嗯就说继承">
+我们看到了pare">
 <meta name="twitter:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagescustom-theme-1-1.png">
 
 
@@ -113,7 +113,7 @@
 <script type="text/javascript" id="hexo.configuration">
   var NexT = window.NexT || {};
   var CONFIG = {
-    scheme: 'Mist',
+    scheme: 'Pisces',
     sidebar: {"position":"left","display":"post"},
     fancybox: true,
     motion: true,
@@ -370,11 +370,11 @@
 
       
         <p>这篇博客我们来看一下Android的主题样式,首先我们看看主题样式是个什么鬼,我们看看styles.xml文件里面写的都是些什么.发现这里什么都没有，就只有一个</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"AppTheme"</span> <span class="attr">parent</span>=<span class="string">"Theme.AppCompat.Light.NoActionBar"</span>&gt;</span><span class="undefined"></span><br><span class="line"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;style name=&quot;AppTheme&quot; parent=&quot;Theme.AppCompat.Light.NoActionBar&quot;&gt;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>我们看到了<code>parent</code>属性,其实这就相当于<code>继承</code>,嗯就说继承吧.我们点进去看下有什么</p>
 </blockquote>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;style <span class="built_in">name</span>=<span class="string">"Theme.AppCompat.Light.NoActionBar"</span>&gt;</span><br><span class="line">        &lt;<span class="built_in">item</span> <span class="built_in">name</span>=<span class="string">"windowActionBar"</span>&gt;<span class="literal">false</span>&lt;/<span class="built_in">item</span>&gt;</span><br><span class="line">        &lt;<span class="built_in">item</span> <span class="built_in">name</span>=<span class="string">"windowNoTitle"</span>&gt;<span class="literal">true</span>&lt;/<span class="built_in">item</span>&gt;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;style name=&quot;Theme.AppCompat.Light.NoActionBar&quot;&gt;</span><br><span class="line">        &lt;item name=&quot;windowActionBar&quot;&gt;false&lt;/item&gt;</span><br><span class="line">        &lt;item name=&quot;windowNoTitle&quot;&gt;true&lt;/item&gt;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>我们似乎看到了些什么,<code>windowNoTitle</code>的值是True,既然是继承,那么我们就回去<code>APPTheme</code>去覆写这个属性,改成false看下有什么变化</p>
 </blockquote>
@@ -383,13 +383,13 @@
 <p>我们发现这里就多了一个Title</p>
 </blockquote>
 <p>好那么我们试试在APPTheme里面配置更多的属性,看下主题有什么变化.</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;style <span class="built_in">name</span>=<span class="string">"AppTheme"</span> parent=<span class="string">"Theme.AppCompat.Light.NoActionBar"</span>&gt;</span><br><span class="line">        &lt;<span class="built_in">item</span> <span class="built_in">name</span>=<span class="string">"android:windowNoTitle"</span>&gt;<span class="literal">false</span>&lt;/<span class="built_in">item</span>&gt;</span><br><span class="line">        &lt;<span class="built_in">item</span> <span class="built_in">name</span>=<span class="string">"android:windowFullscreen"</span>&gt;<span class="literal">true</span>&lt;/<span class="built_in">item</span>&gt;</span><br><span class="line">        &lt;<span class="built_in">item</span> <span class="built_in">name</span>=<span class="string">"android:textSize"</span>&gt;<span class="number">20</span>sp&lt;/<span class="built_in">item</span>&gt;</span><br><span class="line">        &lt;<span class="built_in">item</span> <span class="built_in">name</span>=<span class="string">"android:textColor"</span>&gt;<span class="comment">#FF0000&lt;/item&gt;</span></span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;style name=&quot;AppTheme&quot; parent=&quot;Theme.AppCompat.Light.NoActionBar&quot;&gt;</span><br><span class="line">        &lt;item name=&quot;android:windowNoTitle&quot;&gt;false&lt;/item&gt;</span><br><span class="line">        &lt;item name=&quot;android:windowFullscreen&quot;&gt;true&lt;/item&gt;</span><br><span class="line">        &lt;item name=&quot;android:textSize&quot;&gt;20sp&lt;/item&gt;</span><br><span class="line">        &lt;item name=&quot;android:textColor&quot;&gt;#FF0000&lt;/item&gt;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
 <p><img src="http://o7xj6lxqq.bkt.clouddn.com/imagescustom-theme-1-3.png" alt="图片1"></p>
 <blockquote>
 <p>好了,属性我们就看到这里.下面是自我捣腾时间….大家快去试试</p>
 </blockquote>
 <p>我们再去看看哪里去引用这么一个主题,我们打开<code>AndroidManifest.xml</code>文件,于是我们看到这么一段 </p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span></span><br><span class="line">    <span class="attr">android:name</span>=<span class="string">".MainActivity"</span></span><br><span class="line">    <span class="attr">android:label</span>=<span class="string">"@string/app_name"</span></span><br><span class="line">    <span class="attr">android:theme</span>=<span class="string">"@style/AppTheme"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"android.intent.action.MAIN"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.LAUNCHER"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;activity</span><br><span class="line">    android:name=&quot;.MainActivity&quot;</span><br><span class="line">    android:label=&quot;@string/app_name&quot;</span><br><span class="line">    android:theme=&quot;@style/AppTheme&quot;&gt;</span><br><span class="line">    &lt;intent-filter&gt;</span><br><span class="line">        &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;</span><br><span class="line">        &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;</span><br><span class="line">    &lt;/intent-filter&gt;</span><br><span class="line">&lt;/activity&gt;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>里面的theme声明了引用的属性.而且我们可以看到,之前的style如果是改变字体颜色,所有字体颜色都默认改成指定的.因为是activity的属性被改变了.类似于css中的body的字体颜色被改变了,它的内容的默认字体颜色就被改变了.</p>
 </blockquote>
@@ -714,6 +714,13 @@
 
   
   
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
 
   
   <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>

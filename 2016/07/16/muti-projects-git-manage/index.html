@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next mist use-motion">
+<html class="theme-next pisces use-motion">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -94,7 +94,7 @@ project3
 
 代码托管平台:开源中国(git.oschina.net)
 
-第一步:生成公钥和私钥123ssh-keygen -t rsa -C &quot;xxxfish@qq.com&quot; -f ~/.ssh/project1ssh-keygen -t rsa -C &quot;xxxfish@qq.com&quot;">
+第一步:生成公钥和私钥123ssh-keygen -t rsa -C &amp;quot;xxxfish@qq.com&amp;quot; -f ~/.ssh/project1ssh-keygen -t rsa -C &amp;quot;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Git多个项目私钥管理">
 <meta property="og:url" content="http://august1996.top/2016/07/16/muti-projects-git-manage/index.html">
@@ -109,7 +109,7 @@ project3
 
 代码托管平台:开源中国(git.oschina.net)
 
-第一步:生成公钥和私钥123ssh-keygen -t rsa -C &quot;xxxfish@qq.com&quot; -f ~/.ssh/project1ssh-keygen -t rsa -C &quot;xxxfish@qq.com&quot;">
+第一步:生成公钥和私钥123ssh-keygen -t rsa -C &amp;quot;xxxfish@qq.com&amp;quot; -f ~/.ssh/project1ssh-keygen -t rsa -C &amp;quot;">
 <meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesgit-manage-1.png">
 <meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesgit-manage-2.png">
 <meta property="og:updated_time" content="2016-08-10T23:00:51.000Z">
@@ -125,7 +125,7 @@ project3
 
 代码托管平台:开源中国(git.oschina.net)
 
-第一步:生成公钥和私钥123ssh-keygen -t rsa -C &quot;xxxfish@qq.com&quot; -f ~/.ssh/project1ssh-keygen -t rsa -C &quot;xxxfish@qq.com&quot;">
+第一步:生成公钥和私钥123ssh-keygen -t rsa -C &amp;quot;xxxfish@qq.com&amp;quot; -f ~/.ssh/project1ssh-keygen -t rsa -C &amp;quot;">
 <meta name="twitter:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesgit-manage-1.png">
 
 
@@ -133,7 +133,7 @@ project3
 <script type="text/javascript" id="hexo.configuration">
   var NexT = window.NexT || {};
   var CONFIG = {
-    scheme: 'Mist',
+    scheme: 'Pisces',
     sidebar: {"position":"left","display":"post"},
     fancybox: true,
     motion: true,
@@ -399,7 +399,7 @@ project3
 </li>
 <li>代码托管平台:开源中国(git.oschina.net)</li>
 </ul>
-<h1 id="第一步-生成公钥和私钥"><a href="#第一步-生成公钥和私钥" class="headerlink" title="第一步:生成公钥和私钥"></a>第一步:生成公钥和私钥</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C <span class="string">"xxxfish@qq.com"</span> <span class="_">-f</span> ~/.ssh/project1</span><br><span class="line">ssh-keygen -t rsa -C <span class="string">"xxxfish@qq.com"</span> <span class="_">-f</span> ~/.ssh/project2</span><br><span class="line">ssh-keygen -t rsa -C <span class="string">"xxxfish@qq.com"</span> <span class="_">-f</span> ~/.ssh/project3</span><br></pre></td></tr></table></figure>
+<h1 id="第一步-生成公钥和私钥"><a href="#第一步-生成公钥和私钥" class="headerlink" title="第一步:生成公钥和私钥"></a>第一步:生成公钥和私钥</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;xxxfish@qq.com&quot; -f ~/.ssh/project1</span><br><span class="line">ssh-keygen -t rsa -C &quot;xxxfish@qq.com&quot; -f ~/.ssh/project2</span><br><span class="line">ssh-keygen -t rsa -C &quot;xxxfish@qq.com&quot; -f ~/.ssh/project3</span><br></pre></td></tr></table></figure>
 <h1 id="第二步-添加公钥到项目组中"><a href="#第二步-添加公钥到项目组中" class="headerlink" title="第二步:添加公钥到项目组中"></a>第二步:添加公钥到项目组中</h1><blockquote>
 <p>三个项目的公钥分别是:</p>
 <ul>
@@ -428,7 +428,7 @@ project3
 <h1 id="第五步-克隆项目"><a href="#第五步-克隆项目" class="headerlink" title="第五步:克隆项目"></a>第五步:克隆项目</h1><blockquote>
 <p>项目克隆的命令是:</p>
 </blockquote>
- <figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone `Host`<span class="symbol">:`XXX`/`PROJECT`</span>.git</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone `Host`:`XXX`/`PROJECT`.git</span><br></pre></td></tr></table></figure>
 <blockquote>
 <ul>
 <li><code>Host</code>对应的就是第四步配置文件的别名</li>
@@ -757,6 +757,13 @@ project3
 
   
   
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
 
   
   <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>

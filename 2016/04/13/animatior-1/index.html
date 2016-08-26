@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next mist use-motion">
+<html class="theme-next pisces use-motion">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -103,7 +103,7 @@
 <script type="text/javascript" id="hexo.configuration">
   var NexT = window.NexT || {};
   var CONFIG = {
-    scheme: 'Mist',
+    scheme: 'Pisces',
     sidebar: {"position":"left","display":"post"},
     fancybox: true,
     motion: true,
@@ -360,7 +360,7 @@
 
       
         <h1 id="一般动画的缺陷"><a href="#一般动画的缺陷" class="headerlink" title="一般动画的缺陷"></a>一般动画的缺陷</h1><p>其实关于<code>Animation</code>动画还是有点不足的,动画过后容易造成<code>事件丢失</code>,测试下面的例子：</p>
-<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">TranslateAnimation =<span class="keyword">new</span> TranslateAnimation(<span class="number">0</span>, <span class="number">0</span>, <span class="number">100</span>, <span class="number">100</span>);</span><br><span class="line">rotateAnimation.setDuration(<span class="number">1000</span>);</span><br><span class="line">translateAnimation.setFillAfter(<span class="keyword">true</span>);</span><br><span class="line">translateBtn.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">        translateBtn.startAnimation(translateAnimation);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">TranslateAnimation =new TranslateAnimation(0, 0, 100, 100);</span><br><span class="line">rotateAnimation.setDuration(1000);</span><br><span class="line">translateAnimation.setFillAfter(true);</span><br><span class="line">translateBtn.setOnClickListener(new View.OnClickListener() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void onClick(View v) &#123;</span><br><span class="line">        translateBtn.startAnimation(translateAnimation);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>多次点击Button后,它越走越远,但是一定距离后就造成了事件丢失.怎么回事呢?是因为<strong>Animation的动画只是改变了绘制出来的图片的位置,而View得位置是没有变的</strong>.因此我们绑定在View的事件就好像丢失了,实际上你点击原来View的位置.点击事件还是存在的,但是你只是View已经看不到了而已.那么我们有没有解决方法呢?有!!!</p>
 </blockquote>
@@ -372,7 +372,7 @@
 <blockquote>
 <p>我们来聊聊Animator的用法吧,首先它能实现Animation的效果,也有类似AnimationSet的类去把动画装起来一起播放或者按顺序播放</p>
 </blockquote>
-<h1 id="简单用法"><a href="#简单用法" class="headerlink" title="简单用法"></a>简单用法</h1><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ObjectAnimator alphaAnimator = ObjectAnimator.ofFloat(v, <span class="string">"alpha"</span>, <span class="number">0</span>, <span class="number">1</span>)<span class="comment">;</span></span><br><span class="line">alphaAnimator.start()<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<h1 id="简单用法"><a href="#简单用法" class="headerlink" title="简单用法"></a>简单用法</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ObjectAnimator alphaAnimator = ObjectAnimator.ofFloat(v, &quot;alpha&quot;, 0, 1);</span><br><span class="line">alphaAnimator.start();</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>其中v就是需要作用的<code>View</code>,就是”<code>alpha</code>“是需要设置的属性,0是初始化的透明度,1是结束的透明度.一些Animation的方法,在这里也几乎是一样的,所以更多方法请移步前面一般动画<a href="http://august1996.top/2016/04/13/animation-1/">1</a> <a href="http://august1996.top/2016/04/13/animation-2/">2</a>的文章.</p>
 </blockquote>
@@ -381,11 +381,11 @@
 <p>很简单,你可以使用v.set????这样写,看IDE工具提示什么东西,如果是与动画相关的几乎都能写例如v.setTranslationX(),那么你第二个参数就可以写translationX.其实一共就那么四个.不过还可以自己去定义,后面会给一面文章讲一下自定义属性配合属性动画来做动画.</p>
 </blockquote>
 <h2 id="AnimatorSet"><a href="#AnimatorSet" class="headerlink" title="AnimatorSet"></a>AnimatorSet</h2><p>还有一个AnimatorSet,这个类相对于前面的来说比较有趣,说一些除了设置持续时间等于AnimationSet雷同的常见的方法   </p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">playTogether</span><span class="params">(Animator a1,Animator a2,...)</span></span>    <span class="comment">//后面可以跟无数多个动画,一起播放的</span></span><br><span class="line"><span class="function"><span class="title">playSequentially</span><span class="params">(Animator a1,Animator a2,...)</span></span>    <span class="comment">//类似上面那个,不过是按顺序播放</span></span><br><span class="line"><span class="function"><span class="title">play</span><span class="params">(Animation a)</span></span>  </span><br><span class="line"><span class="function"><span class="title">with</span><span class="params">(Animation a)</span></span>    </span><br><span class="line"><span class="function"><span class="title">before</span><span class="params">(Animation a)</span></span>    </span><br><span class="line"><span class="function"><span class="title">after</span><span class="params">(Animation a)</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">playTogether(Animator a1,Animator a2,...)    //后面可以跟无数多个动画,一起播放的</span><br><span class="line">playSequentially(Animator a1,Animator a2,...)    //类似上面那个,不过是按顺序播放</span><br><span class="line">play(Animation a)  </span><br><span class="line">with(Animation a)    </span><br><span class="line">before(Animation a)    </span><br><span class="line">after(Animation a)</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>上面四个方法连着说才好理解</p>
 </blockquote>
-<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set.play(Animator <span class="built_in">a1</span>).with(Animator <span class="built_in">a2</span>).<span class="keyword">before(Animator </span><span class="built_in">a3</span>).after(Animator <span class="built_in">a4</span>)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set.play(Animator a1).with(Animator a2).before(Animator a3).after(Animator a4);</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>a3-&gt;a1,a2-&gt;a4    //箭头是顺序播放,逗号是一起播放<br>就大概这么点东西,当然只是皮毛</p>
 </blockquote>
@@ -714,6 +714,13 @@
 
   
   
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
 
   
   <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
