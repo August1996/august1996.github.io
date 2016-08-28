@@ -1,0 +1,1036 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="UI,产品," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="引言
+最近在看一本书《精彩绝伦的AndroidUI设计-响应式用户界面与设计模式》，于是就写下这系列的博客。用于分享也好，用于笔记也好，反正写下来没坏。
+
+用户界面设计和易用性入门
+一款应用最重要的品质就是易用性。如果用户不知道如何得到并且使用它，那么这个应用再屌也是无济于事。例如一款应用集成了超级棒的特性，但是由于易用性的问题，用户找不到展现该特性的入口，或者入口并不那么直观。那么就有用户不能去">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android的UI设计（一）">
+<meta property="og:url" content="http://august1996.top/2016/08/28/android-ui-simple-intro/index.html">
+<meta property="og:site_name" content="August1996的小狗窝">
+<meta property="og:description" content="引言
+最近在看一本书《精彩绝伦的AndroidUI设计-响应式用户界面与设计模式》，于是就写下这系列的博客。用于分享也好，用于笔记也好，反正写下来没坏。
+
+用户界面设计和易用性入门
+一款应用最重要的品质就是易用性。如果用户不知道如何得到并且使用它，那么这个应用再屌也是无济于事。例如一款应用集成了超级棒的特性，但是由于易用性的问题，用户找不到展现该特性的入口，或者入口并不那么直观。那么就有用户不能去">
+<meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-ui-simple-intro-text.jpg">
+<meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-ui-simple-intro-design.jpg">
+<meta property="og:updated_time" content="2016-08-28T14:53:21.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android的UI设计（一）">
+<meta name="twitter:description" content="引言
+最近在看一本书《精彩绝伦的AndroidUI设计-响应式用户界面与设计模式》，于是就写下这系列的博客。用于分享也好，用于笔记也好，反正写下来没坏。
+
+用户界面设计和易用性入门
+一款应用最重要的品质就是易用性。如果用户不知道如何得到并且使用它，那么这个应用再屌也是无济于事。例如一款应用集成了超级棒的特性，但是由于易用性的问题，用户找不到展现该特性的入口，或者入口并不那么直观。那么就有用户不能去">
+<meta name="twitter:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-ui-simple-intro-text.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6289901108416480000,
+      author: 'August1996'
+    }
+  };
+</script>
+
+  <title> Android的UI设计（一） | August1996的小狗窝 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?ca08f65a7dda04c0e669531a7ef88472";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">August1996的小狗窝</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">记录一个傻屌程序员的日常...</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'z8JdSugezj6oS795yEMb','2.0.0');
+</script>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android的UI设计（一）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-28T15:49:12+08:00" content="2016-08-28">
+              2016-08-28
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android进阶/" itemprop="url" rel="index">
+                    <span itemprop="name">Android进阶</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/28/android-ui-simple-intro/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/28/android-ui-simple-intro/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><blockquote>
+<p>最近在看一本书《精彩绝伦的AndroidUI设计-响应式用户界面与设计模式》，于是就写下这系列的博客。用于分享也好，用于笔记也好，反正写下来没坏。</p>
+</blockquote>
+<h1 id="用户界面设计和易用性入门"><a href="#用户界面设计和易用性入门" class="headerlink" title="用户界面设计和易用性入门"></a>用户界面设计和易用性入门</h1><blockquote>
+<p>一款应用最重要的品质就是易用性。如果用户不知道如何得到并且使用它，那么这个应用再屌也是无济于事。例如一款应用集成了超级棒的特性，但是由于易用性的问题，用户找不到展现该特性的入口，或者入口并不那么直观。那么就有用户不能去尝试该特性的风险，甚至是由于用户体验而卸载应用。</p>
+</blockquote>
+<h2 id="考虑技术与设计"><a href="#考虑技术与设计" class="headerlink" title="考虑技术与设计"></a>考虑技术与设计</h2><blockquote>
+<p>对于开发人员来说：某些用户知道如何操作你的应用不能说明什么，某些用户不知道如何操作你的应用也不能说明他们愚蠢，而恰恰说明产品的交互体验设计得非常的糟糕。开发人员应该永远把用户当做傻子看待，他们不会去探索你的应用怎么用，应用的易用程度应该是一目了然的。<br>对于设计人员来说：设计人员应该多去与开发人员进行沟通。毕竟有些UI效果用技术实现的代价比较大，这时候就需要沟通找到折中的方案。</p>
+</blockquote>
+<h2 id="心智模型"><a href="#心智模型" class="headerlink" title="心智模型"></a>心智模型</h2><blockquote>
+<p>心智模型的概念比较简单，就是人根据经验建立出来的一种联系。例如司机转动方向盘就能导致轮子的转动。我们的应用操作也一样，在Android有一套操作习惯，在IOS上又有一套操作习惯。例如下拉刷新，双指捏合拉伸进行图片或者地图的缩放等等。</p>
+</blockquote>
+<h3 id="构建心智模型"><a href="#构建心智模型" class="headerlink" title="构建心智模型"></a>构建心智模型</h3><blockquote>
+<p>前面也说过心智模型是根据经验建立出来的一种联系。就是说心智模型是可以构建出来的，但是这个过程需要应用的引导。</p>
+</blockquote>
+<p><strong>例如下面两个应用</strong></p>
+<p><img src="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-ui-simple-intro-text.jpg" alt="文字"><br><img src="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-ui-simple-intro-design.jpg" alt="设计"> </p>
+<blockquote>
+<p>第一个是通过文字去引导用户，上拉滑动解锁。但是很多时候使用这种方式去引导用户就把UI破坏了，显得非常的机械。<br>第二个是一个应用，通过在UI设计上去引导用户。图片显示那里右边有一个未完全显示，告诉用户右边还有内容，这就能引导用户去滑动去点击。</p>
+<p>用户心智模型构建是非常重要的。设计前应该多去看一下其他应用的设计，参考它们好的交互方式。</p>
+</blockquote>
+<h2 id="用户目标"><a href="#用户目标" class="headerlink" title="用户目标"></a>用户目标</h2><blockquote>
+<p>用户并未单纯地想使用你的应用，他们是想通过你的应用去完成一些事情。所以很多时候是需要把需求转换成用户目标来看待。</p>
+</blockquote>
+<p><strong>下表展示了什么是用户目标</strong></p>
+<table>
+<thead>
+<tr>
+<th>不是一个用户目标</th>
+<th>对用的用户目标</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>用户想要保存一份文档（暗示功能）</td>
+<td>过一会要工作的时候，用户想继续操作刚刚的文档</td>
+</tr>
+<tr>
+<td>当收到新邮件的时候，用户想要获得通知（暗示功能）</td>
+<td>想要知道新邮件何时到达</td>
+</tr>
+<tr>
+<td>打开日历看演讲时间（太简单）</td>
+<td>用户想知道指定的演讲何时开始</td>
+</tr>
+<tr>
+<td>用户想看日历（太抽象）</td>
+<td>包含多个用户目标</td>
+</tr>
+<tr>
+<td>用户想通过搜索查找一场演讲（描述功能）</td>
+<td>包含多个用户目标，其中之一就是用户想要知道某人是否参加了某场演讲</td>
+</tr>
+<tr>
+<td>用户想要在日历中增加新的提醒（描述功能）</td>
+<td>用户需要记住约会的开始时间</td>
+</tr>
+</tbody>
+</table>
+<h3 id="确定用户目标"><a href="#确定用户目标" class="headerlink" title="确定用户目标"></a>确定用户目标</h3><blockquote>
+<p>用户目标应该是原子用户调研、领域内的专业知识和对应视图去解决问题的理解。<br>一定要看重第一份用户目标调研，这是非常有价值的。一份完整的为用户目标是对产品的功能作非技术性的描述。问题应该是简单的，例如『你觉得这个重要吗？』。<br>创建用户目标列表过程中，用户的思维过程是很重要的，尝试去跟着用户的思维。之后和消费者、领域专家、用户以及所有你认为有帮助的人交流。<br>最后总结你的用户目标调研过程中的思维过程和结果。</p>
+</blockquote>
+<p><strong>最后每一个用户目标都应该与产品特性对应，剩下没有对应的产品特性可以考虑是否需要砍掉</strong></p>
+<h2 id="没有应用无所不精，选择适合自己的领域"><a href="#没有应用无所不精，选择适合自己的领域" class="headerlink" title="没有应用无所不精，选择适合自己的领域"></a>没有应用无所不精，选择适合自己的领域</h2><blockquote>
+<p>不要尝试做所有的事。从关键的用户目标开始，然后从这些目标往外眼神。完美契合一小部分用户目标的应用，远远好于想要完成拥有诸多功能却粗制滥造的应用。项目初期，就应该记录你的应用是干嘛的。</p>
+<p>例如你要开发一个随手记的应用，你只需要把文字（可能还有语音，视频等）记录下来，你的应用不需要处理小说级的文字，更不需要打开多种格式的文件。所以把时间精力放在关键的点上，而不是文字处理的性能优化和多种格式的解码。</p>
+</blockquote>
+<p><strong>决定做什么和决定不做什么一样重要</strong></p>
+<h2 id="你是专家，而用户不是设计师"><a href="#你是专家，而用户不是设计师" class="headerlink" title="你是专家，而用户不是设计师"></a>你是专家，而用户不是设计师</h2><blockquote>
+<p>总是有一些人告诉你产品需要有什么功能。用户反馈通常也会充斥着各种需求。对于这些回馈，不要假设他们都是对的，也不能忽略他们。 随意实现用户需求可能使应用变得繁杂臃肿而无法控制。相反，应当尝试了解用户需求背后的用户目标，然后看看你的产品是否有必要对应上这种目标。<br>引用福特的一句话『如果问大家你们想要什么，他们会说我想要更快的马』。转换成用户目标后，就编程了『我想提高移动的速度，减少不必要话费的时间』。最后解决这个问题的关键是其实，而不是一匹更快的马。</p>
+</blockquote>
+<h2 id="了解用户，为普通用户设计"><a href="#了解用户，为普通用户设计" class="headerlink" title="了解用户，为普通用户设计"></a>了解用户，为普通用户设计</h2><blockquote>
+<p>要你的应用去适应每一个人是不可能的，试着去了解目标人群，只要适应他们，抓住这部分用户的流量就够了。</p>
+</blockquote>
+<h2 id="使用人物角色"><a href="#使用人物角色" class="headerlink" title="使用人物角色"></a>使用人物角色</h2><blockquote>
+<p>确定目标用户，和目标用户交流往往并不容易。使用任务角色就能帮到你。一个人物角色是一个虚拟的人，是你目标用户人群的缩影，注意是人群。创造一个人物角色就好像创造一个剧本角色。<br>如果可能，你的人物角色是基于调研的数据而创建的。写下你最佳的猜测并且与消费者、领域专家讨论。这能让你形成一个更有针对性的人物角色。<br>每个人物角色代表一种用户群体，一般3-7个人物角色就够了。</p>
+</blockquote>
+<p><strong>一般人物角色如下</strong></p>
+<table>
+<thead>
+<tr>
+<th>关键目标</th>
+<th>信息（高优先级）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>希望能通过手机每周7天每天24使用</td>
+<td>居住在法国哥根廷</td>
+</tr>
+<tr>
+<td>希望能够随时随地读写工作邮件</td>
+<td>37岁</td>
+</tr>
+<tr>
+<td></td>
+<td>经济顾问</td>
+</tr>
+<tr>
+<td></td>
+<td>已婚，俩孩子父亲</td>
+</tr>
+<tr>
+<td></td>
+<td>爱好：足球、阅读</td>
+</tr>
+<tr>
+<td></td>
+<td>每天开车画45分钟到工作地点</td>
+</tr>
+<tr>
+<td></td>
+<td>拥有一台Galaxy S系列的只能手机，用来查看私人和工作邮件，也用来拍摄照片和与亲朋好友通话</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>虚构的姓名</li>
+<li>一张人物照片</li>
+<li>一段包含年龄、性别、教育程度等信息的简介</li>
+<li>人物角色拥有的与你一应用领域相关的关键用户目标列表</li>
+<li>优先级，用来描述任务角色在应用制作过程中的重要性</li>
+</ul>
+<h2 id="进入用户的大脑"><a href="#进入用户的大脑" class="headerlink" title="进入用户的大脑"></a>进入用户的大脑</h2><blockquote>
+<p>不断使用人物角色的思想去检验你的设计工作，利用用户目标在大脑中模拟应用。问一些类似这样的问题：『某个角色能明白这点吗？』和『此橘色在这种情景下会怎么做？』。在考虑的时候更多地站在用户的角度上思考，毕竟应用不是只给你用的。</p>
+<p>在设计的过程总，总会冒出一些出色的点子，即便这些功能既不符合人物角色的需要，也没有用户目标与之对应，但仍不失为一个好点子。小心处理这些情况。<br>有时候这些想法能带来真正的创新，值得追求，每当遇到不符合用户目标的特性时，需要极其谨慎地评估这个特性。</p>
+</blockquote>
+<h1 id="不要马上开始编程"><a href="#不要马上开始编程" class="headerlink" title="不要马上开始编程"></a>不要马上开始编程</h1><h2 id="原型设计"><a href="#原型设计" class="headerlink" title="原型设计"></a>原型设计</h2><blockquote>
+<p>在真正开始编程之前，最好先做好原型设计。首先将你的设计灵感记录下来（最好是纸质），让脑海中的想法更加具体，也容易和其他成员探讨，这个过程阶段就叫做原型设计。</p>
+</blockquote>
+<h2 id="框架"><a href="#框架" class="headerlink" title="框架"></a>框架</h2><blockquote>
+<p>应用的结构关乎设计全局，考虑需要什么界面，界面与界面之间如何关联是良好的切入点。开始要忽略界面的细节，而是把更多的时间去设计各个页面与模块之间的逻辑关系。</p>
+</blockquote>
+<h2 id="高保真度的原型"><a href="#高保真度的原型" class="headerlink" title="高保真度的原型"></a>高保真度的原型</h2><blockquote>
+<p>制作一款应用的部分共轭能原型在某个概念上过于复杂时颇有意义，应为无法确定这个功能在实践中是否可以正常工作。因为很多的想法真的是天马行空，有了想法，技术支持也是需要考虑的。</p>
+</blockquote>
+<h2 id="概念验证"><a href="#概念验证" class="headerlink" title="概念验证"></a>概念验证</h2><blockquote>
+<p>概念验证是把软件的某个功能充分实现，以此来验证概念的可行性。</p>
+</blockquote>
+<h2 id="用户测试"><a href="#用户测试" class="headerlink" title="用户测试"></a>用户测试</h2><blockquote>
+<p>正式的用户测试中，会邀请一些专业的第三方测试。测试用户会看到原型设计或者功能性应用，并且要求在真是环境中进行一些操作。要求用户边思考、边操作，这样更能够去理解和深入用户的思考过程，经常还会做录像，方便回顾和进一步观察。</p>
+<p>但是由于资金，时间等各种因素，往往不会委托第三方的测试公司去测试，除了身边的同事，我们最好到外面<br>寻找测试人员，亲朋好友也是可以的，不要告诉他们应用是你的，这样他们才能给出更加中肯，有建设性的建议。<br>除了场景的测试外，还可以提一些问题，例如『你认为这个按钮是干嘛的？』『你怎样通过这款应用去发送电子邮件？』，这些问题的答案也能帮你更好地去改善应用。</p>
+</blockquote>
+<p><strong>明白深爱自己的创造而不能自拔是一种正常的现象，如果你花费大量时间来制作某个产品，你当然希望它能获得成功。如果应用存在问题，那么这些问题最好就在测试阶段暴露出来。越早越好！！！</strong></p>
+<h2 id="为用户测试指定一份计划"><a href="#为用户测试指定一份计划" class="headerlink" title="为用户测试指定一份计划"></a>为用户测试指定一份计划</h2><blockquote>
+<p>尽量根据应用的核心功能来确定用户场景测试。场景中不要包含技术性特性，让用户明白哪写才是他们想要的特性。<br>一个糟糕的测试计划『打开一份文档，按保存键将其作为附件加入邮件附件中。』<br>而更好的测试计划应该是『你记得曾经写给朋友的一个文档，现在你想要重温一下那份文档，然后发送给你的那位朋友。』</p>
+</blockquote>
+<h2 id="保持中立，不要引导用户"><a href="#保持中立，不要引导用户" class="headerlink" title="保持中立，不要引导用户"></a>保持中立，不要引导用户</h2><blockquote>
+<p>同时不要引导用户，如果用户在应用使用过程中迷失了方向，不能进入下一个页面。不要尝试引导他，应该深究问题的本质用户为什么会迷失方向。改进之后再去让测试用户测试。</p>
+</blockquote>
+<h2 id="不要矫正过度，调查结果-真的真真实吗？"><a href="#不要矫正过度，调查结果-真的真真实吗？" class="headerlink" title="不要矫正过度，调查结果 真的真真实吗？"></a>不要矫正过度，调查结果 真的真真实吗？</h2><blockquote>
+<p>不是每一个测试者遇到的问题都是真是的，应用程序的测试欢迎与现实并不一定十分吻合，测试人员在压力的情况下可能会遇到一些平时操作不会遇到的问题。所以测试的结果一定要进行挑选和筛选。</p>
+</blockquote>
+<h2 id="行动起来吧"><a href="#行动起来吧" class="headerlink" title="行动起来吧"></a>行动起来吧</h2><blockquote>
+<p>在每一轮测试之后，你必须要安排充分的时间对发现的问题作出反应，否则测试就变得毫无意义了。<br>在你确定一个合适的设计之前，不要将自己封闭在这个设计中。逐步完成从一份低保真度的纸质原型到一份具体的设计和成品的过程吧。</p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/UI/" rel="tag">#UI</a>
+          
+            <a href="/tags/产品/" rel="tag">#产品</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/26/android-aidl/" rel="next" title="Android跨进程（APP）通信（四） - AIDL">
+                <i class="fa fa-chevron-left"></i> Android跨进程（APP）通信（四） - AIDL
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/08/28/android-ui-simple-intro/"
+           data-title="Android的UI设计（一）" data-url="http://august1996.top/2016/08/28/android-ui-simple-intro/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="August1996" />
+          <p class="site-author-name" itemprop="name">August1996</p>
+          <p class="site-description motion-element" itemprop="description">新博客,新生活!!!</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">73</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">84</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/august1996" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/august1996" target="_blank" title="Zhihu">
+                  
+                    <i class="fa fa-fw fa-comments"></i>
+                  
+                  Zhihu
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/august1996" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://ascenz.xyz/" title="Ascenz的博客" target="_blank">Ascenz的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://tangent.gift/" title="Tangent的博客" target="_blank">Tangent的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.cnblogs.com/wuweixin" title="Wyshon的博客" target="_blank">Wyshon的博客</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#用户界面设计和易用性入门"><span class="nav-number">2.</span> <span class="nav-text">用户界面设计和易用性入门</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#考虑技术与设计"><span class="nav-number">2.1.</span> <span class="nav-text">考虑技术与设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#心智模型"><span class="nav-number">2.2.</span> <span class="nav-text">心智模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#构建心智模型"><span class="nav-number">2.2.1.</span> <span class="nav-text">构建心智模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用户目标"><span class="nav-number">2.3.</span> <span class="nav-text">用户目标</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#确定用户目标"><span class="nav-number">2.3.1.</span> <span class="nav-text">确定用户目标</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#没有应用无所不精，选择适合自己的领域"><span class="nav-number">2.4.</span> <span class="nav-text">没有应用无所不精，选择适合自己的领域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#你是专家，而用户不是设计师"><span class="nav-number">2.5.</span> <span class="nav-text">你是专家，而用户不是设计师</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#了解用户，为普通用户设计"><span class="nav-number">2.6.</span> <span class="nav-text">了解用户，为普通用户设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用人物角色"><span class="nav-number">2.7.</span> <span class="nav-text">使用人物角色</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进入用户的大脑"><span class="nav-number">2.8.</span> <span class="nav-text">进入用户的大脑</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#不要马上开始编程"><span class="nav-number">3.</span> <span class="nav-text">不要马上开始编程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#原型设计"><span class="nav-number">3.1.</span> <span class="nav-text">原型设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#框架"><span class="nav-number">3.2.</span> <span class="nav-text">框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#高保真度的原型"><span class="nav-number">3.3.</span> <span class="nav-text">高保真度的原型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概念验证"><span class="nav-number">3.4.</span> <span class="nav-text">概念验证</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用户测试"><span class="nav-number">3.5.</span> <span class="nav-text">用户测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为用户测试指定一份计划"><span class="nav-number">3.6.</span> <span class="nav-text">为用户测试指定一份计划</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#保持中立，不要引导用户"><span class="nav-number">3.7.</span> <span class="nav-text">保持中立，不要引导用户</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#不要矫正过度，调查结果-真的真真实吗？"><span class="nav-number">3.8.</span> <span class="nav-text">不要矫正过度，调查结果 真的真真实吗？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#行动起来吧"><span class="nav-number">3.9.</span> <span class="nav-text">行动起来吧</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">August1996</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"august1996"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+
+  
+
+  
+  
+</body>
+</html>
