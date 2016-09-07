@@ -104,7 +104,7 @@
 <meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-transition-2.gif">
 <meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-transition-3.gif">
 <meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-transition-4.gif">
-<meta property="og:updated_time" content="2016-09-06T12:22:13.000Z">
+<meta property="og:updated_time" content="2016-09-07T02:43:21.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="谁说Android的动画不廉价（一）之项目分层">
 <meta name="twitter:description" content="引言本系列博文是阅读Material-Animations源码之后撰写的。我认为例子中的动画非常酷炫，但是代码写得有点不是很清晰。有兴趣的可以去阅读一下上面例子的源码，还是非常值得学习的。那么本系列博文主要是实现下面的效果。
@@ -387,6 +387,8 @@
 <h1 id="项目分层"><a href="#项目分层" class="headerlink" title="项目分层"></a>项目分层</h1><h2 id="基本布局"><a href="#基本布局" class="headerlink" title="基本布局"></a>基本布局</h2><h3 id="tool-bar-xml"><a href="#tool-bar-xml" class="headerlink" title="tool_bar.xml"></a>tool_bar.xml</h3><blockquote>
 <p>因为大量的<code>Activity</code>使用<code>Toolbar</code>，所以我们使用<code>include</code>的方式去添加<code>Toolbar</code>。前提是要编写<code>Toolbar</code>的布局文件。其他的布局就根据需要编写咯。</p>
 </blockquote>
+<p><strong>因为用到Toolbar，所以需要修改<code>AndroidManifest.xml</code>文件中设置的主题</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"AppTheme"</span> <span class="attr">parent</span>=<span class="string">"Theme.AppCompat.Light.NoActionBar"</span>&gt;</span><span class="undefined"></span></span><br></pre></td></tr></table></figure>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">android.support.v7.widget.Toolbar</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    <span class="attr">xmlns:app</span>=<span class="string">"http://schemas.android.com/apk/res-auto"</span></span><br><span class="line">    <span class="attr">android:id</span>=<span class="string">"@+id/toolBar"</span></span><br><span class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">    <span class="attr">android:layout_height</span>=<span class="string">"?attr/actionBarSize"</span></span><br><span class="line">    <span class="attr">android:background</span>=<span class="string">"@color/colorPrimary"</span></span><br><span class="line">    <span class="attr">app:titleTextColor</span>=<span class="string">"#ffffff"</span>&gt;</span><span class="tag">&lt;/<span class="name">android.support.v7.widget.Toolbar</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <h2 id="基本Activity"><a href="#基本Activity" class="headerlink" title="基本Activity"></a>基本Activity</h2><h3 id="BaseActivity-java"><a href="#BaseActivity-java" class="headerlink" title="BaseActivity.java"></a>BaseActivity.java</h3><blockquote>
 <p>考虑到项目Activity的进一步复用，所以我们定义抽象基类<code>BaseActivity</code>。</p>
