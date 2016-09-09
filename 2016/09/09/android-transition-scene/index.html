@@ -1,0 +1,920 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="动画,场景," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="引言本篇博文是基于上一篇博文谁说Android的动画不廉价（二）之转场动画的基础上做的拓展。
+目标效果图
+前提说明其实这篇博文分为两个动画。
+
+第一种就是标题上的元素动画。就是View的位置，大小发生改变时伴随着动画效果。
+另一种就是场景动画，同一些元素，在不同layout里面的位置大小不同，然后通过切换场景来模拟View的位置大小改变。不同的layout元素可以不一样，Android根据id来判">
+<meta property="og:type" content="article">
+<meta property="og:title" content="谁说Android的动画不廉价（三）之元素动画">
+<meta property="og:url" content="http://august1996.top/2016/09/09/android-transition-scene/index.html">
+<meta property="og:site_name" content="August1996的小狗窝">
+<meta property="og:description" content="引言本篇博文是基于上一篇博文谁说Android的动画不廉价（二）之转场动画的基础上做的拓展。
+目标效果图
+前提说明其实这篇博文分为两个动画。
+
+第一种就是标题上的元素动画。就是View的位置，大小发生改变时伴随着动画效果。
+另一种就是场景动画，同一些元素，在不同layout里面的位置大小不同，然后通过切换场景来模拟View的位置大小改变。不同的layout元素可以不一样，Android根据id来判">
+<meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-transition-3.gif">
+<meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-view-animation-layout.png">
+<meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-view-animation-self.gif">
+<meta property="og:updated_time" content="2016-09-09T05:26:39.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="谁说Android的动画不廉价（三）之元素动画">
+<meta name="twitter:description" content="引言本篇博文是基于上一篇博文谁说Android的动画不廉价（二）之转场动画的基础上做的拓展。
+目标效果图
+前提说明其实这篇博文分为两个动画。
+
+第一种就是标题上的元素动画。就是View的位置，大小发生改变时伴随着动画效果。
+另一种就是场景动画，同一些元素，在不同layout里面的位置大小不同，然后通过切换场景来模拟View的位置大小改变。不同的layout元素可以不一样，Android根据id来判">
+<meta name="twitter:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-transition-3.gif">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6289901108416480000,
+      author: 'August1996'
+    }
+  };
+</script>
+
+  <title> 谁说Android的动画不廉价（三）之元素动画 | August1996的小狗窝 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?ca08f65a7dda04c0e669531a7ef88472";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">August1996的小狗窝</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">记录一个傻屌程序员的日常...</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'z8JdSugezj6oS795yEMb','2.0.0');
+</script>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                谁说Android的动画不廉价（三）之元素动画
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-09T10:41:15+08:00" content="2016-09-09">
+              2016-09-09
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android进阶/" itemprop="url" rel="index">
+                    <span itemprop="name">Android进阶</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/09/09/android-transition-scene/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/09/android-transition-scene/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>本篇博文是基于上一篇博文<a href="http://august1996.top/2016/09/07/android-transition/">谁说Android的动画不廉价（二）之转场动画</a>的基础上做的拓展。</p>
+<h1 id="目标效果图"><a href="#目标效果图" class="headerlink" title="目标效果图"></a>目标效果图</h1><p><img src="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-transition-3.gif" alt="转场动画"></p>
+<h1 id="前提说明"><a href="#前提说明" class="headerlink" title="前提说明"></a>前提说明</h1><p>其实这篇博文分为两个动画。</p>
+<ul>
+<li>第一种就是标题上的元素动画。就是View的位置，大小发生改变时伴随着动画效果。</li>
+<li>另一种就是场景动画，同一些元素，在不同layout里面的位置大小不同，然后通过切换场景来模拟View的位置大小改变。不同的layout元素可以不一样，<strong>Android根据id来判断是否为同一个元素。两个layout没有相同元素的旧layout元素将会使用退出动画，然后没有相同元素的新layout元素将会使用进入动画</strong></li>
+</ul>
+<h2 id="元素动画"><a href="#元素动画" class="headerlink" title="元素动画"></a>元素动画</h2><h3 id="如何开启"><a href="#如何开启" class="headerlink" title="如何开启"></a>如何开启</h3><p>改变View的大小，位置之前使用<code>TransitionManager.beginDelayedTransition(ViewGroup sceneRoot, [Transition transition]);</code>开启</p>
+<ul>
+<li>sceneRoot    ：    元素所在的ViewGroup</li>
+<li>transition    ：    改变时的动画效果</li>
+</ul>
+<h2 id="场景动画"><a href="#场景动画" class="headerlink" title="场景动画"></a>场景动画</h2><h3 id="如何加载场景"><a href="#如何加载场景" class="headerlink" title="如何加载场景"></a>如何加载场景</h3><p>通过<code>Scene.getSceneForLayout(ViewGroup viewGroup,int layoutID,Context context);</code>方法加载一个场景</p>
+<ul>
+<li><code>viewGroup</code>    ：    layout需要加入的ViewGroup，类似于Fragment使用中的FrameLayout容器</li>
+<li><code>layoutID</code>    :    场景的布局文件资源id</li>
+</ul>
+<h3 id="如何切换"><a href="#如何切换" class="headerlink" title="如何切换"></a>如何切换</h3><p>通过<code>TransitionManager.go(Scene scene,[Transition transition]);</code>方法来切换场景</p>
+<h1 id="元素动画-1"><a href="#元素动画-1" class="headerlink" title="元素动画"></a>元素动画</h1><h2 id="布局文件"><a href="#布局文件" class="headerlink" title="布局文件"></a>布局文件</h2><h3 id="activity-view-animation-xml"><a href="#activity-view-animation-xml" class="headerlink" title="activity_view_animation.xml"></a>activity_view_animation.xml</h3><p><img src="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-view-animation-layout.png" alt="元素动画布局"></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    <span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span></span><br><span class="line">    <span class="attr">android:id</span>=<span class="string">"@+id/container"</span></span><br><span class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span><br><span class="line">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">include</span> <span class="attr">layout</span>=<span class="string">"@layout/tool_bar"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">ImageView</span></span><br><span class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/img"</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"100dp"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"100dp"</span></span><br><span class="line">        <span class="attr">android:layout_below</span>=<span class="string">"@+id/toolBar"</span></span><br><span class="line">        <span class="attr">android:layout_gravity</span>=<span class="string">"center"</span></span><br><span class="line">        <span class="attr">android:layout_marginTop</span>=<span class="string">"30dp"</span></span><br><span class="line">        <span class="attr">android:src</span>=<span class="string">"@drawable/circle_orange"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">LinearLayout</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span><br><span class="line">        <span class="attr">android:layout_marginTop</span>=<span class="string">"20dp"</span></span><br><span class="line">        <span class="attr">android:orientation</span>=<span class="string">"horizontal"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">Button</span></span><br><span class="line">            <span class="attr">android:layout_width</span>=<span class="string">"0dp"</span></span><br><span class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span><br><span class="line">            <span class="attr">android:layout_marginLeft</span>=<span class="string">"20dp"</span></span><br><span class="line">            <span class="attr">android:layout_marginRight</span>=<span class="string">"20dp"</span></span><br><span class="line">            <span class="attr">android:layout_weight</span>=<span class="string">"1"</span></span><br><span class="line">            <span class="attr">android:onClick</span>=<span class="string">"changeSize"</span></span><br><span class="line">            <span class="attr">android:text</span>=<span class="string">"改变大小"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">Button</span></span><br><span class="line">            <span class="attr">android:layout_width</span>=<span class="string">"0dp"</span></span><br><span class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span><br><span class="line">            <span class="attr">android:layout_marginLeft</span>=<span class="string">"20dp"</span></span><br><span class="line">            <span class="attr">android:layout_marginRight</span>=<span class="string">"20dp"</span></span><br><span class="line">            <span class="attr">android:layout_weight</span>=<span class="string">"1"</span></span><br><span class="line">            <span class="attr">android:onClick</span>=<span class="string">"changePosition"</span></span><br><span class="line">            <span class="attr">android:text</span>=<span class="string">"改变位置"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">Button</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span><br><span class="line">        <span class="attr">android:layout_marginLeft</span>=<span class="string">"20dp"</span></span><br><span class="line">        <span class="attr">android:layout_marginRight</span>=<span class="string">"20dp"</span></span><br><span class="line">        <span class="attr">android:layout_marginTop</span>=<span class="string">"20dp"</span></span><br><span class="line">        <span class="attr">android:onClick</span>=<span class="string">"next"</span></span><br><span class="line">        <span class="attr">android:text</span>=<span class="string">"Next（SCENES）"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><h3 id="MainActivity-java"><a href="#MainActivity-java" class="headerlink" title="MainActivity.java"></a>MainActivity.java</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">viewAnimations</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">       Intent intent = <span class="keyword">new</span> Intent(<span class="keyword">this</span>, ViewAnimationActivity.class);</span><br><span class="line">       ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(<span class="keyword">this</span>);</span><br><span class="line">       startActivity(intent, activityOptionsCompat.toBundle());</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="ViewAnimationActivity-java"><a href="#ViewAnimationActivity-java" class="headerlink" title="ViewAnimationActivity.java"></a>ViewAnimationActivity.java</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> demo.august1996.top.transitionanimationsdemo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.content.Intent;</span><br><span class="line"><span class="keyword">import</span> android.support.v4.app.ActivityOptionsCompat;</span><br><span class="line"><span class="keyword">import</span> android.transition.TransitionManager;</span><br><span class="line"><span class="keyword">import</span> android.view.Gravity;</span><br><span class="line"><span class="keyword">import</span> android.view.View;</span><br><span class="line"><span class="keyword">import</span> android.view.ViewGroup;</span><br><span class="line"><span class="keyword">import</span> android.widget.LinearLayout;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> demo.august1996.top.transitionanimationsdemo.Activity.ToolbarActivity;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ViewAnimationActivity</span> <span class="keyword">extends</span> <span class="title">ToolbarActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    ViewGroup container;</span><br><span class="line">    View imageView;</span><br><span class="line">    <span class="keyword">boolean</span> isChangeSize = <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">boolean</span> isChangePosition = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> String <span class="title">getToolbarTitle</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"元素动画"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">initView</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        imageView = findViewById(R.id.img);</span><br><span class="line">        container = (ViewGroup) findViewById(R.id.container);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">int</span> <span class="title">getContentViewID</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> R.layout.activity_view_animation;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">canBack</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 修改指定View的大小，根据isChangeSize来判断</span><br><span class="line">     * isChangeSize == true：为修改过的大小，大小*2</span><br><span class="line">     * isChangeSize == false：为原始的大小，大小/2</span><br><span class="line">     * <span class="doctag">@param</span> v</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">changeSize</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">        TransitionManager.beginDelayedTransition(container);</span><br><span class="line">        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) imageView.getLayoutParams();</span><br><span class="line">        <span class="keyword">if</span> (isChangeSize) &#123;</span><br><span class="line">            layoutParams.width = layoutParams.width * <span class="number">2</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            layoutParams.width = layoutParams.width / <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        layoutParams.height = layoutParams.width;</span><br><span class="line">        imageView.setLayoutParams(layoutParams);</span><br><span class="line">        isChangeSize = !isChangeSize;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 与changeSize类似</span><br><span class="line">     * <span class="doctag">@param</span> v</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">changePosition</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">        TransitionManager.beginDelayedTransition(container);</span><br><span class="line"></span><br><span class="line">        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) imageView.getLayoutParams();</span><br><span class="line">        <span class="keyword">if</span> (isChangePosition) &#123;</span><br><span class="line">            layoutParams.gravity = Gravity.CENTER;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            layoutParams.gravity = Gravity.LEFT;</span><br><span class="line">        &#125;</span><br><span class="line">        imageView.setLayoutParams(layoutParams);</span><br><span class="line">        imageView.postInvalidate();</span><br><span class="line">        isChangePosition = !isChangePosition;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">next</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">        Intent intent = <span class="keyword">new</span> Intent(<span class="keyword">this</span>, SceneActivity.class);</span><br><span class="line">        ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(<span class="keyword">this</span>);</span><br><span class="line">        startActivity(intent, activityOptionsCompat.toBundle());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>改变View的布局参数前开启动画效果<code>TransitionManager.beginDelayedTransition(container);</code></strong></p>
+<h1 id="场景动画-1"><a href="#场景动画-1" class="headerlink" title="场景动画"></a>场景动画</h1><h2 id="布局文件-1"><a href="#布局文件-1" class="headerlink" title="布局文件"></a>布局文件</h2><p><strong>比较多，1个Activity的layout加上5个场景的layout</strong><br>第一个是初始化的场景，其余四个是含有相同的元素，只是位置不同。</p>
+<h3 id="activity-scene-xml"><a href="#activity-scene-xml" class="headerlink" title="activity_scene.xml"></a>activity_scene.xml</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    <span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span></span><br><span class="line">    <span class="attr">android:id</span>=<span class="string">"@+id/activityRoot"</span></span><br><span class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span><br><span class="line">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">include</span> <span class="attr">layout</span>=<span class="string">"@layout/tool_bar"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">LinearLayout</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"0dp"</span></span><br><span class="line">        <span class="attr">android:layout_weight</span>=<span class="string">"1"</span></span><br><span class="line">        <span class="attr">android:orientation</span>=<span class="string">"vertical"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">FrameLayout</span></span><br><span class="line">            <span class="attr">android:id</span>=<span class="string">"@+id/viewRoot"</span></span><br><span class="line">            <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>&gt;</span><span class="tag">&lt;/<span class="name">FrameLayout</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">LinearLayout</span></span><br><span class="line">            <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span><br><span class="line"></span><br><span class="line">            <span class="attr">android:orientation</span>=<span class="string">"horizontal"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">            <span class="tag">&lt;<span class="name">Button</span></span><br><span class="line">                <span class="attr">android:id</span>=<span class="string">"@+id/one"</span></span><br><span class="line">                <span class="attr">android:layout_width</span>=<span class="string">"0dp"</span></span><br><span class="line">                <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span><br><span class="line">                <span class="attr">android:layout_marginLeft</span>=<span class="string">"20dp"</span></span><br><span class="line">                <span class="attr">android:layout_marginRight</span>=<span class="string">"20dp"</span></span><br><span class="line">                <span class="attr">android:layout_weight</span>=<span class="string">"1"</span></span><br><span class="line">                <span class="attr">android:alpha</span>=<span class="string">"0"</span></span><br><span class="line">                <span class="attr">android:onClick</span>=<span class="string">"one"</span></span><br><span class="line">                <span class="attr">android:scaleX</span>=<span class="string">"0"</span></span><br><span class="line">                <span class="attr">android:scaleY</span>=<span class="string">"0"</span></span><br><span class="line">                <span class="attr">android:text</span>=<span class="string">"Scene One"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">            <span class="tag">&lt;<span class="name">Button</span></span><br><span class="line">                <span class="attr">android:id</span>=<span class="string">"@+id/two"</span></span><br><span class="line">                <span class="attr">android:layout_width</span>=<span class="string">"0dp"</span></span><br><span class="line">                <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span><br><span class="line">                <span class="attr">android:layout_marginLeft</span>=<span class="string">"20dp"</span></span><br><span class="line">                <span class="attr">android:layout_marginRight</span>=<span class="string">"20dp"</span></span><br><span class="line">                <span class="attr">android:layout_weight</span>=<span class="string">"1"</span></span><br><span class="line">                <span class="attr">android:alpha</span>=<span class="string">"0"</span></span><br><span class="line">                <span class="attr">android:onClick</span>=<span class="string">"two"</span></span><br><span class="line">                <span class="attr">android:scaleX</span>=<span class="string">"0"</span></span><br><span class="line">                <span class="attr">android:scaleY</span>=<span class="string">"0"</span></span><br><span class="line">                <span class="attr">android:text</span>=<span class="string">"Scene TWO"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">LinearLayout</span></span><br><span class="line">            <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span><br><span class="line">            <span class="attr">android:layout_marginTop</span>=<span class="string">"20dp"</span></span><br><span class="line">            <span class="attr">android:orientation</span>=<span class="string">"horizontal"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">            <span class="tag">&lt;<span class="name">Button</span></span><br><span class="line">                <span class="attr">android:id</span>=<span class="string">"@+id/three"</span></span><br><span class="line">                <span class="attr">android:layout_width</span>=<span class="string">"0dp"</span></span><br><span class="line">                <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span><br><span class="line">                <span class="attr">android:layout_marginLeft</span>=<span class="string">"20dp"</span></span><br><span class="line">                <span class="attr">android:layout_marginRight</span>=<span class="string">"20dp"</span></span><br><span class="line">                <span class="attr">android:layout_weight</span>=<span class="string">"1"</span></span><br><span class="line">                <span class="attr">android:alpha</span>=<span class="string">"0"</span></span><br><span class="line">                <span class="attr">android:onClick</span>=<span class="string">"three"</span></span><br><span class="line">                <span class="attr">android:scaleX</span>=<span class="string">"0"</span></span><br><span class="line">                <span class="attr">android:scaleY</span>=<span class="string">"0"</span></span><br><span class="line">                <span class="attr">android:text</span>=<span class="string">"Scene Three"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">            <span class="tag">&lt;<span class="name">Button</span></span><br><span class="line">                <span class="attr">android:id</span>=<span class="string">"@+id/four"</span></span><br><span class="line">                <span class="attr">android:layout_width</span>=<span class="string">"0dp"</span></span><br><span class="line">                <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span><br><span class="line">                <span class="attr">android:layout_marginLeft</span>=<span class="string">"20dp"</span></span><br><span class="line">                <span class="attr">android:layout_marginRight</span>=<span class="string">"20dp"</span></span><br><span class="line">                <span class="attr">android:layout_weight</span>=<span class="string">"1"</span></span><br><span class="line">                <span class="attr">android:alpha</span>=<span class="string">"0"</span></span><br><span class="line">                <span class="attr">android:onClick</span>=<span class="string">"four"</span></span><br><span class="line">                <span class="attr">android:scaleX</span>=<span class="string">"0"</span></span><br><span class="line">                <span class="attr">android:scaleY</span>=<span class="string">"0"</span></span><br><span class="line">                <span class="attr">android:text</span>=<span class="string">"Scene Four"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>FrameLayout</code>就是我们场景需要加载的地方</li>
+<li>而且我们看到按钮有放大且透明出现的效果，所以我们先把<code>scaleX</code>、<code>scaleY</code>和<code>alpha</code>设置成0</li>
+</ul>
+<h3 id="sences-layout-0-xml"><a href="#sences-layout-0-xml" class="headerlink" title="sences_layout_0.xml"></a>sences_layout_0.xml</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">RelativeLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span><br><span class="line">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">TextView</span></span><br><span class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/tv"</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span><br><span class="line">        <span class="attr">android:gravity</span>=<span class="string">"center"</span></span><br><span class="line">        <span class="attr">android:text</span>=<span class="string">"Demo"</span></span><br><span class="line">        <span class="attr">android:textColor</span>=<span class="string">"#f0f"</span></span><br><span class="line">        <span class="attr">android:textSize</span>=<span class="string">"100sp"</span></span><br><span class="line">        <span class="attr">android:textStyle</span>=<span class="string">"bold"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">RelativeLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="sences-layout-1-xml"><a href="#sences-layout-1-xml" class="headerlink" title="sences_layout_1.xml"></a>sences_layout_1.xml</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">RelativeLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span><br><span class="line">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">ImageView</span></span><br><span class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/circle_orange"</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"150dp"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"150dp"</span></span><br><span class="line">        <span class="attr">android:layout_alignParentLeft</span>=<span class="string">"true"</span></span><br><span class="line">        <span class="attr">android:layout_margin</span>=<span class="string">"10dp"</span></span><br><span class="line">        <span class="attr">android:src</span>=<span class="string">"@drawable/circle_orange"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">ImageView</span></span><br><span class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/circle_blue"</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"150dp"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"150dp"</span></span><br><span class="line">        <span class="attr">android:layout_alignParentRight</span>=<span class="string">"true"</span></span><br><span class="line">        <span class="attr">android:layout_margin</span>=<span class="string">"10dp"</span></span><br><span class="line">        <span class="attr">android:src</span>=<span class="string">"@drawable/circle_blue"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">ImageView</span></span><br><span class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/circle_yellow"</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"150dp"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"150dp"</span></span><br><span class="line">        <span class="attr">android:layout_alignParentLeft</span>=<span class="string">"true"</span></span><br><span class="line">        <span class="attr">android:layout_below</span>=<span class="string">"@+id/circle_orange"</span></span><br><span class="line">        <span class="attr">android:layout_margin</span>=<span class="string">"10dp"</span></span><br><span class="line">        <span class="attr">android:src</span>=<span class="string">"@drawable/circle_yellow"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">ImageView</span></span><br><span class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/circle_red"</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"150dp"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"150dp"</span></span><br><span class="line">        <span class="attr">android:layout_alignParentRight</span>=<span class="string">"true"</span></span><br><span class="line">        <span class="attr">android:layout_below</span>=<span class="string">"@id/circle_orange"</span></span><br><span class="line">        <span class="attr">android:layout_margin</span>=<span class="string">"10dp"</span></span><br><span class="line">        <span class="attr">android:src</span>=<span class="string">"@drawable/circle_red"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">RelativeLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="sences-layout-2-xml"><a href="#sences-layout-2-xml" class="headerlink" title="sences_layout_2.xml"></a>sences_layout_2.xml</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">RelativeLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span><br><span class="line">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">ImageView</span></span><br><span class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/circle_blue"</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"150dp"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"150dp"</span></span><br><span class="line">        <span class="attr">android:layout_alignParentLeft</span>=<span class="string">"true"</span></span><br><span class="line">        <span class="attr">android:layout_margin</span>=<span class="string">"10dp"</span></span><br><span class="line">        <span class="attr">android:src</span>=<span class="string">"@drawable/circle_blue"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">ImageView</span></span><br><span class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/circle_yellow"</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"150dp"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"150dp"</span></span><br><span class="line">        <span class="attr">android:layout_alignParentRight</span>=<span class="string">"true"</span></span><br><span class="line">        <span class="attr">android:layout_margin</span>=<span class="string">"10dp"</span></span><br><span class="line">        <span class="attr">android:src</span>=<span class="string">"@drawable/circle_yellow"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">ImageView</span></span><br><span class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/circle_red"</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"150dp"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"150dp"</span></span><br><span class="line">        <span class="attr">android:layout_alignParentLeft</span>=<span class="string">"true"</span></span><br><span class="line">        <span class="attr">android:layout_below</span>=<span class="string">"@id/circle_blue"</span></span><br><span class="line">        <span class="attr">android:layout_margin</span>=<span class="string">"10dp"</span></span><br><span class="line">        <span class="attr">android:src</span>=<span class="string">"@drawable/circle_red"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">ImageView</span></span><br><span class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/circle_orange"</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"150dp"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"150dp"</span></span><br><span class="line">        <span class="attr">android:layout_alignParentRight</span>=<span class="string">"true"</span></span><br><span class="line">        <span class="attr">android:layout_below</span>=<span class="string">"@id/circle_blue"</span></span><br><span class="line">        <span class="attr">android:layout_margin</span>=<span class="string">"10dp"</span></span><br><span class="line">        <span class="attr">android:src</span>=<span class="string">"@drawable/circle_orange"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">RelativeLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="sences-layout-3-xml"><a href="#sences-layout-3-xml" class="headerlink" title="sences_layout_3.xml"></a>sences_layout_3.xml</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">RelativeLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span><br><span class="line">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">ImageView</span></span><br><span class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/circle_red"</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"150dp"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"150dp"</span></span><br><span class="line">        <span class="attr">android:layout_alignParentLeft</span>=<span class="string">"true"</span></span><br><span class="line">        <span class="attr">android:layout_margin</span>=<span class="string">"10dp"</span></span><br><span class="line">        <span class="attr">android:src</span>=<span class="string">"@drawable/circle_red"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">ImageView</span></span><br><span class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/circle_orange"</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"150dp"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"150dp"</span></span><br><span class="line">        <span class="attr">android:layout_alignParentRight</span>=<span class="string">"true"</span></span><br><span class="line">        <span class="attr">android:layout_margin</span>=<span class="string">"10dp"</span></span><br><span class="line">        <span class="attr">android:src</span>=<span class="string">"@drawable/circle_orange"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">ImageView</span></span><br><span class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/circle_blue"</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"150dp"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"150dp"</span></span><br><span class="line">        <span class="attr">android:layout_alignParentLeft</span>=<span class="string">"true"</span></span><br><span class="line">        <span class="attr">android:layout_below</span>=<span class="string">"@+id/circle_red"</span></span><br><span class="line">        <span class="attr">android:layout_margin</span>=<span class="string">"10dp"</span></span><br><span class="line">        <span class="attr">android:src</span>=<span class="string">"@drawable/circle_blue"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">ImageView</span></span><br><span class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/circle_yellow"</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"150dp"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"150dp"</span></span><br><span class="line">        <span class="attr">android:layout_alignParentRight</span>=<span class="string">"true"</span></span><br><span class="line">        <span class="attr">android:layout_below</span>=<span class="string">"@+id/circle_red"</span></span><br><span class="line">        <span class="attr">android:layout_margin</span>=<span class="string">"10dp"</span></span><br><span class="line">        <span class="attr">android:src</span>=<span class="string">"@drawable/circle_yellow"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">RelativeLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="sences-layout-4-xml"><a href="#sences-layout-4-xml" class="headerlink" title="sences_layout_4.xml"></a>sences_layout_4.xml</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">RelativeLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span><br><span class="line">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">ImageView</span></span><br><span class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/circle_blue"</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"150dp"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"150dp"</span></span><br><span class="line">        <span class="attr">android:layout_alignParentRight</span>=<span class="string">"true"</span></span><br><span class="line">        <span class="attr">android:layout_below</span>=<span class="string">"@id/circle_yellow"</span></span><br><span class="line">        <span class="attr">android:layout_margin</span>=<span class="string">"10dp"</span></span><br><span class="line">        <span class="attr">android:src</span>=<span class="string">"@drawable/circle_blue"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">ImageView</span></span><br><span class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/circle_yellow"</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"150dp"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"150dp"</span></span><br><span class="line">        <span class="attr">android:layout_alignParentLeft</span>=<span class="string">"true"</span></span><br><span class="line">        <span class="attr">android:layout_margin</span>=<span class="string">"10dp"</span></span><br><span class="line">        <span class="attr">android:src</span>=<span class="string">"@drawable/circle_yellow"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">ImageView</span></span><br><span class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/circle_red"</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"150dp"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"150dp"</span></span><br><span class="line">        <span class="attr">android:layout_alignParentRight</span>=<span class="string">"true"</span></span><br><span class="line">        <span class="attr">android:layout_margin</span>=<span class="string">"10dp"</span></span><br><span class="line">        <span class="attr">android:src</span>=<span class="string">"@drawable/circle_red"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">ImageView</span></span><br><span class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/circle_orange"</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"150dp"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"150dp"</span></span><br><span class="line">        <span class="attr">android:layout_alignParentLeft</span>=<span class="string">"true"</span></span><br><span class="line">        <span class="attr">android:layout_below</span>=<span class="string">"@id/circle_yellow"</span></span><br><span class="line">        <span class="attr">android:layout_margin</span>=<span class="string">"10dp"</span></span><br><span class="line">        <span class="attr">android:src</span>=<span class="string">"@drawable/circle_orange"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">RelativeLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h2><h3 id="SceneActivity-java"><a href="#SceneActivity-java" class="headerlink" title="SceneActivity.java"></a>SceneActivity.java</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> demo.august1996.top.transitionanimationsdemo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.transition.ChangeBounds;</span><br><span class="line"><span class="keyword">import</span> android.transition.Scene;</span><br><span class="line"><span class="keyword">import</span> android.transition.Slide;</span><br><span class="line"><span class="keyword">import</span> android.transition.TransitionManager;</span><br><span class="line"><span class="keyword">import</span> android.transition.TransitionSet;</span><br><span class="line"><span class="keyword">import</span> android.view.View;</span><br><span class="line"><span class="keyword">import</span> android.view.ViewGroup;</span><br><span class="line"><span class="keyword">import</span> android.view.animation.BounceInterpolator;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> demo.august1996.top.transitionanimationsdemo.Activity.ToolbarActivity;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SceneActivity</span> <span class="keyword">extends</span> <span class="title">ToolbarActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 用于动画效果的按钮</span><br><span class="line">     */</span></span><br><span class="line">    List&lt;View&gt; buttonList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 添加场景到该ViewGroup</span><br><span class="line">     */</span></span><br><span class="line">    ViewGroup viewRoot;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 一共5个场景，0为默认场景</span><br><span class="line">     */</span></span><br><span class="line">    Scene scene0;</span><br><span class="line">    Scene scene1;</span><br><span class="line">    Scene scene2;</span><br><span class="line">    Scene scene3;</span><br><span class="line">    Scene scene4;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">beforeInitView</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.beforeInitView();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> String <span class="title">getToolbarTitle</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"场景动画"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">initView</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">/**</span><br><span class="line">         * 初始化按钮View</span><br><span class="line">         */</span></span><br><span class="line">        buttonList.add(findViewById(R.id.one));</span><br><span class="line">        buttonList.add(findViewById(R.id.two));</span><br><span class="line">        buttonList.add(findViewById(R.id.three));</span><br><span class="line">        buttonList.add(findViewById(R.id.four));</span><br><span class="line">        viewRoot = (ViewGroup) findViewById(R.id.viewRoot);</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span><br><span class="line">         * 初始化场景</span><br><span class="line">         */</span></span><br><span class="line">        scene0 = Scene.getSceneForLayout(viewRoot, R.layout.sences_layout_0, <span class="keyword">this</span>);</span><br><span class="line">        scene1 = Scene.getSceneForLayout(viewRoot, R.layout.sences_layout_1, <span class="keyword">this</span>);</span><br><span class="line">        scene2 = Scene.getSceneForLayout(viewRoot, R.layout.sences_layout_2, <span class="keyword">this</span>);</span><br><span class="line">        scene3 = Scene.getSceneForLayout(viewRoot, R.layout.sences_layout_3, <span class="keyword">this</span>);</span><br><span class="line">        scene4 = Scene.getSceneForLayout(viewRoot, R.layout.sences_layout_4, <span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span><br><span class="line">         * 当场景1被切换的时候，按钮显示动画</span><br><span class="line">         */</span></span><br><span class="line">        scene0.setEnterAction(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; buttonList.size(); i++) &#123;</span><br><span class="line">                    View view = buttonList.get(i);</span><br><span class="line">                    view.animate()</span><br><span class="line">                            .setDuration(<span class="number">1000</span>)</span><br><span class="line">                            .scaleX(<span class="number">1</span>)</span><br><span class="line">                            .scaleY(<span class="number">1</span>)</span><br><span class="line">                            .alpha(<span class="number">1</span>)</span><br><span class="line">                            .start();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span><br><span class="line">         * 切换到场景0</span><br><span class="line">         */</span></span><br><span class="line">        TransitionManager.go(scene0);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 使用简单动画切换场景1</span><br><span class="line">     * <span class="doctag">@param</span> v</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">one</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">        TransitionManager.go(scene1, <span class="keyword">new</span> ChangeBounds());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 使用混合动画加载场景2</span><br><span class="line">     * <span class="doctag">@param</span> v</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">two</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">        TransitionSet transitionSet = <span class="keyword">new</span> TransitionSet();</span><br><span class="line">        transitionSet.setDuration(<span class="number">1000</span>);</span><br><span class="line">        Slide slide = <span class="keyword">new</span> Slide();</span><br><span class="line">        ChangeBounds changeBounds = <span class="keyword">new</span> ChangeBounds();</span><br><span class="line">        transitionSet.addTransition(slide);</span><br><span class="line">        transitionSet.addTransition(changeBounds);</span><br><span class="line">        TransitionManager.go(scene2, transitionSet);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 使用混合动画加载场景3，并设置动画顺序</span><br><span class="line">     * <span class="doctag">@param</span> v</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">three</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">        TransitionSet transitionSet = <span class="keyword">new</span> TransitionSet();</span><br><span class="line">        transitionSet.setDuration(<span class="number">1000</span>);</span><br><span class="line">        Slide slide = <span class="keyword">new</span> Slide();</span><br><span class="line">        ChangeBounds changeBounds = <span class="keyword">new</span> ChangeBounds();</span><br><span class="line">        transitionSet.addTransition(slide);</span><br><span class="line">        transitionSet.addTransition(changeBounds);</span><br><span class="line">        transitionSet.setOrdering(TransitionSet.ORDERING_SEQUENTIAL);</span><br><span class="line">        TransitionManager.go(scene3, transitionSet);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 使用混合动画加载场景4，并设置动画顺序和差时器</span><br><span class="line">     * <span class="doctag">@param</span> v</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">four</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">        TransitionSet transitionSet = <span class="keyword">new</span> TransitionSet();</span><br><span class="line">        transitionSet.setDuration(<span class="number">1000</span>);</span><br><span class="line">        transitionSet.setInterpolator(<span class="keyword">new</span> BounceInterpolator());</span><br><span class="line">        Slide slide = <span class="keyword">new</span> Slide();</span><br><span class="line">        ChangeBounds changeBounds = <span class="keyword">new</span> ChangeBounds();</span><br><span class="line">        transitionSet.addTransition(slide);</span><br><span class="line">        transitionSet.addTransition(changeBounds);</span><br><span class="line">        transitionSet.setOrdering(TransitionSet.ORDERING_SEQUENTIAL);</span><br><span class="line">        TransitionManager.go(scene4, transitionSet);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">int</span> <span class="title">getContentViewID</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> R.layout.activity_scene;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">canBack</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="我们的效果图"><a href="#我们的效果图" class="headerlink" title="我们的效果图"></a>我们的效果图</h1><p><img src="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-view-animation-self.gif" alt="我们的效果图"></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/动画/" rel="tag">#动画</a>
+          
+            <a href="/tags/场景/" rel="tag">#场景</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/08/android-share-elements-animations/" rel="next" title="谁说Android的动画不廉价（三）之共享元素动画">
+                <i class="fa fa-chevron-left"></i> 谁说Android的动画不廉价（三）之共享元素动画
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/09/09/android-transition-scene/"
+           data-title="谁说Android的动画不廉价（三）之元素动画" data-url="http://august1996.top/2016/09/09/android-transition-scene/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="August1996" />
+          <p class="site-author-name" itemprop="name">August1996</p>
+          <p class="site-description motion-element" itemprop="description">新博客,新生活!!!</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">80</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">91</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/august1996" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/august1996" target="_blank" title="Zhihu">
+                  
+                    <i class="fa fa-fw fa-comments"></i>
+                  
+                  Zhihu
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/august1996" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://ascenz.xyz/" title="Ascenz的博客" target="_blank">Ascenz的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://tangent.gift/" title="Tangent的博客" target="_blank">Tangent的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.cnblogs.com/wuweixin" title="Wyshon的博客" target="_blank">Wyshon的博客</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#目标效果图"><span class="nav-number">2.</span> <span class="nav-text">目标效果图</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#前提说明"><span class="nav-number">3.</span> <span class="nav-text">前提说明</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#元素动画"><span class="nav-number">3.1.</span> <span class="nav-text">元素动画</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何开启"><span class="nav-number">3.1.1.</span> <span class="nav-text">如何开启</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#场景动画"><span class="nav-number">3.2.</span> <span class="nav-text">场景动画</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何加载场景"><span class="nav-number">3.2.1.</span> <span class="nav-text">如何加载场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何切换"><span class="nav-number">3.2.2.</span> <span class="nav-text">如何切换</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#元素动画-1"><span class="nav-number">4.</span> <span class="nav-text">元素动画</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#布局文件"><span class="nav-number">4.1.</span> <span class="nav-text">布局文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#activity-view-animation-xml"><span class="nav-number">4.1.1.</span> <span class="nav-text">activity_view_animation.xml</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码"><span class="nav-number">4.2.</span> <span class="nav-text">代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MainActivity-java"><span class="nav-number">4.2.1.</span> <span class="nav-text">MainActivity.java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ViewAnimationActivity-java"><span class="nav-number">4.2.2.</span> <span class="nav-text">ViewAnimationActivity.java</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#场景动画-1"><span class="nav-number">5.</span> <span class="nav-text">场景动画</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#布局文件-1"><span class="nav-number">5.1.</span> <span class="nav-text">布局文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#activity-scene-xml"><span class="nav-number">5.1.1.</span> <span class="nav-text">activity_scene.xml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sences-layout-0-xml"><span class="nav-number">5.1.2.</span> <span class="nav-text">sences_layout_0.xml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sences-layout-1-xml"><span class="nav-number">5.1.3.</span> <span class="nav-text">sences_layout_1.xml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sences-layout-2-xml"><span class="nav-number">5.1.4.</span> <span class="nav-text">sences_layout_2.xml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sences-layout-3-xml"><span class="nav-number">5.1.5.</span> <span class="nav-text">sences_layout_3.xml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sences-layout-4-xml"><span class="nav-number">5.1.6.</span> <span class="nav-text">sences_layout_4.xml</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码-1"><span class="nav-number">5.2.</span> <span class="nav-text">代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SceneActivity-java"><span class="nav-number">5.2.1.</span> <span class="nav-text">SceneActivity.java</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#我们的效果图"><span class="nav-number">6.</span> <span class="nav-text">我们的效果图</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">August1996</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"august1996"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+
+  
+
+  
+  
+</body>
+</html>
