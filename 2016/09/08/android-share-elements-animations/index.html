@@ -84,30 +84,30 @@
 
 
 
-<meta name="description" content="引言本篇博文是基于上一篇博文谁说Android的动画不廉价（二）之转场动画的基础上做的拓展。
+<meta name="description" content="本系列文章一共5篇谁说Android的动画不廉价（一）之项目分层谁说Android的动画不廉价（二）之转场动画谁说Android的动画不廉价（三）之共享元素动画谁说Android的动画不廉价（四）之元素动画谁说Android的动画不廉价（五）之水波纹动画
+引言本篇博文是基于上一篇博文谁说Android的动画不廉价（二）之转场动画的基础上做的拓展。
 目标效果图
-前提说明上篇回顾 还记得上一篇提到过的startActivity(Intent intent,Bundle bundle);吧？我们把转场的动画参数通过ActivityOptionsCompat导出，然后通过Intent去传递。同样Android的共享动画也是在这里做手脚
-相关知识transi">
+前提说明上篇回顾 还记得上一篇提到过的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="谁说Android的动画不廉价（三）之共享元素动画">
 <meta property="og:url" content="http://august1996.top/2016/09/08/android-share-elements-animations/index.html">
 <meta property="og:site_name" content="August1996的小狗窝">
-<meta property="og:description" content="引言本篇博文是基于上一篇博文谁说Android的动画不廉价（二）之转场动画的基础上做的拓展。
+<meta property="og:description" content="本系列文章一共5篇谁说Android的动画不廉价（一）之项目分层谁说Android的动画不廉价（二）之转场动画谁说Android的动画不廉价（三）之共享元素动画谁说Android的动画不廉价（四）之元素动画谁说Android的动画不廉价（五）之水波纹动画
+引言本篇博文是基于上一篇博文谁说Android的动画不廉价（二）之转场动画的基础上做的拓展。
 目标效果图
-前提说明上篇回顾 还记得上一篇提到过的startActivity(Intent intent,Bundle bundle);吧？我们把转场的动画参数通过ActivityOptionsCompat导出，然后通过Intent去传递。同样Android的共享动画也是在这里做手脚
-相关知识transi">
+前提说明上篇回顾 还记得上一篇提到过的">
 <meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-transition-2.gif">
 <meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-share-elements-sea.png">
 <meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-share-elements-sef1.png">
 <meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-share-elements-sef2.png">
 <meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-share-elements-us.gif">
-<meta property="og:updated_time" content="2016-09-08T01:43:13.000Z">
+<meta property="og:updated_time" content="2016-09-10T02:44:40.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="谁说Android的动画不廉价（三）之共享元素动画">
-<meta name="twitter:description" content="引言本篇博文是基于上一篇博文谁说Android的动画不廉价（二）之转场动画的基础上做的拓展。
+<meta name="twitter:description" content="本系列文章一共5篇谁说Android的动画不廉价（一）之项目分层谁说Android的动画不廉价（二）之转场动画谁说Android的动画不廉价（三）之共享元素动画谁说Android的动画不廉价（四）之元素动画谁说Android的动画不廉价（五）之水波纹动画
+引言本篇博文是基于上一篇博文谁说Android的动画不廉价（二）之转场动画的基础上做的拓展。
 目标效果图
-前提说明上篇回顾 还记得上一篇提到过的startActivity(Intent intent,Bundle bundle);吧？我们把转场的动画参数通过ActivityOptionsCompat导出，然后通过Intent去传递。同样Android的共享动画也是在这里做手脚
-相关知识transi">
+前提说明上篇回顾 还记得上一篇提到过的">
 <meta name="twitter:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-transition-2.gif">
 
 
@@ -371,7 +371,8 @@
       
 
       
-        <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>本篇博文是基于上一篇博文<a href="http://august1996.top/2016/09/07/android-transition/">谁说Android的动画不廉价（二）之转场动画</a>的基础上做的拓展。</p>
+        <p><strong>本系列文章一共5篇<br><a href="http://august1996.top/2016/09/06/android-animations-transition-project/">谁说Android的动画不廉价（一）之项目分层</a><br><a href="http://august1996.top/2016/09/07/android-transition/">谁说Android的动画不廉价（二）之转场动画</a><br><a href="http://august1996.top/2016/09/08/android-share-elements-animations/">谁说Android的动画不廉价（三）之共享元素动画</a><br><a href="http://august1996.top/2016/09/09/android-transition-scene/">谁说Android的动画不廉价（四）之元素动画</a><br><a href="http://august1996.top/2016/09/10/android-animation-circular/">谁说Android的动画不廉价（五）之水波纹动画</a></strong></p>
+<h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>本篇博文是基于上一篇博文<a href="http://august1996.top/2016/09/07/android-transition/">谁说Android的动画不廉价（二）之转场动画</a>的基础上做的拓展。</p>
 <h1 id="目标效果图"><a href="#目标效果图" class="headerlink" title="目标效果图"></a>目标效果图</h1><p><img src="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-transition-2.gif" alt="转场动画"></p>
 <h1 id="前提说明"><a href="#前提说明" class="headerlink" title="前提说明"></a>前提说明</h1><h2 id="上篇回顾"><a href="#上篇回顾" class="headerlink" title="上篇回顾"></a>上篇回顾</h2><p> 还记得上一篇提到过的<code>startActivity(Intent intent,Bundle bundle);</code>吧？我们把转场的动画参数通过<code>ActivityOptionsCompat</code>导出，然后通过<code>Intent</code>去传递。<strong>同样Android的共享动画也是在这里做手脚</strong></p>
 <h2 id="相关知识"><a href="#相关知识" class="headerlink" title="相关知识"></a>相关知识</h2><h3 id="transitionName"><a href="#transitionName" class="headerlink" title="transitionName"></a>transitionName</h3><p>还记得我们上篇博文中<code>MainActivity</code>的布局中设置过这个参数吗？</p>

@@ -84,35 +84,23 @@
 
 
 
-<meta name="description" content="引言本系列博文是阅读Material-Animations源码之后撰写的。我认为例子中的动画非常酷炫，但是代码写得有点不是很清晰。有兴趣的可以去阅读一下上面例子的源码，还是非常值得学习的。那么本系列博文主要是实现下面的效果。
-效果图
-
-第一种是转场动画，主要是用于Activity切换的
-第二种是共享元素动画，主要是切换Activity的时候，使两个Activity的某个元素产生动画关联
-第三种是元">
+<meta name="description" content="本系列文章一共5篇谁说Android的动画不廉价（一）之项目分层谁说Android的动画不廉价（二）之转场动画谁说Android的动画不廉价（三）之共享元素动画谁说Android的动画不廉价（四）之元素动画谁说Android的动画不廉价（五）之水波纹动画
+引言本系列博文是阅读Material-Animations源码之后撰写的。我认为例子中的动画非常酷炫，但是代码写得有点不是很清晰。有兴趣的可以去">
 <meta property="og:type" content="article">
 <meta property="og:title" content="谁说Android的动画不廉价（一）之项目分层">
 <meta property="og:url" content="http://august1996.top/2016/09/06/android-animations-transition-project/index.html">
 <meta property="og:site_name" content="August1996的小狗窝">
-<meta property="og:description" content="引言本系列博文是阅读Material-Animations源码之后撰写的。我认为例子中的动画非常酷炫，但是代码写得有点不是很清晰。有兴趣的可以去阅读一下上面例子的源码，还是非常值得学习的。那么本系列博文主要是实现下面的效果。
-效果图
-
-第一种是转场动画，主要是用于Activity切换的
-第二种是共享元素动画，主要是切换Activity的时候，使两个Activity的某个元素产生动画关联
-第三种是元">
+<meta property="og:description" content="本系列文章一共5篇谁说Android的动画不廉价（一）之项目分层谁说Android的动画不廉价（二）之转场动画谁说Android的动画不廉价（三）之共享元素动画谁说Android的动画不廉价（四）之元素动画谁说Android的动画不廉价（五）之水波纹动画
+引言本系列博文是阅读Material-Animations源码之后撰写的。我认为例子中的动画非常酷炫，但是代码写得有点不是很清晰。有兴趣的可以去">
 <meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-transition-1.gif">
 <meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-transition-2.gif">
 <meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-transition-3.gif">
 <meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-transition-4.gif">
-<meta property="og:updated_time" content="2016-09-09T02:41:51.000Z">
+<meta property="og:updated_time" content="2016-09-10T02:44:56.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="谁说Android的动画不廉价（一）之项目分层">
-<meta name="twitter:description" content="引言本系列博文是阅读Material-Animations源码之后撰写的。我认为例子中的动画非常酷炫，但是代码写得有点不是很清晰。有兴趣的可以去阅读一下上面例子的源码，还是非常值得学习的。那么本系列博文主要是实现下面的效果。
-效果图
-
-第一种是转场动画，主要是用于Activity切换的
-第二种是共享元素动画，主要是切换Activity的时候，使两个Activity的某个元素产生动画关联
-第三种是元">
+<meta name="twitter:description" content="本系列文章一共5篇谁说Android的动画不廉价（一）之项目分层谁说Android的动画不廉价（二）之转场动画谁说Android的动画不廉价（三）之共享元素动画谁说Android的动画不廉价（四）之元素动画谁说Android的动画不廉价（五）之水波纹动画
+引言本系列博文是阅读Material-Animations源码之后撰写的。我认为例子中的动画非常酷炫，但是代码写得有点不是很清晰。有兴趣的可以去">
 <meta name="twitter:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-transition-1.gif">
 
 
@@ -376,7 +364,8 @@
       
 
       
-        <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>本系列博文是阅读<a href="https://github.com/lgvalle/Material-Animations" target="_blank" rel="external">Material-Animations</a>源码之后撰写的。我认为例子中的动画非常酷炫，但是代码写得有点不是很清晰。有兴趣的可以去阅读一下上面例子的源码，还是非常值得学习的。那么本系列博文主要是实现下面的效果。</p>
+        <p><strong>本系列文章一共5篇<br><a href="http://august1996.top/2016/09/06/android-animations-transition-project/">谁说Android的动画不廉价（一）之项目分层</a><br><a href="http://august1996.top/2016/09/07/android-transition/">谁说Android的动画不廉价（二）之转场动画</a><br><a href="http://august1996.top/2016/09/08/android-share-elements-animations/">谁说Android的动画不廉价（三）之共享元素动画</a><br><a href="http://august1996.top/2016/09/09/android-transition-scene/">谁说Android的动画不廉价（四）之元素动画</a><br><a href="http://august1996.top/2016/09/10/android-animation-circular/">谁说Android的动画不廉价（五）之水波纹动画</a></strong></p>
+<h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>本系列博文是阅读<a href="https://github.com/lgvalle/Material-Animations" target="_blank" rel="external">Material-Animations</a>源码之后撰写的。我认为例子中的动画非常酷炫，但是代码写得有点不是很清晰。有兴趣的可以去阅读一下上面例子的源码，还是非常值得学习的。那么本系列博文主要是实现下面的效果。</p>
 <h1 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h1><p><img src="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-transition-1.gif" alt="转场动画"><br><img src="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-transition-2.gif" alt="共享元素动画"><br><img src="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-transition-3.gif" alt="元素动画"><br><img src="http://o7xj6lxqq.bkt.clouddn.com/imagesandroid-transition-4.gif" alt="水波纹动画"></p>
 <ul>
 <li>第一种是<code>转场动画</code>，主要是用于<code>Activity</code>切换的</li>
