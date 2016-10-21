@@ -1,0 +1,969 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="嗅探,窃听," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="简介
+在计算机世界里，攻击(attack)是具有毁灭性的。通过未授权(unauthorized)的方式去访问(access)``数据(data)和计算机。攻击者(attacker)在未授权的情况下窃取你的资料，通常这是带有隐蔽性的。攻击者通常是不可忽视的，他们大多数是非常令人头疼的的，并且对于安全研究人员和安全公司是一个巨大的挑战。
+
+分类
+攻击可以分为主动攻击(active attack)和被">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ettercap与中间人攻击（上）">
+<meta property="og:url" content="http://august1996.top/2016/10/21/ettercap-intro/index.html">
+<meta property="og:site_name" content="August1996的小狗窝">
+<meta property="og:description" content="简介
+在计算机世界里，攻击(attack)是具有毁灭性的。通过未授权(unauthorized)的方式去访问(access)``数据(data)和计算机。攻击者(attacker)在未授权的情况下窃取你的资料，通常这是带有隐蔽性的。攻击者通常是不可忽视的，他们大多数是非常令人头疼的的，并且对于安全研究人员和安全公司是一个巨大的挑战。
+
+分类
+攻击可以分为主动攻击(active attack)和被">
+<meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesettercap-english-1.jpg">
+<meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagessniff.png">
+<meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesspoof.jpg">
+<meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesdos.gif">
+<meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesmitm.jpg">
+<meta property="og:updated_time" content="2016-10-21T07:17:39.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Ettercap与中间人攻击（上）">
+<meta name="twitter:description" content="简介
+在计算机世界里，攻击(attack)是具有毁灭性的。通过未授权(unauthorized)的方式去访问(access)``数据(data)和计算机。攻击者(attacker)在未授权的情况下窃取你的资料，通常这是带有隐蔽性的。攻击者通常是不可忽视的，他们大多数是非常令人头疼的的，并且对于安全研究人员和安全公司是一个巨大的挑战。
+
+分类
+攻击可以分为主动攻击(active attack)和被">
+<meta name="twitter:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesettercap-english-1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6289901108416480000,
+      author: 'August1996'
+    }
+  };
+</script>
+
+  <title> Ettercap与中间人攻击（上） | August1996的小狗窝 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?ca08f65a7dda04c0e669531a7ef88472";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">August1996的小狗窝</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">记录一个傻屌程序员的日常...</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'z8JdSugezj6oS795yEMb','2.0.0');
+</script>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Ettercap与中间人攻击（上）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-10-21T13:52:45+08:00" content="2016-10-21">
+              2016-10-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/网络安全/" itemprop="url" rel="index">
+                    <span itemprop="name">网络安全</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/10/21/ettercap-intro/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/21/ettercap-intro/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://o7xj6lxqq.bkt.clouddn.com/imagesettercap-english-1.jpg" alt="ettercap"></p>
+<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><blockquote>
+<p>在计算机世界里，<code>攻击(attack)</code>是具有毁灭性的。通过<code>未授权(unauthorized)</code>的方式去<code>访问(access)``数据(data)</code>和计算机。<code>攻击者(attacker)</code>在未授权的情况下窃取你的资料，通常这是带有隐蔽性的。攻击者通常是不可忽视的，他们大多数是非常令人头疼的的，并且对于安全研究人员和安全公司是一个巨大的挑战。</p>
+</blockquote>
+<h1 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h1><blockquote>
+<p>攻击可以分为<code>主动攻击(active attack)</code>和<code>被动攻击(passive attack)</code></p>
+</blockquote>
+<ul>
+<li>主动攻击：这种攻击的攻击者尝试修改系统资源、损坏数据或者说修改数据等等。</li>
+<li>被动攻击：攻击者尝试去从系统中获取信息但是不会损坏数据。这更像一种对目标进行识别和<code>监视(monitor)</code>的方式。</li>
+</ul>
+<h2 id="主动攻击"><a href="#主动攻击" class="headerlink" title="主动攻击"></a>主动攻击</h2><ul>
+<li><code>拒绝服务攻击(dos)</code></li>
+<li><code>欺骗攻击(spoofing)</code></li>
+<li><code>中间人攻击(man in the middle)</code></li>
+<li><code>ARP毒化攻击(arp poisoning)</code></li>
+<li><code>溢出攻击(overflow)</code></li>
+</ul>
+<h2 id="被动攻击"><a href="#被动攻击" class="headerlink" title="被动攻击"></a>被动攻击</h2><ul>
+<li><code>端口扫描(port scan)</code></li>
+<li><code>空闲扫描(idel scan)</code></li>
+</ul>
+<h3 id="窃听"><a href="#窃听" class="headerlink" title="窃听"></a>窃听</h3><blockquote>
+<p>相信在生活中你对这个词非常熟悉。想想一下你想了解关于两个朋友之间的一些信息和关系。最简单的方法就是偷偷地去听他们的对话。同样，在计算机通信中这种情况也会发生。我们称之为<code>嗅探(sniff)</code>。当你和你的朋友在以<code>明文(clear text)</code>的方式对话，别人就有可能去嗅探你的<code>流量(traffic)</code>。这种看起来落后的技术却是网络<code>管理员(administrator)</code>容易忽视的最大的安全问题之一。</p>
+</blockquote>
+<p><img src="http://o7xj6lxqq.bkt.clouddn.com/imagessniff.png" alt="sniff"></p>
+<h3 id="地址欺骗"><a href="#地址欺骗" class="headerlink" title="地址欺骗"></a>地址欺骗</h3><blockquote>
+<p>正如你所了解的IP那样，计算机之间为了沟通，每台计算机需要一个IP。在这种攻击中，攻击者需要伪造一个目的地址和进行欺骗。例如，你的访问目标是mybank.com，但是攻击者<code>转发(forward)</code>了你的请求到一个<code>伪造(fake)</code>的myblank.com的网站上。目的就是伪装成真正的mybank.com主机来达到攻击的效果。</p>
+</blockquote>
+<p><img src="http://o7xj6lxqq.bkt.clouddn.com/imagesspoof.jpg" alt="spoof"></p>
+<h3 id="拒绝服务攻击"><a href="#拒绝服务攻击" class="headerlink" title="拒绝服务攻击"></a>拒绝服务攻击</h3><blockquote>
+<p>这种攻击中，攻击者需要令一台计算机的网络资源对外不可访问。目的就是打断或者挂起连接到因特网的服务。这种攻击针对于<code>网关(gateway)</code>或者<code>服务器(server)</code>，例如银行等。</p>
+</blockquote>
+<p>这种攻击会达到下面的蓄意破坏：</p>
+<ul>
+<li>耗光计算的资源，例如频带宽度、内存、磁盘空间或者CPU。事实上，一些<code>恶意软件(malware)</code>也会执行拒绝服务攻击。</li>
+<li>损坏<code>路由信息(router infomation)</code>和<code>路由表(router table)</code></li>
+<li>中断物理网络组件，例如<code>路由器(router)</code>、<code>交换机(switcher)</code>和<code>防火墙(firewalls)</code></li>
+<li>发送<code>非法(invalid)</code>数据给应用或者网络服务，这可能使服务<code>异常(Exception)</code>退出</li>
+<li>发送大量的<code>数据包(packet)</code>对目标进行<code>洪水攻击(flood)</code>，最后使目标<code>挂掉(crash)</code>。</li>
+<li><code>阻塞(block)</code>目标使认证用户不能访问目标</li>
+</ul>
+<blockquote>
+<p>拒绝服务攻击中，攻击者可以使用<code>僵尸(zombie)</code>技术去俘虏<code>capture</code>大量电脑（肉鸡），从而让肉鸡去发送大量请求给目标。僵尸的意思是让一台连接到网络的计算机被黑客控制了。</p>
+</blockquote>
+<p><img src="http://o7xj6lxqq.bkt.clouddn.com/imagesdos.gif" alt="dos"></p>
+<h3 id="中间人攻击"><a href="#中间人攻击" class="headerlink" title="中间人攻击"></a>中间人攻击</h3><p>中间人攻击是主动攻击的一种。以两个人AB对话为例，攻击者C成为他们之间通信的桥梁。所有信息通过攻击者去转发，那么信息的传递就是A-C-B。其中C是可以篡改、增加、删除信息的。所有的信息都是由C去控制。但是真正的中间人攻击，AB并不知道其中有C的存在。C的存在，就可以完全地控制了AB之间的流量。幸运的是，一些较为安全的协议可以去防范这种攻击，例如<code>SSL</code>。</p>
+<p>常用工具：</p>
+<ul>
+<li>Cain and Abel</li>
+<li>Subterfuge</li>
+<li>Ettercap</li>
+<li>AirJack</li>
+<li>SSLStrip</li>
+<li>SSLSniff</li>
+</ul>
+<p><img src="http://o7xj6lxqq.bkt.clouddn.com/imagesmitm.jpg" alt="mitm"></p>
+<h3 id="数据包嗅探"><a href="#数据包嗅探" class="headerlink" title="数据包嗅探"></a>数据包嗅探</h3><blockquote>
+<p>攻击者可以使用<code>嗅探器(sniffer)</code>去嗅探你的流量，一般是一个应用或者是设备。攻击者可以读取、监视和获取你的数据包。防止该攻击一个不错的建议就是做流量<code>加密(encrypt)</code>。这种攻击的难易程度取决于网络结构，如果一个网络中每台设备通过一个<code>集线器(hub)</code>来连接，那么这就非常容易去实施了。交换机和路由器会使用其他方法去防范这种攻击，但是也不能做到绝对的防范。</p>
+</blockquote>
+<p>流行的工具：</p>
+<ul>
+<li>Cain and Abel</li>
+<li>dSniff</li>
+<li>ettercap</li>
+<li>tcpdump</li>
+<li>wireshark</li>
+</ul>
+<h1 id="Ettercap"><a href="#Ettercap" class="headerlink" title="Ettercap"></a>Ettercap</h1><blockquote>
+<p>既然你都已经熟悉了一些攻击，我想向你接收一个流行的工具-ettercap。这是一个免费、<code>开源(open source)</code>并且支持多个操作系统的工具（Linux, BSD, Mac OS X和Windows.）。你可以使用它发起中间人攻击、网络分析和安全审计。上面说的嗅探流量、抓取密码等等都可以实现。</p>
+</blockquote>
+<h2 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h2><h3 id="基于四大模型"><a href="#基于四大模型" class="headerlink" title="基于四大模型"></a>基于四大模型</h3><ul>
+<li>IP-based: 根据IP过滤数据包</li>
+<li>MAC-based: 根据MAC地址过滤数据包</li>
+<li>ARP-based: 在交换机网络中，这是非常方便攻击的进行的。</li>
+<li>PublicARP-based: 对于从用户到所有主机的场景都非常有用</li>
+</ul>
+<h3 id="一些重要的特性"><a href="#一些重要的特性" class="headerlink" title="一些重要的特性"></a>一些重要的特性</h3><ul>
+<li>支持HTTPS</li>
+<li>系统指纹</li>
+<li>被动扫描</li>
+<li>DNS劫持</li>
+</ul>
+<blockquote>
+<p>更多详情请看Ettercap与中间人攻击（下）</p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/嗅探/" rel="tag">#嗅探</a>
+          
+            <a href="/tags/窃听/" rel="tag">#窃听</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/21/android-test/" rel="next" title="Android APP的各种测试">
+                <i class="fa fa-chevron-left"></i> Android APP的各种测试
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/10/21/ettercap-intro/"
+           data-title="Ettercap与中间人攻击（上）" data-url="http://august1996.top/2016/10/21/ettercap-intro/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="August1996" />
+          <p class="site-author-name" itemprop="name">August1996</p>
+          <p class="site-description motion-element" itemprop="description">新博客,新生活!!!</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">84</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">95</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/august1996" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/august1996" target="_blank" title="Zhihu">
+                  
+                    <i class="fa fa-fw fa-comments"></i>
+                  
+                  Zhihu
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/august1996" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://ascenz.xyz/" title="Ascenz的博客" target="_blank">Ascenz的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://tangent.gift/" title="Tangent的博客" target="_blank">Tangent的博客</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.cnblogs.com/wuweixin" title="Wyshon的博客" target="_blank">Wyshon的博客</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分类"><span class="nav-number">2.</span> <span class="nav-text">分类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#主动攻击"><span class="nav-number">2.1.</span> <span class="nav-text">主动攻击</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#被动攻击"><span class="nav-number">2.2.</span> <span class="nav-text">被动攻击</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#窃听"><span class="nav-number">2.2.1.</span> <span class="nav-text">窃听</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#地址欺骗"><span class="nav-number">2.2.2.</span> <span class="nav-text">地址欺骗</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#拒绝服务攻击"><span class="nav-number">2.2.3.</span> <span class="nav-text">拒绝服务攻击</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#中间人攻击"><span class="nav-number">2.2.4.</span> <span class="nav-text">中间人攻击</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据包嗅探"><span class="nav-number">2.2.5.</span> <span class="nav-text">数据包嗅探</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ettercap"><span class="nav-number">3.</span> <span class="nav-text">Ettercap</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#特性"><span class="nav-number">3.1.</span> <span class="nav-text">特性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基于四大模型"><span class="nav-number">3.1.1.</span> <span class="nav-text">基于四大模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一些重要的特性"><span class="nav-number">3.1.2.</span> <span class="nav-text">一些重要的特性</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">August1996</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"august1996"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+
+  
+
+  
+  
+</body>
+</html>
