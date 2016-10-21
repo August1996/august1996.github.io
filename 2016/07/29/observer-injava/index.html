@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="RXjava,设计模式,观察者," />
+  <meta name="keywords" content="设计模式,观察者," />
 
 
 
@@ -84,26 +84,20 @@
 
 
 
-<meta name="description" content="写来干嘛
-以前年少无知，粗略地学了一些RXJava的基本语句，感觉没什么用。因为群里面一些大神天天讨论只是因为逼格高。。。哎那时候还是年轻啊，最近一位搞IOS的朋友在大力赞赏RX这个概念。什么Reactive coco和RXSwift之类的。弄得我最后还是去学了，然后发现自己那时候真的是太年轻了，幼稚之中还带着那么一些弱智。。。不扯了，写这系列博客就是想分（zhuang）享（bi）一下。。。
-
-引">
+<meta name="description" content="什么是观察者模式
+观察者模式其实在我们生活中特别常见。就像你和隔壁老王订阅了天气和杂志。当有新的信息更新时，你和隔壁老王都会接到通知。高大上的说法就是基于Subject这个概念，Subject是一个特殊对象，就是类似上面的天气信息，是作为被观察的事物，称为被观察者。而订阅的Observers，也就是你和老王，的称为观察者。当Subject保存的一系列信息被更新修改后就会通知所有定于的Observe">
 <meta property="og:type" content="article">
-<meta property="og:title" content="一起来学RXJava吧（1）-观察者模式">
-<meta property="og:url" content="http://august1996.top/2016/07/29/rxjava-injava/index.html">
+<meta property="og:title" content="观察者模式">
+<meta property="og:url" content="http://august1996.top/2016/07/29/observer-injava/index.html">
 <meta property="og:site_name" content="August1996的小狗窝">
-<meta property="og:description" content="写来干嘛
-以前年少无知，粗略地学了一些RXJava的基本语句，感觉没什么用。因为群里面一些大神天天讨论只是因为逼格高。。。哎那时候还是年轻啊，最近一位搞IOS的朋友在大力赞赏RX这个概念。什么Reactive coco和RXSwift之类的。弄得我最后还是去学了，然后发现自己那时候真的是太年轻了，幼稚之中还带着那么一些弱智。。。不扯了，写这系列博客就是想分（zhuang）享（bi）一下。。。
-
-引">
+<meta property="og:description" content="什么是观察者模式
+观察者模式其实在我们生活中特别常见。就像你和隔壁老王订阅了天气和杂志。当有新的信息更新时，你和隔壁老王都会接到通知。高大上的说法就是基于Subject这个概念，Subject是一个特殊对象，就是类似上面的天气信息，是作为被观察的事物，称为被观察者。而订阅的Observers，也就是你和老王，的称为观察者。当Subject保存的一系列信息被更新修改后就会通知所有定于的Observe">
 <meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesrx-injava-1.png">
-<meta property="og:updated_time" content="2016-08-10T23:01:11.000Z">
+<meta property="og:updated_time" content="2016-10-21T02:09:47.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="一起来学RXJava吧（1）-观察者模式">
-<meta name="twitter:description" content="写来干嘛
-以前年少无知，粗略地学了一些RXJava的基本语句，感觉没什么用。因为群里面一些大神天天讨论只是因为逼格高。。。哎那时候还是年轻啊，最近一位搞IOS的朋友在大力赞赏RX这个概念。什么Reactive coco和RXSwift之类的。弄得我最后还是去学了，然后发现自己那时候真的是太年轻了，幼稚之中还带着那么一些弱智。。。不扯了，写这系列博客就是想分（zhuang）享（bi）一下。。。
-
-引">
+<meta name="twitter:title" content="观察者模式">
+<meta name="twitter:description" content="什么是观察者模式
+观察者模式其实在我们生活中特别常见。就像你和隔壁老王订阅了天气和杂志。当有新的信息更新时，你和隔壁老王都会接到通知。高大上的说法就是基于Subject这个概念，Subject是一个特殊对象，就是类似上面的天气信息，是作为被观察的事物，称为被观察者。而订阅的Observers，也就是你和老王，的称为观察者。当Subject保存的一系列信息被更新修改后就会通知所有定于的Observe">
 <meta name="twitter:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesrx-injava-1.png">
 
 
@@ -122,7 +116,7 @@
   };
 </script>
 
-  <title> 一起来学RXJava吧（1）-观察者模式 | August1996的小狗窝 </title>
+  <title> 观察者模式 | August1996的小狗窝 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -301,7 +295,7 @@
             
             
               
-                一起来学RXJava吧（1）-观察者模式
+                观察者模式
               
             
           </h1>
@@ -343,8 +337,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/07/29/rxjava-injava/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/29/rxjava-injava/" itemprop="commentsCount"></span>
+                <a href="/2016/07/29/observer-injava/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/29/observer-injava/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -367,16 +361,7 @@
       
 
       
-        <h1 id="写来干嘛"><a href="#写来干嘛" class="headerlink" title="写来干嘛"></a>写来干嘛</h1><blockquote>
-<p>以前年少无知，粗略地学了一些RXJava的基本语句，感觉没什么用。因为群里面一些大神天天讨论只是因为逼格高。。。哎那时候还是年轻啊，最近一位搞IOS的朋友在大力赞赏<code>RX</code>这个概念。什么<code>Reactive coco</code>和<code>RXSwift</code>之类的。弄得我最后还是去学了，然后发现自己那时候真的是太年轻了，幼稚之中还带着那么一些弱智。。。不扯了，写这系列博客就是想分（zhuang）享（bi）一下。。。</p>
-</blockquote>
-<h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><h2 id="什么是响应式编程"><a href="#什么是响应式编程" class="headerlink" title="什么是响应式编程"></a>什么是响应式编程</h2><blockquote>
-<p>响应式编程是一种基于<code>异步数据流</code>概念的编程模式。所有的数据流就像一条河一样。可以被<code>观测</code>、<code>被过滤</code>、<code>被操作</code>、<code>被合并</code>。</p>
-</blockquote>
-<h2 id="为什么是观察者模式"><a href="#为什么是观察者模式" class="headerlink" title="为什么是观察者模式"></a>为什么是观察者模式</h2><blockquote>
-<p>因为响应式是可<code>观测</code>的嘛。。。数据更新时必须去通知有相关依赖的对象。</p>
-</blockquote>
-<h2 id="什么是观察者模式"><a href="#什么是观察者模式" class="headerlink" title="什么是观察者模式"></a>什么是观察者模式</h2><blockquote>
+        <h1 id="什么是观察者模式"><a href="#什么是观察者模式" class="headerlink" title="什么是观察者模式"></a>什么是观察者模式</h1><blockquote>
 <p>观察者模式其实在我们生活中特别常见。就像你和隔壁老王订阅了天气和杂志。当有新的信息更新时，你和隔壁老王都会接到通知。<br>高大上的说法就是基于<code>Subject</code>这个概念，<code>Subject</code>是一个特殊对象，就是类似上面的天气信息，是作为<code>被观察的事物</code>，称为<code>被观察者</code>。而订阅的<code>Observers</code>，也就是你和老王，的称为<code>观察者</code>。当<code>Subject</code>保存的一系列信息被更新修改后就会通知所有定于的<code>Observers</code>。<br><strong>比较重要的一点是，<code>观察者</code>之间是没什么关系的，他们可以属于各种各样的人群。</strong><br><strong>下面这图看不懂就先算了吧。。。回头再看</strong><br><img src="http://o7xj6lxqq.bkt.clouddn.com/imagesrx-injava-1.png" alt="观察者与被观察者"></p>
 </blockquote>
 <h1 id="用Java动手写个观察者Demo呗"><a href="#用Java动手写个观察者Demo呗" class="headerlink" title="用Java动手写个观察者Demo呗"></a>用Java动手写个观察者Demo呗</h1><blockquote>
@@ -433,8 +418,6 @@
     <footer class="post-footer">
       
         <div class="post-tags">
-          
-            <a href="/tags/RXjava/" rel="tag">#RXjava</a>
           
             <a href="/tags/设计模式/" rel="tag">#设计模式</a>
           
@@ -506,8 +489,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/07/29/rxjava-injava/"
-           data-title="一起来学RXJava吧（1）-观察者模式" data-url="http://august1996.top/2016/07/29/rxjava-injava/">
+      <div class="ds-thread" data-thread-key="2016/07/29/observer-injava/"
+           data-title="观察者模式" data-url="http://august1996.top/2016/07/29/observer-injava/">
       </div>
     
   </div>
@@ -649,7 +632,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#写来干嘛"><span class="nav-number">1.</span> <span class="nav-text">写来干嘛</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#引言"><span class="nav-number">2.</span> <span class="nav-text">引言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是响应式编程"><span class="nav-number">2.1.</span> <span class="nav-text">什么是响应式编程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么是观察者模式"><span class="nav-number">2.2.</span> <span class="nav-text">为什么是观察者模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是观察者模式"><span class="nav-number">2.3.</span> <span class="nav-text">什么是观察者模式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#用Java动手写个观察者Demo呗"><span class="nav-number">3.</span> <span class="nav-text">用Java动手写个观察者Demo呗</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Observer模板"><span class="nav-number">3.1.</span> <span class="nav-text">Observer模板</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Observable模板"><span class="nav-number">3.2.</span> <span class="nav-text">Observable模板</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Girl实现类"><span class="nav-number">3.3.</span> <span class="nav-text">Girl实现类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调用"><span class="nav-number">3.4.</span> <span class="nav-text">调用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结果"><span class="nav-number">3.5.</span> <span class="nav-text">结果</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#观察者在Java"><span class="nav-number">4.</span> <span class="nav-text">观察者在Java</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Girl2-Observer"><span class="nav-number">4.1.</span> <span class="nav-text">Girl2(Observer)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JBWeather-Observable"><span class="nav-number">4.2.</span> <span class="nav-text">JBWeather(Observable)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调用-1"><span class="nav-number">4.3.</span> <span class="nav-text">调用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#什么时候用观察者"><span class="nav-number">5.</span> <span class="nav-text">什么时候用观察者</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是观察者模式"><span class="nav-number">1.</span> <span class="nav-text">什么是观察者模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#用Java动手写个观察者Demo呗"><span class="nav-number">2.</span> <span class="nav-text">用Java动手写个观察者Demo呗</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Observer模板"><span class="nav-number">2.1.</span> <span class="nav-text">Observer模板</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Observable模板"><span class="nav-number">2.2.</span> <span class="nav-text">Observable模板</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Girl实现类"><span class="nav-number">2.3.</span> <span class="nav-text">Girl实现类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调用"><span class="nav-number">2.4.</span> <span class="nav-text">调用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结果"><span class="nav-number">2.5.</span> <span class="nav-text">结果</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#观察者在Java"><span class="nav-number">3.</span> <span class="nav-text">观察者在Java</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Girl2-Observer"><span class="nav-number">3.1.</span> <span class="nav-text">Girl2(Observer)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JBWeather-Observable"><span class="nav-number">3.2.</span> <span class="nav-text">JBWeather(Observable)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调用-1"><span class="nav-number">3.3.</span> <span class="nav-text">调用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#什么时候用观察者"><span class="nav-number">4.</span> <span class="nav-text">什么时候用观察者</span></a></li></ol></div>
             
           </div>
         </section>
